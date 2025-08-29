@@ -2,4 +2,4 @@
 Group Members:
 - Anthony 
 - Aiden
-- Elios
+- Elio
