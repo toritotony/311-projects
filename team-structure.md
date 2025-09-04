@@ -18,7 +18,28 @@
 
 ## Role Definition
 
-### Role Name
+### Technical Lead + Quality Assurance
+**Responsibilities:**
+- Code Quality and Testing
+- Git Workflow and Validation
+- Reproducibility and Modularity
+
+**Skills Developed:**
+- CI/CD Workflows & Deployment Automation
+- Quarto, Python, SQL, etc.
+- Testing Frameworks (pytest, unittest)
+
+### Domain Expert + Communication Lead
+**Responsibilities:**
+- Responsibility 1
+- Responsibility 2
+- Responsibility 3
+
+**Skills Developed:**
+- Skill 1
+- Skill 2
+
+### Project Manager + Documentation
 **Responsibilities:**
 - Responsibility 1
 - Responsibility 2
@@ -36,9 +57,28 @@
 **Focus:** Data collection and storage system recommendation
 
 - **Lead Role**: Person Name - Role Name
-    - Primary responsibilities 
+    - Leading responsibilities
+- **Support Role**: Anthony Wolfe - Technical Lead + Quality Assurance
+    - Technical leadership and quality assurance responsibilities
+- **Assist Role**: Person Name - Role Name
+    - Assisting responsibilities
+
+### Project 2: Transportation Dashboard (Weeks 8-12)
+**Focus:** Interactive visualization and user experience
+
+- **Lead Role**: Person Name - Role Name
+    - Leading responsibilities
 - **Support Role**: Person Name - Role Name
     - Supporting responsibilities
 - **Assist Role**: Person Name - Role Name
     - Assisting responsibilities
 
+### Project 3: Prediction Model (Weeks 13-15)
+**Focus:** Advanced analysis and model development
+
+- **Lead Role**: Person Name - Role Name
+    - Leading responsibilities
+- **Support Role**: Person Name - Role Name
+    - Supporting responsibilities
+- **Assist Role**: Person Name - Role Name
+    - Assisting responsibilities
