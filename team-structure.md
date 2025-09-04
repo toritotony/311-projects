@@ -18,7 +18,7 @@
 
 ## Role Definition
 
-### Technical Lead + Quality Assurance
+### Technical Lead
 **Responsibilities:**
 - Code Quality and Testing
 - Git Workflow and Validation
@@ -29,7 +29,7 @@
 - Quarto, Python, SQL, etc.
 - Testing Frameworks (pytest, unittest)
 
-### Domain Expert + Communication Lead
+### Quality Assurance
 **Responsibilities:**
 - Responsibility 1
 - Responsibility 2
@@ -39,7 +39,17 @@
 - Skill 1
 - Skill 2
 
-### Project Manager + Documentation
+### Domain Expert
+**Responsibilities:**
+- Responsibility 1
+- Responsibility 2
+- Responsibility 3
+
+**Skills Developed:**
+- Skill 1
+- Skill 2
+
+### Project Manager/Coordinator
 **Responsibilities:**
 - Responsibility 1
 - Responsibility 2
