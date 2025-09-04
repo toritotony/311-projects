@@ -64,20 +64,6 @@ section {
     border-radius: 5px;
 }
 
-#team-structure {
-    height: 200px;
-}
-
-footer {
-    text-align: center;
-    padding: 10px 0;
-    background: #35424a;
-    color: #ffffff;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-}
-
 .btn {
     display: inline-block;
     padding: 10px 20px;
