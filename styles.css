@@ -1,9 +1,28 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
+html, body {
+    height: 100%; 
 }
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+footer {
+  text-align: center;
+  padding: 10px 0;
+  background: #35424a;
+  color: #ffffff;
+  position: static;  
+  width: 100%;
+  margin-top: auto;
+  height: 48px;
+}
+
 header {
     background: #35424a;
     color: #ffffff;
@@ -25,6 +44,20 @@ nav a {
 nav a:hover {
     text-decoration: underline;
 }
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+nav li { 
+    margin: 0; 
+}
+
 section {
     padding: 20px;
     margin: 20px;
