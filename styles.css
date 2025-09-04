@@ -63,6 +63,11 @@ section {
     background: #ffffff;
     border-radius: 5px;
 }
+
+#team-structure {
+    height: 200px;
+}
+
 footer {
     text-align: center;
     padding: 10px 0;
