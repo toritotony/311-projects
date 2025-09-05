@@ -79,29 +79,35 @@
 ### Project 1: Campus Waste Audits (Weeks 1-7)
 **Focus:** Data collection and storage system recommendation
 
-- **Lead Role**: Person Name - Role Name
+- **Technical Role**: Anthony Wolfe
     - Leading responsibilities
-- **Support Role**: Anthony Wolfe - Technical Lead
-    - Technical leadership and quality assurance responsibilities
-- **Assist Role**: Person Name - Role Name
-    - Assisting responsibilities
+- **Quality Assurance Role**: Emad Syed
+    - Quality assurance responsibilities
+- **Domain Expert Role**: Aiden Tahkur
+    - Domain expertise responsibilities
+- **Project Manager Role**: Elio Priccagli
+    - Project management responsibilities
 
 ### Project 2: Transportation Dashboard (Weeks 8-12)
 **Focus:** Interactive visualization and user experience
 
-- **Lead Role**: Person Name - Role Name
+- **Technical Role**: Anthony Wolfe
     - Leading responsibilities
-- **Support Role**: Person Name - Role Name
-    - Supporting responsibilities
-- **Assist Role**: Person Name - Role Name
-    - Assisting responsibilities
+- **Quality Assurance Role**: Emad Syed
+    - Quality assurance responsibilities
+- **Domain Expert Role**: Aiden Tahkur
+    - Domain expertise responsibilities
+- **Project Manager Role**: Elio Priccagli
+    - Project management responsibilities
 
 ### Project 3: Prediction Model (Weeks 13-15)
 **Focus:** Advanced analysis and model development
 
-- **Lead Role**: Person Name - Role Name
+- **Technical Role**: Anthony Wolfe
     - Leading responsibilities
-- **Support Role**: Person Name - Role Name
-    - Supporting responsibilities
-- **Assist Role**: Person Name - Role Name
-    - Assisting responsibilities
+- **Quality Assurance Role**: Emad Syed
+    - Quality assurance responsibilities
+- **Domain Expert Role**: Aiden Tahkur
+    - Domain expertise responsibilities
+- **Project Manager Role**: Elio Priccagli
+    - Project management responsibilities
