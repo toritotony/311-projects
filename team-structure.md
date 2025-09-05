@@ -15,9 +15,9 @@
 - **Strengths**: Data Analysis, Math
 
 ### Emad Syed
-- **Primary Motivation**: Some text
-- **Career Goals**: Some text
-- **Strengths**: Some text
+- **Primary Motivation**: Build Portfolio 
+- **Career Goals**: Data Analytics
+- **Strengths**: Data Analysis, Critical Thinking
 
 ### Elio Piccagli
 - **Primary Motivation**: Some text
