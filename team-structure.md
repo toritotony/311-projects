@@ -9,10 +9,10 @@
 - **Career Goals**: Machine Learning Engineer
 - **Strengths**: Software Development, Devops, Mathematical background
 
-### Aiden Tahkur
-- **Primary Motivation**: Some text
-- **Career Goals**: Some text
-- **Strengths**: Some text
+### Aiden Thakur
+- **Primary Motivation**: To learn from real world scenarios
+- **Career Goals**: Data Analyst
+- **Strengths**: Data Analysis, Math
 
 ### Emad Syed
 - **Primary Motivation**: Some text
