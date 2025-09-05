@@ -6,6 +6,6 @@ To access the GitHub Page website, click the link [here](https://toritotony.gith
 
 **Group Members:**
 - Anthony 
-- Aiden
+- Aiden, Domain Expert
 - Elio
 - Emad 
