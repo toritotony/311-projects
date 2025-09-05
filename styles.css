@@ -3,13 +3,16 @@ html, body {
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: Georgia, serif;
   margin: 0;
   padding: 0;
   background-color: #f4f4f4;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(3, 33%);
+  grid-template-rows: repeat(30, 1.5em);
+  row-gap: .1em;
+  column-gap: 1%;
 }
 
 footer {
@@ -20,6 +23,8 @@ footer {
   position: static;  
   width: 100%;
   margin-top: auto;
+  grid-column: 1 / 4;
+  grid-row: 29 / 31;
 }
 
 header {
@@ -27,12 +32,32 @@ header {
     color: #ffffff;
     padding: 10px 0;
     text-align: center;
+    grid-column: 1 / 4;
+    grid-row: 1 / 9;
+    display: grid;
+    grid-template-columns: 1 / 4;
+    grid-template-rows: repeat(8, 1.5em);
+    row-gap: .1em;
+    column-gap: 1%;
 }
+
+h1 {
+    grid-column: 2;
+    grid-row: 1 / 4;
+}
+
+header p {
+    grid-column: 2;
+    grid-row: 4 / 6;
+}
+
 nav {
     margin: 0;
     padding: 10px 0;
     background: #e8491d;
     text-align: center;
+    grid-column: 1 / 4;
+    grid-row: 6 / 8;
 }
 nav a {
     color: #ffffff;
@@ -57,11 +82,40 @@ nav li {
     margin: 0; 
 }
 
+.mainpage {
+    grid-column: 1 / 4;
+    grid-row: 9 / 29;
+    display: grid;
+    grid-template-columns: 3% 94% 3%;
+    grid-template-rows: repeat(20, 1.5em);
+    row-gap: .1em;
+}
+
 section {
     padding: 20px;
     margin: 20px;
     background: #ffffff;
     border-radius: 5px;
+}
+
+#welcome {
+    grid-column: 2;
+    grid-row: 1 / 5;
+}
+
+#mission {
+    grid-column: 2;
+    grid-row: 6 / 10;
+}
+
+#projects {
+    grid-column: 2;
+    grid-row: 11 / 15;
+}
+
+#team-structure {
+    grid-column: 2;
+    grid-row: 16 / 20;
 }
 
 .btn {
