@@ -9,7 +9,7 @@
 - **Career Goals**: Machine Learning Engineer
 - **Strengths**: Software Development, Devops, Mathematical background
 
-### Aiden Tahkur
+### Aiden Thakur
 - **Primary Motivation**: To learn from real world scenarios
 - **Career Goals**: Data Analyst
 - **Strengths**: Data Analysis, Math
