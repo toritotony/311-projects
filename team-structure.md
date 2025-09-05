@@ -9,7 +9,17 @@
 - **Career Goals**: Machine Learning Engineer
 - **Strengths**: Software Development, Devops, Mathematical background
 
-### Member Name
+### Aiden Tahkur
+- **Primary Motivation**: Some text
+- **Career Goals**: Some text
+- **Strengths**: Some text
+
+### Emad Syed
+- **Primary Motivation**: Some text
+- **Career Goals**: Some text
+- **Strengths**: Some text
+
+### Elio Piccagli
 - **Primary Motivation**: Some text
 - **Career Goals**: Some text
 - **Strengths**: Some text
@@ -31,33 +41,36 @@
 
 ### Quality Assurance
 **Responsibilities:**
-- Responsibility 1
-- Responsibility 2
-- Responsibility 3
+- Design test strategy; build and maintain automated unit/integration/E2E suites.
+- Implement CI test gates (coverage, lint, type checks) and manage regression/defect triage.
+- Track quality metrics; perform performance/security/accessibility testing and release sign-off.
 
 **Skills Developed:**
-- Skill 1
-- Skill 2
+- pytest & hypothesis (fixtures/mocking); API/E2E testing with Playwright/Postman.
+- Data validation with Great Expectations/dbt; SQL constraints.
+- Static analysis & security (ruff/flake8, mypy, Bandit) and load testing (Locust/k6).
 
 ### Domain Expert
 **Responsibilities:**
-- Responsibility 1
-- Responsibility 2
-- Responsibility 3
+- Define business rules, edge cases, acceptance criteria, and success KPIs.
+- Curate/validate domain datasets and verify outputs against real-world expectations.
+- Maintain glossary/data dictionaries/regulatory constraints and surface ethical risks.
 
 **Skills Developed:**
-- Skill 1
-- Skill 2
+- Deep subject knowledge with strong data literacy (SQL, notebooks).
+- Requirements elicitation, KPI design, and basic experiment design (A/B, hypotheses).
+- Clear documentation and stakeholder communication.
 
 ### Project Manager/Coordinator
 **Responsibilities:**
-- Responsibility 1
-- Responsibility 2
-- Responsibility 3
+- Own roadmap, backlog grooming, and sprint/iteration planning.
+- Run standups/reviews/retros; remove blockers and coordinate cross-team handoffs.
+- Maintain RACI, decision log, and risk/issues register; manage scope/budget and releases.
 
 **Skills Developed:**
-- Skill 1
-- Skill 2
+- Agile/Scrum/Kanban facilitation and delivery metrics (velocity, burn-down).
+- Tooling mastery (Jira/Azure DevOps/Trello), timelines, and risk matrices.
+- Requirements writing (user stories, acceptance criteria) and stakeholder communication.
 
 ---
 
@@ -68,7 +81,7 @@
 
 - **Lead Role**: Person Name - Role Name
     - Leading responsibilities
-- **Support Role**: Anthony Wolfe - Technical Lead + Quality Assurance
+- **Support Role**: Anthony Wolfe - Technical Lead
     - Technical leadership and quality assurance responsibilities
 - **Assist Role**: Person Name - Role Name
     - Assisting responsibilities
