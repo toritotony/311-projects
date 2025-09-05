@@ -9,7 +9,17 @@
 - **Career Goals**: Machine Learning Engineer
 - **Strengths**: Software Development, Devops, Mathematical background
 
-### Member Name
+### Aiden Thakur
+- **Primary Motivation**: To learn from real world scenarios
+- **Career Goals**: Data Analyst
+- **Strengths**: Data Analysis, Math
+
+### Emad Syed
+- **Primary Motivation**: Build Portfolio 
+- **Career Goals**: Data Analytics
+- **Strengths**: Data Analysis, Critical Thinking
+
+### Elio Piccagli
 - **Primary Motivation**: Some text
 - **Career Goals**: Some text
 - **Strengths**: Some text
@@ -31,33 +41,36 @@
 
 ### Quality Assurance
 **Responsibilities:**
-- Responsibility 1
-- Responsibility 2
-- Responsibility 3
+- Design test strategy; build and maintain automated unit/integration/E2E suites.
+- Implement CI test gates (coverage, lint, type checks) and manage regression/defect triage.
+- Track quality metrics; perform performance/security/accessibility testing and release sign-off.
 
 **Skills Developed:**
-- Skill 1
-- Skill 2
+- pytest & hypothesis (fixtures/mocking); API/E2E testing with Playwright/Postman.
+- Data validation with Great Expectations/dbt; SQL constraints.
+- Static analysis & security (ruff/flake8, mypy, Bandit) and load testing (Locust/k6).
 
 ### Domain Expert
 **Responsibilities:**
-- Responsibility 1
-- Responsibility 2
-- Responsibility 3
+- Define business rules, edge cases, acceptance criteria, and success KPIs.
+- Curate/validate domain datasets and verify outputs against real-world expectations.
+- Maintain glossary/data dictionaries/regulatory constraints and surface ethical risks.
 
 **Skills Developed:**
-- Skill 1
-- Skill 2
+- Deep subject knowledge with strong data literacy (SQL, notebooks).
+- Requirements elicitation, KPI design, and basic experiment design (A/B, hypotheses).
+- Clear documentation and stakeholder communication.
 
 ### Project Manager/Coordinator
 **Responsibilities:**
-- Responsibility 1
-- Responsibility 2
-- Responsibility 3
+- Own roadmap, backlog grooming, and sprint/iteration planning.
+- Run standups/reviews/retros; remove blockers and coordinate cross-team handoffs.
+- Maintain RACI, decision log, and risk/issues register; manage scope/budget and releases.
 
 **Skills Developed:**
-- Skill 1
-- Skill 2
+- Agile/Scrum/Kanban facilitation and delivery metrics (velocity, burn-down).
+- Tooling mastery (Jira/Azure DevOps/Trello), timelines, and risk matrices.
+- Requirements writing (user stories, acceptance criteria) and stakeholder communication.
 
 ---
 
@@ -66,29 +79,35 @@
 ### Project 1: Campus Waste Audits (Weeks 1-7)
 **Focus:** Data collection and storage system recommendation
 
-- **Lead Role**: Person Name - Role Name
+- **Technical Role**: Anthony Wolfe
     - Leading responsibilities
-- **Support Role**: Anthony Wolfe - Technical Lead + Quality Assurance
-    - Technical leadership and quality assurance responsibilities
-- **Assist Role**: Person Name - Role Name
-    - Assisting responsibilities
+- **Quality Assurance Role**: Emad Syed
+    - Quality assurance responsibilities
+- **Domain Expert Role**: Aiden Thakur
+    - Domain expertise responsibilities
+- **Project Manager Role**: Elio Priccagli
+    - Project management responsibilities
 
 ### Project 2: Transportation Dashboard (Weeks 8-12)
 **Focus:** Interactive visualization and user experience
 
-- **Lead Role**: Person Name - Role Name
+- **Technical Role**: Anthony Wolfe
     - Leading responsibilities
-- **Support Role**: Person Name - Role Name
-    - Supporting responsibilities
-- **Assist Role**: Person Name - Role Name
-    - Assisting responsibilities
+- **Quality Assurance Role**: Emad Syed
+    - Quality assurance responsibilities
+- **Domain Expert Role**: Aiden Thakur
+    - Domain expertise responsibilities
+- **Project Manager Role**: Elio Priccagli
+    - Project management responsibilities
 
 ### Project 3: Prediction Model (Weeks 13-15)
 **Focus:** Advanced analysis and model development
 
-- **Lead Role**: Person Name - Role Name
+- **Technical Role**: Anthony Wolfe
     - Leading responsibilities
-- **Support Role**: Person Name - Role Name
-    - Supporting responsibilities
-- **Assist Role**: Person Name - Role Name
-    - Assisting responsibilities
+- **Quality Assurance Role**: Emad Syed
+    - Quality assurance responsibilities
+- **Domain Expert Role**: Aiden Thakur
+    - Domain expertise responsibilities
+- **Project Manager Role**: Elio Priccagli
+    - Project management responsibilities
