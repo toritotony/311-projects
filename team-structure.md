@@ -83,7 +83,7 @@
     - Leading responsibilities
 - **Quality Assurance Role**: Emad Syed
     - Quality assurance responsibilities
-- **Domain Expert Role**: Aiden Tahkur
+- **Domain Expert Role**: Aiden Thakur
     - Domain expertise responsibilities
 - **Project Manager Role**: Elio Priccagli
     - Project management responsibilities
@@ -95,7 +95,7 @@
     - Leading responsibilities
 - **Quality Assurance Role**: Emad Syed
     - Quality assurance responsibilities
-- **Domain Expert Role**: Aiden Tahkur
+- **Domain Expert Role**: Aiden Thakur
     - Domain expertise responsibilities
 - **Project Manager Role**: Elio Priccagli
     - Project management responsibilities
@@ -107,7 +107,7 @@
     - Leading responsibilities
 - **Quality Assurance Role**: Emad Syed
     - Quality assurance responsibilities
-- **Domain Expert Role**: Aiden Tahkur
+- **Domain Expert Role**: Aiden Thakur
     - Domain expertise responsibilities
 - **Project Manager Role**: Elio Priccagli
     - Project management responsibilities
