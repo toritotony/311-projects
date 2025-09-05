@@ -5,7 +5,7 @@ This repository serves as a team portfolio for the three projects worked on duri
 To access the GitHub Page website, click the link [here](https://toritotony.github.io/311-projects).
 
 **Group Members:**
-- Anthony 
+- Anthony, Teachnical Lead
 - Aiden, Domain Expert
-- Elio
-- Emad 
+- Elio, Project Manager
+- Emad, Quality Assurance
