@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project 1: Data Collection & Storage System Recommendation</title>
+  <link rel="stylesheet" href="project1.css">
+</head>
+<body>
+  <header>
+    <h1>Thursday Thoroughbred</h1>
+    <p>DATA 311 Group</p>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="projects.html">Projects</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="projectpage">
+
+    <section id="project-title" class="hero">
+      <h1>Data Collection &amp; Storage System Recommendation for Waste Audits on Campus</h1>
+      <h2>Project Plan Template</h2>
+    </section>
+
+    <section id="team" class="section-card">
+      <h2>Team Name &amp; Members</h2>
+      <h3>Assigned Roles</h3>
+      <ul class="roles-list">
+        <li><b>Tech Lead</b>: Anthony Wolfe</li>
+        <li><b>Quality Assurance</b>: Emad Syed</li>
+        <li><b>Domain Expert</b>: Aiden Thakur</li>
+        <li><b>Project Manager</b>: Elio Piccagli</li>
+      </ul>
+    </section>
+
+    <section id="purpose-context" class="section-card">
+      <h3>Purpose and Context</h3>
+      <ul>
+        <li><strong>Project Purpose</strong>: To create a streamlined data processing pipeline that enhances data quality and accessibility for stakeholders.</li>
+        <li><strong>Context</strong>: This project aims to address the challenges faced by organizations in collecting large volumes of data and storing it effectively. By implementing a robust data pipeline, we can ensure that data is clean, well-structured, and is readily available for consumption and analysis.</li>
+      </ul>
+    </section>
+
+    <section id="systems" class="section-card">
+      <h3>Systems to be Compared</h3>
+      <ul>
+        <li><strong>System A</strong>: Sreadsheet programs - An electronic document in which data is arranged in the rows and columns of a grid and can be manipulated and used in calculations. (e.g., Microsoft Excel, Google Sheets)</li>
+        <li><strong>System B</strong>: Relational Databases - organizes data into structured tables composed of rows and columns, where each table represents a specific subject and its rows are individual records while columns hold specific data attributes (e.g., MySQL, PostgreSQL)</li>
+        <li><strong>System C</strong>: NoSQL Databases - a non-relational database that stores data in flexible formats (like documents, key-value pairs, graphs, or wide columns) instead of the rigid, table-based structure of traditional SQL databases (e.g., MongoDB, Cassandra)</li>
+      </ul>
+    </section>
+
+    <!-- This is subject to change -->
+    <section id="evaluation" class="section-card">
+      <h3>Evaluation Criteria and Methods</h3>
+      <ol>
+        <li>
+          <strong>Ease of Set Up</strong>
+          <ul>
+            <li><strong>How</strong>: Measure the time and resources required to set up each system, including installation, configuration, and initial data import.</li>
+            <li><strong>Who</strong>: Project Manager and Tech Lead</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Ease of Use for Auditors</strong>
+          <ul>
+            <li><strong>How</strong>: Conduct user testing sessions with auditors to assess the intuitiveness of the interface, ease of data entry, and overall user experience.</li>
+            <li><strong>Who</strong>: Domain Expert and Quality Assurance</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Error Prevention &amp; Data Quality</strong>
+          <ul>
+            <li><strong>How</strong>: Evaluate the built-in validation features, error-checking mechanisms, and data integrity controls of each system.</li>
+            <li><strong>Who</strong>: Quality Assurance and Tech Lead</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Ability to Handle Relationships</strong>
+          <ul>
+            <li><strong>How</strong>: Test the capability of each system to manage complex data relationships, such as one-to-many and many-to-many associations.</li>
+            <li><strong>Who</strong>: Tech Lead and Domain Expert</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Scalability and Performance</strong>
+          <ul>
+            <li><strong>How</strong>: Simulate increasing data loads and measure system performance, including response times and resource utilization.</li>
+            <li><strong>Who</strong>: Tech Lead and Quality Assurance</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Reporting and Analysis</strong>
+          <ul>
+            <li><strong>How</strong>: Assess the reporting tools and analytical capabilities of each system, including ease of generating reports and visualizations.</li>
+            <li><strong>Who</strong>: Domain Expert and Project Manager</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Integratiion with Campus IT</strong>
+          <ul>
+            <li><strong>How</strong>: Evaluate how well each system integrates with existing campus IT infrastructure, including compatibility with other software and data sources.</li>
+            <li><strong>Who</strong>: Tech Lead and Project Manager</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Cost (Total Cost of Ownership)</strong>
+          <ul>
+            <li><strong>How</strong>: Analyze the upfront costs, ongoing maintenance expenses, and any additional costs associated with each system.</li>
+            <li><strong>Who</strong>: Project Manager and Quality Assurance</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Maintenance After Setup</strong>
+          <ul>
+            <li><strong>How</strong>: Evaluate the ease of performing routine maintenance tasks, such as updates, backups, and troubleshooting.</li>
+            <li><strong>Who</strong>: Tech Lead and Quality Assurance</li>
+          </ul>
+        </li>
+      </ol>
+    </section>
+
+    <section id="implementation" class="section-card">
+      <h3>Sample Implementation to be Built</h3>
+      <ul>
+        <li>
+          <strong>Spreadsheet Prototype</strong>: Create a sample spreadsheet template that includes data entry forms, validation rules, and basic reporting features.
+          <ul>
+            <li><strong>Tools</strong>: Microsoft Excel or Google Sheets</li>
+            <li><strong>Data Structure</strong>: Tabular format with predefined columns for audit data.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Relational Database Prototype</strong>: Set up a streamlined relational database schema to store audit data, along with a simple web interface for data entry and reporting.
+          <ul>
+            <li><strong>Tools</strong>: Oracle SQL, leveraging on campus servers through nrs-projects and a PHP-driven web interface to host the web app. File upload functionality will be implemented to allow bulk data uploads via CSV files. This then can be queried and reported on through SQL queries for year over year reporting. Otherwise, the web interface will allow for single year data entry.</li>
+            <li><strong>Data Structure</strong>: Normalized tables with relationships defined through foreign keys.</li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+
+    <section id="trial-data" class="section-card">
+      <h3>Data to be Collected for the Trial</h3>
+      <ul>
+        <li><strong>Sample Data</strong>: Use historical waste audit data from previous campus audits to populate each system.</li>
+        <li>_ <strong>Error Prevention &amp; Data Quality</strong>: Introduce intentional errors (e.g., duplicate entries, missing values) to test validation features.</li>
+        <li><strong>Scalability Testing</strong>: Gradually increase the volume of data to assess performance under</li>
+      </ul>
+    </section>
+
+    <section id="roles" class="section-card">
+      <h3>Roles &amp; Responsibilities</h3>
+      <ul>
+        <li><strong>Tech Lead</strong>: Anthony Wolfe
+          <ul>
+            <li>Leading technical implementation, system setup, and performance testing.</li>
+          </ul>
+        </li>
+        <li><strong>Quality Assurance</strong>: Emad Syed
+          <ul>
+            <li>Overseeing testing protocols, data quality assessments, and error prevention evaluations.</li>
+          </ul>
+        </li>
+        <li><strong>Domain Expert</strong>: Aiden Thakur
+          <ul>
+            <li>Providing insights on user needs, data relationships, and reporting requirements.</li>
+          </ul>
+        </li>
+        <li><strong>Project Manager</strong>: Elio Piccagli
+          <ul>
+            <li>Coordinating project activities, managing timelines, and ensuring effective communication among team members.</li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+
+    <section id="timeline" class="section-card">
+      <h3>Timeline Table</h3>
+      <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Tech Lead</th>
+            <th>Project Manager</th>
+            <th>Domain Expert</th>
+            <th>Quality Assurance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>9/8</td>
+            <td>Attend meeting with Morgan King; take notes on system requirements</td>
+            <td>Attend meeting; record action items</td>
+            <td>Attend meeting; ask questions about audit practices</td>
+            <td>Attend meeting; note data quality concerns</td>
+          </tr>
+          <tr>
+            <td>9/10</td>
+            <td>Help design trial plan</td>
+            <td>Draft plan and documents and assign tasks for 9/11</td>
+            <td>Review plan for domain accuracy</td>
+            <td>Review plan for clarity and completeness</td>
+          </tr>
+          <tr>
+            <td>9/11</td>
+            <td>Record Data</td>
+            <td>(blank)</td>
+            <td>Record Observations</td>
+            <td>Record Data (validate tech leads data too)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    </section>
+
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Thursday Thoroughbred. Built with HTML &amp; CSS.</p>
+  </footer>
+</body>
+</html>
