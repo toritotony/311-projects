@@ -1,5 +1,6 @@
 html, body {
-    height: 100%; 
+    height: 100%;
+    width: 100% 
 }
 
 body {
@@ -90,6 +91,32 @@ nav li {
     grid-template-rows: repeat(auto-fit, minmax(2.5em, 1fr));
     row-gap: .2em;
     margin-top: 2em;
+}
+
+.aboutpage {
+    grid-column: 1 / 4;
+    grid-row: 8 / 29;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    column-gap: .2em;
+    grid-template-rows: repeat(auto-fit, minmax(2.5em, 1fr));
+    row-gap: .2em;
+    margin: 3em 2% 0;
+    justify-content: center;
+    align-content: center;
+}
+
+.projectpage {
+    grid-column: 1 / 4;
+    grid-row: 8 / 29;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    column-gap: .2em;
+    grid-template-rows: repeat(auto-fit, minmax(2.5em, 1fr));
+    row-gap: .2em;
+    margin: 3em 2% 0;
+    justify-content: center;
+    align-content: center;
 }
 
 section {
