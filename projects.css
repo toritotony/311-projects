@@ -234,3 +234,16 @@ nav li {
 
 /* Improve footer spacing if site footer is fixed */
 footer { scroll-margin-top: 80px; }
+
+/* --- Make project1 header/nav match styles.css pages --- */
+header,
+nav,
+nav a,
+header h1 {
+  font-family: Georgia, serif;
+}
+
+/* (Optional) keep a consistent bold rendering for links */
+nav a {
+  font-weight: bold; /* already in your file, ok to keep */
+}
