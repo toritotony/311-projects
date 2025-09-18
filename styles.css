@@ -201,3 +201,63 @@ section {
 .btn:hover {
     background: #cf3c12;
 }
+
+/* --- Consistent visual language to match project1.html --- */
+
+/* Current-page nav state */
+nav a[aria-current="page"] { text-decoration: underline; }
+
+/* Utility text color */
+.muted { color: #6b7280; }
+
+/* Hero section (light gradient + border like project1) */
+.hero{
+  background:
+    radial-gradient(1100px 260px at 15% -20%, rgba(232,73,29,.12), transparent 60%),
+    radial-gradient(1100px 260px at 85% -20%, rgba(53,66,74,.12), transparent 60%),
+    linear-gradient(180deg, #ffffff, #ffffff);
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  padding: clamp(18px, 3vw, 36px);
+  box-shadow: 0 6px 24px rgba(2, 6, 23, .06);
+  margin-bottom: 18px;
+}
+
+/* Section cards (borrowed tone from project1.css) */
+.section-card{
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: clamp(14px, 2.2vw, 22px);
+  box-shadow: 0 3px 16px rgba(2,6,23,.04);
+  margin: 12px 0;
+}
+.section-card > h2,
+.section-card > h3{
+  position: relative;
+  padding-bottom: .35rem;
+}
+.section-card > h2::after,
+.section-card > h3::after{
+  content: "";
+  position: absolute; left:0; right:0; bottom:0;
+  height: 3px;
+  background: linear-gradient(90deg, #e5e7eb, #e8491d, #e5e7eb);
+  border-radius: 999px;
+  opacity: .7;
+}
+
+/* Accessibility helper (if you add skip links later) */
+.sr-only{
+  position: absolute !important;
+  width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
+  clip: rect(0,0,0,0); white-space: nowrap; border:0;
+}
+
+/* Fix tiny box-shadow typos on project cards */
+.projectpage section{
+  box-shadow: 0 2px 10px rgba(0,0,0,.05);
+}
+.projectpage section:hover{
+  box-shadow: 0 6px 20px rgba(0,0,0,.08);
+}
