@@ -40,115 +40,182 @@
     <section id="purpose-context" class="section-card">
       <h3>Purpose and Context</h3>
       <ul>
-        <li><strong>Project Purpose</strong>: To create a streamlined data processing pipeline that enhances data quality and accessibility for stakeholders.</li>
-        <li><strong>Context</strong>: This project aims to address the challenges faced by organizations in collecting large volumes of data and storing it effectively. By implementing a robust data pipeline, we can ensure that data is clean, well-structured, and is readily available for consumption and analysis.</li>
+        <li><strong>Project Purpose</strong>: Recommend a practical end-to-end approach for <em>collecting</em>, <em>validating</em>, <em>storing</em>, and <em>analyzing</em> campus waste-audit data so that results are accurate, comparable year-over-year, and easy for stakeholders to consume.</li>
+        <li><strong>Why Now</strong>: Current data is fragmented across spreadsheets and ad-hoc files, which makes QA, reporting, and longitudinal analysis slow and error-prone. A consistent pipeline will reduce rework, improve trust in the data, and speed up decision-making.</li>
+        <li><strong>Scope</strong>: We will compare three storage approaches (spreadsheets, relational DB, NoSQL) and pair each with a simple data-entry front end or form. We will evaluate setup effort, data quality controls, scalability, reporting, integration with campus IT, cost, and maintainability.</li>
+        <li><strong>Outcomes</strong>: A ranked recommendation with trade-offs, a working prototype (form + storage), an ERD (for applicable options), example reports/dashboards, and an operations checklist for ongoing use.</li>
       </ul>
     </section>
 
+
     <section id="systems" class="section-card">
-      <h3>Systems to be Compared</h3>
+      <h3>Systems to Compare</h3>
       <ul>
-        <li><strong>System A</strong>: Sreadsheet programs - An electronic document in which data is arranged in the rows and columns of a grid and can be manipulated and used in calculations. (e.g., Microsoft Excel, Google Sheets)</li>
-        <li><strong>System B</strong>: Relational Databases - organizes data into structured tables composed of rows and columns, where each table represents a specific subject and its rows are individual records while columns hold specific data attributes (e.g., MySQL, PostgreSQL)</li>
-        <li><strong>System C</strong>: NoSQL Databases - a non-relational database that stores data in flexible formats (like documents, key-value pairs, graphs, or wide columns) instead of the rigid, table-based structure of traditional SQL databases (e.g., MongoDB, Cassandra)</li>
+        <li>
+          <strong>System A — Spreadsheet + Form Workflow</strong>
+          <ul>
+            <li><b>Front End</b>: Google Form or Excel/Sheets data-entry tab with validation (lists, required fields, ranges). Optional Apps Script/macros for checks and timestamping.</li>
+            <li><b>Storage</b>: Google Sheets or Excel file in shared drive with standardized headers and one record per row.</li>
+            <li><b>Typical Use</b>: Fast to stand up, low learning curve, good for small teams and early pilots.</li>
+            <li><b>Examples</b>: Google Forms ↔ Google Sheets; Excel template with data-validation rules.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>System B — Relational Database + Web App</strong>
+          <ul>
+            <li><b>Front End</b>: Simple web UI (PHP) for create/edit/search; CSV bulk upload for historical data; role-based access (auditor, reviewer, admin).</li>
+            <li><b>Storage</b>: Oracle SQL (hosted on campus via nrs-projects) with a normalized schema (audits, sites, materials, measurements, units, etc.) and primary/foreign keys for referential integrity.</li>
+            <li><b>Typical Use</b>: Strong data integrity, complex queries, multi-year analytics, and reliable reporting.</li>
+            <li><b>Examples</b>: PHP forms + Oracle SQL; scheduled SQL views for reporting.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>System C — NoSQL Database + Lightweight API</strong>
+          <ul>
+            <li><b>Front End</b>: Minimal HTML/JS form calling a small API (Flask or Node/Express) with server-side validation.</li>
+            <li><b>Storage</b>: Document store (e.g., MongoDB) capturing flexible audit payloads as JSON (useful when schema may evolve rapidly).</li>
+            <li><b>Typical Use</b>: Rapid iteration, evolving fields, and semi-structured data; add aggregation pipelines for reporting.</li>
+            <li><b>Examples</b>: Flask/Express API ↔ MongoDB Atlas; JSON export to analytics tools.</li>
+          </ul>
+        </li>
       </ul>
     </section>
+
 
     <!-- This is subject to change -->
     <section id="evaluation" class="section-card">
       <h3>Evaluation Criteria and Methods</h3>
       <ol>
         <li>
-          <strong>Ease of Set Up</strong>
+          <strong>Ease of Setup</strong>
           <ul>
-            <li><strong>How</strong>: Measure the time and resources required to set up each system, including installation, configuration, and initial data import.</li>
-            <li><strong>Who</strong>: Project Manager and Tech Lead</li>
+            <li><strong>How</strong>: Record steps/time to install/configure; import seed data; document blockers.</li>
+            <li><strong>Who</strong>: Project Manager &amp; Tech Lead</li>
           </ul>
         </li>
         <li>
-          <strong>Ease of Use for Auditors</strong>
+          <strong>Usability for Auditors</strong>
           <ul>
-            <li><strong>How</strong>: Conduct user testing sessions with auditors to assess the intuitiveness of the interface, ease of data entry, and overall user experience.</li>
-            <li><strong>Who</strong>: Domain Expert and Quality Assurance</li>
+            <li><strong>How</strong>: Task-based tests (enter audit, edit, export); measure completion time and error rate; gather feedback.</li>
+            <li><strong>Who</strong>: Domain Expert &amp; Quality Assurance</li>
           </ul>
         </li>
         <li>
           <strong>Error Prevention &amp; Data Quality</strong>
           <ul>
-            <li><strong>How</strong>: Evaluate the built-in validation features, error-checking mechanisms, and data integrity controls of each system.</li>
-            <li><strong>Who</strong>: Quality Assurance and Tech Lead</li>
+            <li><strong>How</strong>: Check required fields, types/units, valid ranges, duplicates, referential integrity; attempt invalid inputs.</li>
+            <li><strong>Who</strong>: Quality Assurance &amp; Tech Lead</li>
           </ul>
         </li>
         <li>
-          <strong>Ability to Handle Relationships</strong>
+          <strong>Relationship Handling</strong>
           <ul>
-            <li><strong>How</strong>: Test the capability of each system to manage complex data relationships, such as one-to-many and many-to-many associations.</li>
-            <li><strong>Who</strong>: Tech Lead and Domain Expert</li>
+            <li><strong>How</strong>: Model audits ↔ materials ↔ sites (1-many, many-many); verify joins or embedded structures work for reporting.</li>
+            <li><strong>Who</strong>: Tech Lead &amp; Domain Expert</li>
           </ul>
         </li>
         <li>
-          <strong>Scalability and Performance</strong>
+          <strong>Scalability &amp; Performance</strong>
           <ul>
-            <li><strong>How</strong>: Simulate increasing data loads and measure system performance, including response times and resource utilization.</li>
-            <li><strong>Who</strong>: Tech Lead and Quality Assurance</li>
+            <li><strong>How</strong>: Grow dataset (x10/x100); measure form save time, query latency, and upload throughput.</li>
+            <li><strong>Who</strong>: Tech Lead &amp; Quality Assurance</li>
           </ul>
         </li>
         <li>
-          <strong>Reporting and Analysis</strong>
+          <strong>Reporting &amp; Analysis</strong>
           <ul>
-            <li><strong>How</strong>: Assess the reporting tools and analytical capabilities of each system, including ease of generating reports and visualizations.</li>
-            <li><strong>Who</strong>: Domain Expert and Project Manager</li>
+            <li><strong>How</strong>: Produce year-over-year trends, site comparisons, and material breakdowns; exportability (CSV/PDF).</li>
+            <li><strong>Who</strong>: Domain Expert &amp; Project Manager</li>
           </ul>
         </li>
         <li>
-          <strong>Integratiion with Campus IT</strong>
+          <strong>Integration with Campus IT</strong>
           <ul>
-            <li><strong>How</strong>: Evaluate how well each system integrates with existing campus IT infrastructure, including compatibility with other software and data sources.</li>
-            <li><strong>Who</strong>: Tech Lead and Project Manager</li>
+            <li><strong>How</strong>: Verify hosting constraints, single-sign-on options, backups, and data-sharing workflows.</li>
+            <li><strong>Who</strong>: Tech Lead &amp; Project Manager</li>
           </ul>
         </li>
         <li>
-          <strong>Cost (Total Cost of Ownership)</strong>
+          <strong>Security &amp; Compliance</strong>
           <ul>
-            <li><strong>How</strong>: Analyze the upfront costs, ongoing maintenance expenses, and any additional costs associated with each system.</li>
-            <li><strong>Who</strong>: Project Manager and Quality Assurance</li>
+            <li><strong>How</strong>: Review access controls, audit logs, least-privilege setup, and data-retention/export needs.</li>
+            <li><strong>Who</strong>: Tech Lead &amp; Quality Assurance</li>
           </ul>
         </li>
         <li>
-          <strong>Maintenance After Setup</strong>
+          <strong>Total Cost of Ownership</strong>
           <ul>
-            <li><strong>How</strong>: Evaluate the ease of performing routine maintenance tasks, such as updates, backups, and troubleshooting.</li>
-            <li><strong>Who</strong>: Tech Lead and Quality Assurance</li>
+            <li><strong>How</strong>: Estimate licensing/hosting, support time, training, and migration costs.</li>
+            <li><strong>Who</strong>: Project Manager &amp; Quality Assurance</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Maintenance &amp; Extensibility</strong>
+          <ul>
+            <li><strong>How</strong>: Evaluate backup/restore, upgrades, schema changes, and ease of adding new fields or reports.</li>
+            <li><strong>Who</strong>: Tech Lead &amp; Quality Assurance</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Accessibility</strong>
+          <ul>
+            <li><strong>How</strong>: Check labels, keyboard navigation, color contrast, and error messaging in forms.</li>
+            <li><strong>Who</strong>: Quality Assurance &amp; Domain Expert</li>
           </ul>
         </li>
       </ol>
     </section>
 
     <section id="implementation" class="section-card">
-      <h3>Sample Implementation to be Built</h3>
+      <h3>Deliverables &amp; Sample Implementations</h3>
       <ul>
         <li>
-          <strong>Spreadsheet Prototype</strong>: Create a sample spreadsheet template that includes data entry forms, validation rules, and basic reporting features.
+          <strong>1) Comparison Brief</strong>
           <ul>
-            <li><strong>Tools</strong>: Microsoft Excel or Google Sheets</li>
-            <li><strong>Data Structure</strong>: Tabular format with predefined columns for audit data.</li>
+            <li>2–3 page summary of the three options with pros/cons, risks, and a ranked recommendation.</li>
           </ul>
         </li>
         <li>
-          <strong>Relational Database Prototype</strong>: Set up a streamlined relational database schema to store audit data, along with a simple web interface for data entry and reporting.
+          <strong>2) Data Model &amp; Definitions</strong>
           <ul>
-            <li><strong>Tools</strong>: Oracle SQL, leveraging on campus servers through nrs-projects and a PHP-driven web interface to host the web app. File upload functionality will be implemented to allow bulk data uploads via CSV files. This then can be queried and reported on through SQL queries for year over year reporting. Otherwise, the web interface will allow for single year data entry.</li>
-            <li><strong>Data Structure</strong>: Normalized tables with relationships defined through foreign keys.</li>
+            <li>Entity-Relationship Diagram (for relational option) and a data dictionary (fields, types, units, valid ranges).</li>
+          </ul>
+        </li>
+        <li>
+          <strong>3) Working Prototype (Form + Storage)</strong>
+          <ul>
+            <li><strong>Spreadsheet Prototype</strong>: Data-entry tabs with validations and basic summary charts.</li>
+            <li><strong>Relational Prototype</strong>: Oracle SQL schema + PHP web form for create/edit + CSV bulk upload; basic reporting views.</li>
+            <li><strong>NoSQL Prototype</strong>: Minimal HTML/JS form + Flask/Express API + MongoDB collection; sample aggregation for summaries.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>4) Test Suite &amp; Data-Quality Checks</strong>
+          <ul>
+            <li>Validation rules, edge-case scenarios, and a defect/issue log; sample datasets with intentional errors.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>5) Reporting/Dashboard Samples</strong>
+          <ul>
+            <li>Year-over-year trends, site/material breakdowns, and export (CSV/PDF) examples.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>6) Operations Guide</strong>
+          <ul>
+            <li>Setup steps, backup/restore, user roles, change management, and accessibility checklist.</li>
           </ul>
         </li>
       </ul>
     </section>
 
+
     <section id="trial-data" class="section-card">
       <h3>Data to be Collected for the Trial</h3>
       <ul>
         <li><strong>Sample Data</strong>: Use historical waste audit data from previous campus audits to populate each system.</li>
-        <li>_ <strong>Error Prevention &amp; Data Quality</strong>: Introduce intentional errors (e.g., duplicate entries, missing values) to test validation features.</li>
+        <li><strong>Error Prevention &amp; Data Quality</strong>: Introduce intentional errors (e.g., duplicate entries, missing values) to test validation features.</li>
         <li><strong>Scalability Testing</strong>: Gradually increase the volume of data to assess performance under</li>
       </ul>
     </section>
