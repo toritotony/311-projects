@@ -214,37 +214,83 @@
     <section id="trial-data" class="section-card">
       <h3>Data to be Collected for the Trial</h3>
       <ul>
-        <li><strong>Sample Data</strong>: Use historical waste audit data from previous campus audits to populate each system.</li>
-        <li><strong>Error Prevention &amp; Data Quality</strong>: Introduce intentional errors (e.g., duplicate entries, missing values) to test validation features.</li>
-        <li><strong>Scalability Testing</strong>: Gradually increase the volume of data to assess performance under</li>
+        <li><strong>Sample / Seed Data</strong>: Use de-identified records from prior campus waste audits (sites, dates, materials, weights/volumes, units, team, notes). Ensure each record includes a unique ID, timestamp, site/location, material category, quantity + unit, and collection method.</li>
+        <li><strong>Coverage &amp; Variability</strong>: Include multiple years, seasons, and sites (academic buildings, dining, housing) so we can test comparisons and year-over-year trends.</li>
+        <li><strong>Reference Lists</strong>: Provide controlled vocabularies for sites and material categories (e.g., “Paper,” “Plastics #1–#7,” “Compostables,” “Landfill,” “Metal,” “Glass”) and unit standards (kg, lb, L, gal). Map any legacy labels to these lists.</li>
+        <li><strong>Privacy</strong>: Remove any personal identifiers and free-text that can reveal individuals. Keep only operational notes relevant to quality or process.</li>
+
+        <li><strong>Quality Challenge Set</strong>: Intentionally add:
+          <ul>
+            <li>Duplicates (same site/date/material/quantity)</li>
+            <li>Missing fields (site, material, or unit)</li>
+            <li>Type/unit issues (text in numeric fields, wrong units)</li>
+            <li>Range errors (negative or implausible quantities)</li>
+            <li>Relationship errors (unknown site/material values)</li>
+          </ul>
+          <em>Goal:</em> verify validation rules, error messaging, and cleanup workflows.
+        </li>
+
+        <li><strong>Scalability Testing</strong>:
+          <ul>
+            <li><em>Volume tiers</em>: ~1k (pilot), ~10k (program scale), ~100k (stress).</li>
+            <li><em>Workloads</em>: bulk CSV upload, form entry/save, multi-field search/filter, and summary queries (site/material/date).</li>
+            <li><em>Metrics</em>: import throughput (rows/sec), form save latency (p50/p95), query latency (p50/p95), and error rate.</li>
+          </ul>
+        </li>
+
+        <li><strong>Outputs for Verification</strong>:
+          <ul>
+            <li>Row-level validation report (counts by issue type)</li>
+            <li>De-duplication summary (before/after)</li>
+            <li>Basic rollups (totals by year/site/material; unit-normalized)</li>
+            <li>Export samples (CSV/PDF) to confirm downstream compatibility</li>
+          </ul>
+        </li>
       </ul>
     </section>
+
 
     <section id="roles" class="section-card">
       <h3>Roles &amp; Responsibilities</h3>
       <ul>
         <li><strong>Tech Lead</strong>: Anthony Wolfe
           <ul>
-            <li>Leading technical implementation, system setup, and performance testing.</li>
+            <li>Owns architecture, prototypes (form/UI + storage), and integrations.</li>
+            <li>Implements validation rules, schema/ERD (where applicable), and import/export flows.</li>
+            <li>Defines performance tests; tracks metrics and remediates bottlenecks.</li>
+            <li><em>Deliverables</em>: ERD/schema, working prototype(s), import scripts, performance report.</li>
           </ul>
         </li>
+
         <li><strong>Quality Assurance</strong>: Emad Syed
           <ul>
-            <li>Overseeing testing protocols, data quality assessments, and error prevention evaluations.</li>
+            <li>Authors test plan (functional, data-quality, accessibility, regression).</li>
+            <li>Creates the “quality challenge set,” runs tests, logs/triages defects.</li>
+            <li>Verifies validation messages, error handling, and exports.</li>
+            <li><em>Deliverables</em>: Test cases, issue log, QA summary, accessibility checklist.</li>
           </ul>
         </li>
+
         <li><strong>Domain Expert</strong>: Aiden Thakur
           <ul>
-            <li>Providing insights on user needs, data relationships, and reporting requirements.</li>
+            <li>Defines required fields, controlled vocabularies, and unit standards.</li>
+            <li>Ensures data reflects real audit workflows and reporting needs.</li>
+            <li>Validates KPIs and report definitions; reviews usability for auditors.</li>
+            <li><em>Deliverables</em>: Data dictionary, controlled lists, KPI definitions, usability notes.</li>
           </ul>
         </li>
+
         <li><strong>Project Manager</strong>: Elio Piccagli
           <ul>
-            <li>Coordinating project activities, managing timelines, and ensuring effective communication among team members.</li>
+            <li>Maintains timeline, risks, decisions, and stakeholder communications.</li>
+            <li>Coordinates usability sessions and review checkpoints; captures actions.</li>
+            <li>Compiles the recommendation brief and operations handoff notes.</li>
+            <li><em>Deliverables</em>: Project plan, decision log, comparison brief, operations guide.</li>
           </ul>
         </li>
       </ul>
     </section>
+
 
     <section id="timeline" class="section-card">
       <h3>Timeline Table</h3>
@@ -262,29 +308,30 @@
         <tbody>
           <tr>
             <td>9/8</td>
-            <td>Attend meeting with Morgan King; take notes on system requirements</td>
-            <td>Attend meeting; record action items</td>
-            <td>Attend meeting; ask questions about audit practices</td>
-            <td>Attend meeting; note data quality concerns</td>
+            <td>Kickoff w/ Morgan King; capture system needs</td>
+            <td>Kickoff; record action items & owners</td>
+            <td>Clarify audit workflow & site context</td>
+            <td>Note data-quality risks & assumptions</td>
           </tr>
           <tr>
             <td>9/10</td>
             <td>Help design trial plan</td>
-            <td>Draft plan and documents and assign tasks for 9/11</td>
-            <td>Review plan for domain accuracy</td>
-            <td>Review plan for clarity and completeness</td>
+            <td>Draft plan; assign 9/11 tasks</td>
+            <td>Review for domain accuracy</td>
+            <td>Review for clarity/completeness</td>
           </tr>
           <tr>
             <td>9/11</td>
-            <td>Record Data</td>
-            <td>(blank)</td>
-            <td>Record Observations</td>
-            <td>Record Data (validate tech leads data too)</td>
+            <td>Record data</td>
+            <td>Capture logistics (sites, units, access)</td>
+            <td>Record observations</td>
+            <td>Record data (validate TL entries)</td>
           </tr>
+
           <tr>
             <td>9/15</td>
             <td>Set up repo & tooling</td>
-            <td>Plan timeline & owners</td>
+            <td>Publish timeline/RACI</td>
             <td>Define data needs</td>
             <td>Outline test plan</td>
           </tr>
@@ -292,7 +339,7 @@
             <td>9/17</td>
             <td>Draft ERD & sheet skeleton</td>
             <td>Coordinate milestones</td>
-            <td>Review fields/relationships</td>
+            <td>Draft data dictionary</td>
             <td>List validations</td>
           </tr>
           <tr>
@@ -300,43 +347,45 @@
             <td>Load sample audits</td>
             <td>Schedule review</td>
             <td>Provide scenarios</td>
-            <td>Check data quality</td>
+            <td>Create “quality challenge set”</td>
           </tr>
           <tr>
             <td>9/19</td>
-            <td>No Class</td>
-            <td>No Class</td>
-            <td>No Class</td>
-            <td>No Class</td>
+            <td>No class</td>
+            <td>No class</td>
+            <td>No class</td>
+            <td>No class</td>
           </tr>
           <tr>
             <td>9/22</td>
             <td>Tech review of ERD/sheet</td>
-            <td>Summarize decisions</td>
+            <td>Summarize decisions (decision log)</td>
             <td>Confirm domain fit</td>
             <td>Note quality issues</td>
           </tr>
+
           <tr>
             <td>9/24</td>
             <td>Build form scaffold</td>
-            <td>Define acceptance</td>
-            <td>Draft labels/help</td>
-            <td>Write test cases</td>
+            <td>Define acceptance criteria</td>
+            <td>Draft labels/help text</td>
+            <td>Write test cases (incl. a11y)</td>
           </tr>
           <tr>
             <td>9/25</td>
             <td>Continue form</td>
-            <td>Track progress</td>
-            <td>Provide sample inputs</td>
+            <td>Track progress/blockers</td>
+            <td>Provide controlled vocabularies</td>
             <td>Run basic tests</td>
           </tr>
           <tr>
             <td>9/26</td>
             <td>Finish form</td>
-            <td>Readiness checklist</td>
+            <td>Run readiness checklist</td>
             <td>Quick-start notes</td>
             <td>Regression check</td>
           </tr>
+
           <tr>
             <td>9/29</td>
             <td>Dashboard prototype</td>
@@ -348,7 +397,7 @@
             <td>10/01</td>
             <td>Iterate dashboard</td>
             <td>Collect feedback</td>
-            <td>Finalize KPIs</td>
+            <td>Finalize KPI thresholds</td>
             <td>Cross-browser check</td>
           </tr>
           <tr>
@@ -356,25 +405,26 @@
             <td>Hook up data</td>
             <td>Draft demo script</td>
             <td>Prepare insights</td>
-            <td>Performance check</td>
+            <td>Performance check (pilot tier)</td>
           </tr>
           <tr>
             <td>10/03</td>
             <td>Finalize dashboard</td>
             <td>Sprint review</td>
             <td>Polish copy</td>
-            <td>UAT checklist</td>
+            <td>UAT checklist & sign-offs</td>
           </tr>
+
           <tr>
             <td>10/06</td>
-            <td>Build report queries</td>
-            <td>Define cadence</td>
+            <td>Build report queries/views</td>
+            <td>Define reporting cadence</td>
             <td>Report outline</td>
-            <td>Verify totals</td>
+            <td>Verify totals vs source</td>
           </tr>
           <tr>
             <td>10/08</td>
-            <td>Add exports</td>
+            <td>Add exports (CSV/PDF)</td>
             <td>Stakeholder walkthroughs</td>
             <td>Finish glossary</td>
             <td>Edge-case tests</td>
@@ -382,8 +432,8 @@
           <tr>
             <td>10/09</td>
             <td>Automate reports</td>
-            <td>Handoff plan</td>
-            <td>Document methods</td>
+            <td>Draft operations guide</td>
+            <td>Document methods/assumptions</td>
             <td>CI smoke tests</td>
           </tr>
           <tr>
