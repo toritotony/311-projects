@@ -44,6 +44,11 @@
         <li><strong>Why Now</strong>: Current data is fragmented across spreadsheets and ad-hoc files, which makes QA, reporting, and longitudinal analysis slow and error-prone. A consistent pipeline will reduce rework, improve trust in the data, and speed up decision-making.</li>
         <li><strong>Scope</strong>: We will compare three storage approaches (spreadsheets, relational DB, NoSQL) and pair each with a simple data-entry front end or form. We will evaluate setup effort, data quality controls, scalability, reporting, integration with campus IT, cost, and maintainability.</li>
         <li><strong>Outcomes</strong>: A ranked recommendation with trade-offs, a working prototype (form + storage), an ERD (for applicable options), example reports/dashboards, and an operations checklist for ongoing use.</li>
+      
+        <li><strong>Morgan King’s Goals</strong>: Ensure consistency across audits, enable non‑technical auditors to collect reliable data, and provide administrators with faster insights for decision‑making.</li>
+        <li><strong>Additional Context</strong>: Data must support both <em>week‑to‑week</em> and <em>year‑to‑year</em> decisions; usability for novice auditors is critical.</li>
+        <li><strong>Glossary (TBD appendix)</strong>: <em>waste audit</em>, <em>controlled vocabularies</em>, <em>audit records</em>, <em>referential integrity</em>.</li>
+
       </ul>
     </section>
 
@@ -58,6 +63,7 @@
             <li><b>Storage</b>: Google Sheets or Excel file in shared drive with standardized headers and one record per row.</li>
             <li><b>Typical Use</b>: Fast to stand up, low learning curve, good for small teams and early pilots.</li>
             <li><b>Examples</b>: Google Forms ↔ Google Sheets; Excel template with data-validation rules.</li>
+            <li><b>Reliability Note</b>: Spreadsheet macros/scripts will be tested via repeated entry‑and‑export cycles.</li>
           </ul>
         </li>
         <li>
@@ -67,6 +73,7 @@
             <li><b>Storage</b>: Oracle SQL (hosted on campus via nrs-projects) with a normalized schema (audits, sites, materials, measurements, units, etc.) and primary/foreign keys for referential integrity.</li>
             <li><b>Typical Use</b>: Strong data integrity, complex queries, multi-year analytics, and reliable reporting.</li>
             <li><b>Examples</b>: PHP forms + Oracle SQL; scheduled SQL views for reporting.</li>
+            <li><b>Database Choice Rationale</b>: Oracle SQL is used due to campus hosting availability, mature relational features, and strong schema enforcement. PostgreSQL/MySQL could substitute with similar results.</li>
           </ul>
         </li>
         <li>
@@ -91,6 +98,7 @@
           <ul>
             <li><strong>How</strong>: Record steps/time to install/configure; import seed data; document blockers.</li>
             <li><strong>Who</strong>: Project Manager &amp; Tech Lead</li>
+          <li><strong>Success Threshold</strong>: Setup &lt; 2 hours; ≤ 1 blocker requiring supervisor escalation.</li>
           </ul>
         </li>
         <li>
@@ -98,6 +106,7 @@
           <ul>
             <li><strong>How</strong>: Task-based tests (enter audit, edit, export); measure completion time and error rate; gather feedback.</li>
             <li><strong>Who</strong>: Domain Expert &amp; Quality Assurance</li>
+          <li><strong>Additional Notes</strong>: Include auditors with varying tech skills; collect both qualitative (interviews) and quantitative (completion time, error count) feedback.</li>
           </ul>
         </li>
         <li>
@@ -105,6 +114,7 @@
           <ul>
             <li><strong>How</strong>: Check required fields, types/units, valid ranges, duplicates, referential integrity; attempt invalid inputs.</li>
             <li><strong>Who</strong>: Quality Assurance &amp; Tech Lead</li>
+          <li><strong>Additional Notes</strong>: Prioritize defects by severity; flag illogical values and unit/type mismatches.</li>
           </ul>
         </li>
         <li>
@@ -112,6 +122,7 @@
           <ul>
             <li><strong>How</strong>: Model audits ↔ materials ↔ sites (1-many, many-many); verify joins or embedded structures work for reporting.</li>
             <li><strong>Who</strong>: Tech Lead &amp; Domain Expert</li>
+          <li><strong>Additional Notes</strong>: SQL uses normalized joins; NoSQL uses embedded docs + aggregations.</li>
           </ul>
         </li>
         <li>
@@ -119,6 +130,7 @@
           <ul>
             <li><strong>How</strong>: Grow dataset (x10/x100); measure form save time, query latency, and upload throughput.</li>
             <li><strong>Who</strong>: Tech Lead &amp; Quality Assurance</li>
+          <li><strong>Additional Notes</strong>: Simulate 5+ simultaneous submissions to test concurrency.</li>
           </ul>
         </li>
         <li>
@@ -126,6 +138,7 @@
           <ul>
             <li><strong>How</strong>: Produce year-over-year trends, site comparisons, and material breakdowns; exportability (CSV/PDF).</li>
             <li><strong>Who</strong>: Domain Expert &amp; Project Manager</li>
+          <li><strong>Additional Notes</strong>: Include week‑to‑week trend reports; tools may include Excel pivots, SQL views, or MongoDB aggregations.</li>
           </ul>
         </li>
         <li>
@@ -133,6 +146,7 @@
           <ul>
             <li><strong>How</strong>: Verify hosting constraints, single-sign-on options, backups, and data-sharing workflows.</li>
             <li><strong>Who</strong>: Tech Lead &amp; Project Manager</li>
+          <li><strong>Sample Questions</strong>: Is SSO required? What backup cadence is acceptable? Which hosting environments are approved?</li>
           </ul>
         </li>
         <li>
@@ -187,6 +201,7 @@
             <li><strong>Spreadsheet Prototype</strong>: Data-entry tabs with validations and basic summary charts.</li>
             <li><strong>Relational Prototype</strong>: Oracle SQL schema + PHP web form for create/edit + CSV bulk upload; basic reporting views.</li>
             <li><strong>NoSQL Prototype</strong>: Minimal HTML/JS form + Flask/Express API + MongoDB collection; sample aggregation for summaries.</li>
+            <li><b>Assignments</b>: Tech Lead builds prototypes; QA verifies; Domain Expert refines vocab/fields; PM compiles results.</li>
           </ul>
         </li>
         <li>
@@ -286,6 +301,13 @@
             <li>Coordinates usability sessions and review checkpoints; captures actions.</li>
             <li>Compiles the recommendation brief and operations handoff notes.</li>
             <li><em>Deliverables</em>: Project plan, decision log, comparison brief, operations guide.</li>
+            <li><b>Additional Notes</b>: PM handles conflict resolution/escalation and maintains alignment with supervisor goals.</li>
+          </ul>
+        </li>
+
+        <li><strong>Escalation Path</strong>:
+          <ul>
+            <li>Raise issues to the Project Manager first; escalate to supervisor (Morgan King) if unresolved.</li>
           </ul>
         </li>
       </ul>
@@ -446,8 +468,26 @@
         </tbody>
       </table>
     </div>
+      <p class="muted"><em>Timeline Notes</em>: QA planning is front‑loaded; dates may shift as responsibilities are clarified.</p>
     </section>
 
+  </div>
+
+
+  <div class="projectpage">
+    <section id="appendix" class="section-card">
+      <h3>Appendix A — Glossary of Key Terms</h3>
+      <ul>
+        <li><strong>Waste Audit</strong>: Systematic collection, sorting, and measurement of waste from a site to understand streams and identify reduction/diversion opportunities.</li>
+        <li><strong>Controlled Vocabularies</strong>: Standardized lists (sites, materials, units) used to keep data entry and reporting consistent.</li>
+        <li><strong>Audit Records</strong>: Individual entries capturing site, material, quantity, unit, timestamp, and notes.</li>
+        <li><strong>Referential Integrity</strong>: Ensures relationships between tables remain valid (e.g., each audit’s site must exist in the sites table).</li>
+        <li><strong>UI (User Interface)</strong>: Forms, buttons, dashboards that auditors interact with.</li>
+        <li><strong>ERD (Entity‑Relationship Diagram)</strong>: Diagram of entities (tables) and their relationships in a relational database.</li>
+        <li><strong>QA (Quality Assurance)</strong>: Process/role verifying requirements are met and data remains accurate.</li>
+        <li><strong>RACI</strong>: Responsibility framework (Responsible, Accountable, Consulted, Informed).</li>
+      </ul>
+    </section>
   </div>
 
   <footer>
