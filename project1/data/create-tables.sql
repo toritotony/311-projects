@@ -9,7 +9,7 @@ DROP TABLE locations CASCADE CONSTRAINTS;
 CREATE TABLE locations
 ( location_id CHAR(6),
   name VARCHAR2(200),
-  floor_num NUMBER,
+  floor_num NUMBER DEFAULT NULL,
   loc_type VARCHAR2(50),
   PRIMARY KEY (location_id)
 );
