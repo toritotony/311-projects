@@ -46,8 +46,7 @@ CREATE TABLE notes
   note_text VARCHAR2(1000),
   created_at DATE,
   PRIMARY KEY (note_id),
-  FOREIGN KEY (audit_id) REFERENCES audits(audit_id),
-  FOREIGN KEY (created_at) REFERENCES audits(audited_at)
+  FOREIGN KEY (audit_id) REFERENCES audits(audit_id)
 );
 
 CREATE TABLE audit_participant
