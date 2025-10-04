@@ -107,7 +107,7 @@ INSERT INTO auditors VALUES ('AUD004', 'Aiden', 'Thakur', 'Student');
 INSERT INTO waste VALUES ('WST001', 'Landfill', NULL);
 INSERT INTO waste VALUES ('WST002', 'Mixed Recycling', NULL);
 INSERT INTO waste VALUES ('WST003', 'Compost', NULL);
-INSERT INTO waste VALUES ('WST004', 'Universal Waste', NULL);
+INSERT INTO waste VALUES ('WST004', 'Universal Waste Recycling', NULL);
 INSERT INTO waste VALUES ('WST005', 'Hazardous Waste', NULL);
 INSERT INTO waste VALUES ('WST006', 'Other', NULL);
 
