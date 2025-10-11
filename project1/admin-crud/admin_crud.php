@@ -16,6 +16,8 @@ function db() {
     return $c;
 }
 
+$WASTE_AUDIT_URL = 'https://nrs-projects.humboldt.edu/~aw399/data311-project1-webapp/client-app/audit_form.php'; 
+
 // ---- small view helpers ----
 function h($s){ return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }
 function sel($v,$x){ return ($v===$x)?' selected':''; }
@@ -230,6 +232,10 @@ $rows = fetch_all($entity, $currSpec);
 </head>
 <body>
 <h1>Admin CRUD (self-posting, no sessions)</h1>
+<div class="toolbar">
+  <a class="btn btn-accent" href="<?=h($WASTE_AUDIT_URL)?>">➕ New Waste Audit</a>
+  <span class="hint">Use this to enter audits. The form below is only for managing reference data (locations, auditors, waste categories).</span>
+</div>
 <p class="hint">Pick an entity, fill fields, and click an action. Inserts use <code>RETURNING</code> so trigger-generated IDs come back.</p>
 
 <?php if($msg): ?><div class="flash ok"><?=h($msg)?></div><?php endif; ?>
@@ -306,7 +312,7 @@ $rows = fetch_all($entity, $currSpec);
 
 <footer style="margin-top:2rem;color:#666">
     <hr/>
-    <div>Built by Thursday Thoroughbreads></div>
+    <div>Built by Thursday Thoroughbreads</div>
 </footer>
 
 </body>

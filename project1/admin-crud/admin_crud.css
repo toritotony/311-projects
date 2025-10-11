@@ -270,3 +270,28 @@ th {
     color: #666;
     font-size: .9rem;
 }
+
+.toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 0 0 1rem;
+}
+.btn {
+  display: inline-block;
+  padding: .6rem .9rem;
+  border-radius: 10px;
+  border: 1px solid #334155;
+  background: #0b1220;
+  color: #e2e8f0;
+  text-decoration: none;
+  font-weight: 600;
+}
+.btn:hover { background: #0e1526; border-color: #3b4a63; }
+.btn:active { transform: translateY(1px); }
+.btn-accent {
+  background: linear-gradient(180deg, #0ea5e9, #0284c7);
+  border-color: #0369a1;
+  color: #ffffff;
+}
