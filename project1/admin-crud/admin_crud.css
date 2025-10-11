@@ -1,0 +1,272 @@
+/* -------- Base -------- */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+  background: #0f172a;   /* dark slate */
+  color: #e2e8f0;        /* light ink */
+  line-height: 1.45;
+}
+
+/* -------- Layout -------- */
+.container { max-width: 980px; margin: 2rem auto; padding: 0 1rem; }
+.card {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,.25);
+}
+h1, h2, h3 { margin: 0 0 .75rem; }
+h1 { font-size: 1.35rem; }
+h2 { font-size: 1.15rem; color: #cbd5e1; }
+
+.row { display: flex; gap: 12px; flex-wrap: wrap; }
+.col { flex: 1 1 240px; min-width: 240px; }
+
+/* -------- Forms -------- */
+label {
+  display: block;
+  font-size: .9rem;
+  color: #94a3b8;
+  margin: .35rem 0 .25rem;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="date"],
+input[type="time"],
+select,
+textarea {
+  width: 100%;
+  padding: .6rem .7rem;
+  border-radius: 10px;
+  border: 1px solid #334155;
+  background: #0b1220;
+  color: #e2e8f0;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s, background .15s;
+}
+
+textarea { min-height: 120px; resize: vertical; }
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 3px rgba(56,189,248,.15);
+}
+
+/* Make date/time icons visible on dark bg (WebKit) */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) opacity(.85);
+}
+
+/* -------- Buttons -------- */
+.actions { display: flex; gap: .75rem; margin-top: 1rem; flex-wrap: wrap; }
+/* Normalize & unify buttons */
+button,
+input[type="submit"],
+input[type="button"],
+input[type="reset"] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: inline-block;
+  padding: .65rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #334155;
+  background-color: #0b1220;         /* explicit fallback */
+  color: #e2e8f0;
+  cursor: pointer;
+  transition: transform .05s ease, background .15s, border-color .15s;
+}
+
+/* Hover/active states */
+button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+input[type="reset"]:hover {
+  background-color: #0e1526;
+  border-color: #3b4a63;
+}
+
+button:active,
+input[type="submit"]:active,
+input[type="button"]:active,
+input[type="reset"]:active {
+  transform: translateY(1px);
+}
+
+/* Primary variant */
+button.primary,
+input.primary[type="submit"],
+input.primary[type="button"],
+input.primary[type="reset"] {
+  background: linear-gradient(180deg, #0ea5e9, #0284c7);
+  background-color: #0284c7;         /* fallback if gradients are disabled */
+  border-color: #0369a1;
+  color: #ffffff;                     /* ensure readable text */
+}
+
+/* Disabled */
+button:disabled,
+input[type="submit"]:disabled,
+input[type="button"]:disabled,
+input[type="reset"]:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+
+/* -------- Alerts -------- */
+.alert { margin-top: 1rem; padding: .75rem 1rem; border-radius: 10px; }
+.alert.ok  { background: rgba(34,197,94,.12);  border: 1px solid rgba(34,197,94,.4);  color: #d1fae5; }
+.alert.bad { background: rgba(239,68,68,.12); border: 1px solid rgba(239,68,68,.4); color: #fee2e2; }
+
+pre { margin: 0; white-space: pre-wrap; word-break: break-word; font-size: .9rem; }
+
+/* -------- Grouping -------- */
+fieldset {
+  border: 1px dashed #334155;
+  padding: 12px;
+  border-radius: 12px;
+  margin: .75rem 0 0;
+}
+legend { padding: 0 .4rem; color: #93c5fd; }
+hr { border: 0; border-top: 1px solid #1f2937; margin: 1rem 0; }
+
+.small { font-size: .85rem; color: #93a1b3; }
+.hint  { font-size: .8rem;  color: #64748b; }
+
+/* -------- Tables (desktop) -------- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  background: #0b1220;
+  border: 1px solid #1f2937;
+  border-radius: 12px;
+  overflow: hidden;
+}
+thead th {
+  background: #0e172a;
+  color: #cbd5e1;
+  font-weight: 600;
+  border-bottom: 1px solid #1f2937;
+  padding: .6rem .5rem;
+  text-align: left;
+}
+tbody td {
+  padding: .55rem .5rem;
+  border-top: 1px solid #1f2937;
+}
+tbody tr:nth-child(even) { background: #0c1425; }
+tbody tr:hover { background: #0f1a2e; }
+
+/* -------- Responsive -------- */
+@media (max-width: 720px) {
+  .col { min-width: 100%; }
+
+  /* Stack table rows into cards on small screens */
+  thead { display: none; }
+  table, tbody, tr, td { display: block; width: 100%; }
+  tbody tr {
+    border-top: 1px solid #1f2937;
+    padding: .5rem .6rem;
+  }
+  tbody td {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    border: 0;
+    padding: .4rem 0;
+  }
+  /* Use data-label if provided for nicer labels */
+  tbody td::before {
+    content: attr(data-label);
+    color: #93a1b3;
+    font-weight: 600;
+  }
+}
+
+body{font-family:system-ui,Segoe UI,Arial,sans-serif;max-width:960px;margin:2rem auto;padding:0 1rem;}
+form{border:1px solid #ddd;border-radius:8px;padding:1rem;margin-bottom:1.5rem;}
+fieldset{border:0;padding:0;margin:0 0 1rem;}
+label {
+    display: block;
+    margin: .5rem 0 .25rem;
+    font-weight: 600;
+}
+
+input,
+select {
+    padding: .4rem .5rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: .5rem;
+}
+
+button {
+    padding: .5rem .8rem;
+    border: 1px solid #888;
+    border-radius: 6px;
+    background: #f7f7f7;
+    cursor: pointer;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+th,
+td {
+    border: 1px solid #e5e5e5;
+    padding: .45rem .5rem;
+    text-align: left;
+    font-size: .95rem;
+}
+
+th {
+    background: #fafafa;
+}
+
+.flash {
+    padding: .6rem .8rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+.ok {
+    background: #ecfdf5;
+    border: 1px solid #10b98133;
+    color: #065f46;
+}
+
+.err {
+    background: #fef2f2;
+    border: 1px solid #ef444433;
+    color: #991b1b;
+}
+
+.hint {
+    color: #666;
+    font-size: .9rem;
+}
