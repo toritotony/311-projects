@@ -1,0 +1,101 @@
+pop_id,role,current_street,current_city,current_state,current_zip,permanent_street,permanent_city,permanent_state,permanent_zip,permanent_region
+POP_S_7315039,Student,7917 J St,Eureka,California,955,6863 Cedar Ln,Redding,CA,96001.0,NorCal
+POP_S_4194026,Student,1845 Bates Rd,McKinleyville,CA,95519,8942 Birch Pl,La Mesa,CA,91942.0,SanDiego
+POP_S_4478952,Student,,Eureka,CA,95501,9527 Maple Dr,Redding,CA,96001.0,NorCal
+POP_S_2541649,Student,,Eureka,CA,95501,1318 Meadow Blvd,National City,california,91950.0,SanDiego
+POP_S_4662231,Student,8466 H St,Eureka,NV,,3406 Meadow Pl,National City,CA,91950.0,SanDiego
+POP_S_9756042,Student,9999 Nonexistent Ln,Fake City,XX,99999,9913 Cedar Blvd,Glendale,CA,91203.0,LA
+POP_S_4654016,Student,4132 Broadway St,Eureka,California,95501,4568 Birch Blvd,Redding,CA,96001.0,NorCal
+POP_S_2112110,Student,8337 G St,Arcata,CA,95521,7500 Cedar Pl,Pasadena,CA,91101.0,LA
+POP_S_6276986,Student,6727 K St,Eureka,CA,95501,2426 Canyon Ln,Los Angeles,CA,90026.0,LA
+POP_S_8719581,Student,7492 Heartwood Dr,McKinleyville,CA,95519,8462 Canyon Ave,Glendale,CA,91203.0,LA
+POP_S_2414010,Student,7836 Central Ave,McKinleyville,CA,95519,5933 Oak Ln,Eureka,CA,95501.0,NorCal
+POP_S_6286266,Student,1675 spears rd,ARCATA,ca,95521,6199 Oak St,Sacramento,CA,95814.0,NorCal
+POP_S_6228097,Student,9522 Hiller Rd,McKinleyville,CA,95519,1063 Pine Ave,Santa Rosa,CA,95401.0,NorCal
+POP_S_9797164,Student,9999 Nonexistent Ln,Fake City,XX,99999,2687 Hill Blvd,PASADENA,CA,91101.0,LA
+POP_S_7023735,Student,5038 broadway st,EUREKA,ca,95501,3684 Vista Rd,Austin,TX,78701.0,OutOfState
+POP_S_2880986,Student,442 G St,Arcata,CA,95521,2720 Pine Ln,Anaheim,CA,92801.0,LA
+POP_S_4770292,Student,9115 Alliance Rd,Arcatra,CA,95521,5282 Ridge Pl,Salt Lake City,UT,84111.0,OutOfState
+POP_S_6830775,Student,6600 Alliance Rd,Arcata,NV,95521,9799 Meadow Pl,Berkeley,CA,94704.0,BayArea
+POP_S_5769569,Student,4446 Q St,Arcata,CA,95521,9526 Spruce St,Long Beach,CA,90802.0,LA
+POP_S_6877850,Student,7456 Baldwin St,Arcata,California,955,5309 Birch Dr,San Jose,CA,95112.0,BayArea
+POP_S_6413414,Student,5161 LK Wood Blvd,Arcatra,WA,95521,8852 Maple Ln,Oakland,CA,94612.0,BayArea
+POP_S_8297154,Student,6767 Wabash Ave,Eureka,CA,95501,6098 Pine Way,Phoenix,AZ,85004.0,OutOfState
+POP_S_8903984,Student,7959 murray rd,MCKINLEYVILLE,ca,95519,8231 Lake St,Berkeley,CA,94704.0,BayArea
+POP_S_4891745,Student,9678 14th St,Arcata,CA,95521,692 Willow Ave,Boulder,CO,80302.0,OutOfState
+POP_S_9707637,Student,,Eureka,CA,99999,9546 Vista Pl,Phoenix,AZ,85004.0,OutOfState
+POP_S_3313392,Student,9999 Nonexistent Ln,Fake City,XX,99999,6010 Willow Dr,San Diego,CA,92103.0,SanDiego
+POP_S_5138664,Student,2260 LK Wood Blvd,Arcata,CA,95521,2385 Ridge Pl,Oakland,CA,94612.0,BayArea
+POP_S_8398477,Student,3473 6th St,Eureka,CA,95501,106 Hill Ave,San Jose,CA,,BayArea
+POP_S_4439776,Student,2051 baldwin st,,ca,95521,5013 Maple Ln,Santa Monica,CA,90401.0,LA
+POP_S_4270963,Student,9999 Nonexistent Ln,Fake City,XX,99999,1837 Hill Dr,Austin,TX,78701.0,OutOfState
+POP_S_3341992,Student,4540 Main St,Fortuna,CA,95540,3055 Vista Way,Fremont,CA,94536.0,BayArea
+POP_S_7733838,Student,7341 Alliance Rd,Arcatra,California,95521,7440 Elm Ln,Anaheim,CA,92801.0,LA
+POP_S_2244793,Student,6002 6th St,Eureka,CA,95501,3992 Canyon Blvd,Phoenix,AZ,85004.0,OutOfState
+POP_S_7940193,Student,3534 Broadway St,Eureka,CA,95501,8466 Pine Dr,Glendale,CA,91203.0,LA
+POP_S_5468255,Student,215 Taylor Way,Blue Lake,CA,95525,5143 Maple Rd,Reno,NV,89501.0,OutOfState
+POP_S_9052375,Student,9007 11th St,Arcata,CA,ABCDE,1293 Canyon Dr,San Jose,CA,,BayArea
+POP_S_8928336,Student,1257 Broadway St,Eureka,CA,95501,691 Meadow Blvd,Los Angeles,CA,90026.0,LA
+POP_S_7451474,Student,8485 Hiller Rd,McKinleyville,CA,95519,1947 Maple Pl,Escondido,CA,92025.0,SanDiego
+POP_S_6533000,Student,2555 South Rail St,Blue Lake,CA,99999,8473 Sunset St,Santa Monica,california,90401.0,LA
+POP_S_1181699,Student,9250 Alliance Rd,Arcata,CA,95521,3903 Oak Pl,Boise,ID,83702.0,OutOfState
+POP_S_7926169,Student,7059 Main St,Trinidad,CA,95570,6487 Sunset Pl,Escondido,CA,92025.0,SanDiego
+POP_S_7993182,Student,1611 Harris St,Eureka,CA,95501,2634 Elm Blvd,Austin,TX,78701.0,OutOfState
+POP_S_6222257,Student,6998 11th St,Arcata,CA,95521,4583 Cedar Rd,Phoenix,AZ,85004.0,OutOfState
+POP_S_7366358,Student,2208 Baldwin St,Arcata,California,95521,9805 Meadow Blvd,Fremont,CA,94536.0,BayArea
+POP_S_9246969,Student,163 K St,Eureka,CA,95501,1338 Lake Dr,Pasadena,CA,91101.0,LA
+POP_S_4689429,Student,9252 Spears Rd,Arcata,CA,95521,8749 Lake Ln,Santa Monica,CA,90401.0,LA
+POP_S_4370927,Student,9999 Nonexistent Ln,,XX,99999,8154 Ridge St,Eureka,CA,95501.0,NorCal
+POP_S_3505117,Student,4641 Baldwin St,Arcata,CA,95521,7623 Birch Rd,Chico,CA,95926.0,NorCal
+POP_S_8159642,Student,7778 LK Wood Blvd,Arcata,CA,95521,1538 Canyon Rd,Daly City,CA,94015.0,BayArea
+POP_S_8539577,Student,9141 H St,Arcata,CA,95521,7924 Elm Blvd,Chico,CA,95926.0,NorCal
+POP_S_2520690,Student,3077 Samoa Blvd,Arcata,CA,95521,7162 Sunset Blvd,Brooklyn,NY,11211.0,OutOfState
+POP_S_4081538,Student,5674 5th st,EUREKA,ca,,3275 Pine Dr,Berkeley,CA,94704.0,BayArea
+POP_S_5648819,Student,9297 11th St,Arcata,CA,95521,3598 Spruce Blvd,Reno,NV,89501.0,OutOfState
+POP_S_2109183,Student,1097 14th St,Arcatra,CA,,3683 Willow Ave,Boise,ID,83702.0,OutOfState
+POP_S_3757264,Student,,Fake City,XX,99999,3446 Maple Way,La Mesa,CA,91942.0,SanDiego
+POP_S_8451223,Student,6574 Broadway St,Eureka,CA,95501,2836 Cedar St,Fremont,CA,94536.0,BayArea
+POP_S_4066171,Student,4586 Spears Rd,Arcata,CA,95521,4765 Oak Blvd,Chula Vista,CA,91910.0,SanDiego
+POP_S_3881924,Student,5615 Alliance Rd,Arcata,CA,95521,9334 Vista Pl,Santa Rosa,CA,95401.0,NorCal
+POP_S_9058700,Student,9999 Nonexistent Ln,Fake City,XX,99999,8881 Spruce St,Santa Monica,CA,90401.0,LA
+POP_S_7781220,Student,9026 Wabash Ave,Eureka,CA,95501,3684 Cedar St,Eureka,CA,95501.0,NorCal
+POP_S_8811547,Student,6339 Bates Rd,McKinleyville,CA,95519,3372 Pine Way,Brooklyn,NY,11211.0,OutOfState
+POP_S_7119154,Student,8431 H St,Arcata,CA,95521,9317 Elm Pl,Brooklyn,NY,11211.0,OutOfState
+POP_S_4344141,Student,8259 Bates Rd,McKinelyville,CA,95519,9025 Sunset Rd,Glendale,CA,91203.0,LA
+POP_S_2930270,Student,764 Wabash Ave,Eureka,CA,95501,6202 Maple Ave,Austin,TX,78701.0,OutOfState
+POP_S_8636287,Student,,McKinleyville,CA,ABCDE,6491 Sunset Ln,Oceanside,CA,92054.0,SanDiego
+POP_S_1792822,Student,7940 School Rd,McKinleyville,CA,95519,1568 Oak Ln,Seattle,WA,98101.0,OutOfState
+POP_S_5662454,Student,1636 Union St,Arcata,CA,95521,2833 Sunset Ln,Glendale,CA,91203.0,LA
+POP_S_6634305,Student,9401 heartwood dr,MCKINLEYVILLE,ca,95519,1944 Elm St,PORTLAND,OR,97205.0,OutOfState
+POP_S_6011988,Student,7550 Samoa Blvd,Arcata,California,95521,507 Spruce Dr,Anaheim,CA,92801.0,LA
+POP_S_4191680,Student,4869 5th St,Eurika,CA,95501,6298 Hill Way,Anaheim,CA,92801.0,LA
+POP_S_5390476,Student,3721 6th St,Eureka,CA,95501,2941 Spruce Ave,Austin,TX,78701.0,OutOfState
+POP_S_2105801,Student,4372 LK Wood Blvd,Arcata,,95521,6928 Spruce Ave,Seattle,WA,98101.0,OutOfState
+POP_S_4412381,Student,9928 Baldwin St,Arcata,CA,95521,6517 Hill Rd,Daly City,CA,94015.0,BayArea
+POP_S_4158783,Student,8421 Janis Ct,Arcata,CA,95521,8071 Hill Rd,Brooklyn,NY,11211.0,OutOfState
+POP_S_9926967,Student,4098 11th St,Arcata,CA,95521,3902 Meadow Ave,Glendale,CA,91203.0,LA
+POP_S_2618167,Student,9043 G St,Arcata,NV,95521,6170 Lake Dr,Anaheim,california,92801.0,LA
+POP_S_5749533,Student,2737 Baldwin St,Arcata,CA,95521,7683 Elm Ave,Oceanside,CA,92054.0,SanDiego
+POP_S_9565542,Student,7120 LK Wood Blvd,Arcatra,,95521,5854 Birch Dr,Santa Monica,CA,90401.0,LA
+POP_S_5509523,Student,7588 Hatchery Rd,Blue Lake,CA,95525,4880 Pine Ln,San Diego,CA,92103.0,SanDiego
+POP_S_5564166,Student,9999 Nonexistent Ln,Fake City,XX,99999,2808 Pine Blvd,Sacramento,CA,95814.0,NorCal
+POP_S_3021758,Student,767 Parker Creek Rd,Trinidad,CA,95570,7752 Oak Dr,Glendale,CA,91203.0,LA
+POP_S_3086291,Student,7213 I St,Eurika,CA,95501,6066 Ridge St,Oakland,CA,94612.0,BayArea
+POP_S_3195993,Student,6982 Baldwin St,Arcatra,CA,95521,9873 Maple Ave,Daly City,CA,94015.0,BayArea
+POP_S_1521096,Student,1914 Winchester Ave,McKinleyville,CA,95519,8357 Pine Ln,Pasadena,CA,91101.0,LA
+POP_S_1698008,Student,4351 h st,ARCATA,ca,95521,2593 Birch Pl,Glendale,CA,91203.0,LA
+POP_S_4847060,Student,7145 H St,Eureka,CA,95501,2996 Ridge Way,Eureka,CA,95501.0,NorCal
+POP_S_3360046,Student,2918 11th St,Arcata,NV,ABCDE,3138 Lake Pl,San Jose,CA,95112.0,BayArea
+POP_S_2082109,Student,6963 Samoa Blvd,Arcata,CA,95521,6835 Pine Way,Austin,TX,78701.0,OutOfState
+POP_S_7731914,Student,3103 5th st,EUREKA,ca,95501,9333 Birch Ave,Berkeley,CA,94704.0,BayArea
+POP_S_2100767,Student,7420 H St,,CA,ABCDE,287 Birch St,Chula Vista,CA,91910.0,SanDiego
+POP_S_8253683,Student,9159 winchester ave,,ca,95519,6293 Cedar St,Portland,OR,97205.0,OutOfState
+POP_S_4242253,Student,8225 11th St,Arcata,CA,95521,428 Maple St,Portland,OR,97205.0,OutOfState
+POP_S_3672167,Student,5647 11th St,Arcata,CA,95521,7422 Lake Dr,Pasadena,CA,91101.0,LA
+POP_S_4855672,Student,5286 alliance rd,ARCATA,ca,95521,5095 Spruce Pl,Santa Rosa,CA,95401.0,NorCal
+POP_S_5586389,Student,9999 Nonexistent Ln,Fake City,XX,99999,3228 Hill Way,Glendale,CA,91203.0,LA
+POP_S_4579924,Student,9999 Nonexistent Ln,Fake City,XX,99999,482 Ridge Pl,Fremont,CA,94536.0,BayArea
+POP_S_7513723,Student,2360 14th St,Arcata,CA,95521,3499 Sunset Ln,Glendale,CA,91203.0,LA
+POP_S_2610289,Student,1291 Myrtle Ave,Eurika,CA,95501,2862 Spruce St,Chula Vista,CA,91910.0,SanDiego
+POP_S_6436394,Student,3611 Parker Creek Rd,Trinidad,CA,95570,2965 Canyon St,Daly City,CA,94015.0,BayArea
+POP_S_9208461,Student,,Arcata,CA,ABCDE,9175 Lake Rd,Santa Rosa,CA,95401.0,NorCal
