@@ -1,0 +1,15 @@
+---
+title: "Semester Enrollment Stats for Math and Data Science Majors"
+jupyter: python3
+format: "pdf"
+---
+
+```{python}
+import pandas as pd
+import re
+import requests
+
+df = pd.read_csv("../raw_data/simulated_commuter_survey_5yrs_messy_100.csv")
+df.head()
+
+```
