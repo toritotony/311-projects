@@ -1,0 +1,101 @@
+respondent_id,year,role,city,zip,nearest_intersection,distance_to_campus_miles,trips_per_week,weeks_per_year,share_drive,share_carpool,share_bus,share_walk,share_bike,share_tele,mode_primary,is_ev_user,is_ebike_user,mtcde_est,total_trips_est
+F_2021-22_00104,2021,Faculty,Blue Lake,95500,South Rail St & Hatchery Rd,9.63,9,36,0.44,0.0,0.11,0.11,0.11,0.22,Drive Alone,False,False,0.58,325
+F_2024-25_00271,2024,Faculty,Fortuna,95540,Main St & Kenmar Rd,20.56,9,37,0.72,0.0,0.0,0.14,0.0,0.14,Drive Alone,False,False,0.99,349
+S_2024-25_00154,2024,Staff/Admin,Trinidad,95570,Patrick Point Dr & Trinity St,11.82,10,48,0.8,0.1,0.0,0.0,0.0,0.1,Drive Alone,False,False,2.98,486
+S_2024-25_00197,2024,Student,Eureka,95501,I St & K St,8.61,10,32,0.5,0.1,0.1,0.2,0.0,0.1,Drive Alone,False,False,2.73,315
+S_2022-23_00708,2022,Student,Mckinleyville,95519,Murray Rd & Bates Rd,13.89,10,32,0.4,0.1,0.1,0.4,0.0,0.0,Drive Alone,False,True,4.61,332
+F_2020-21_00048,2020,Faculty,Arcata,95521,14th St & Alliance Rd,0.49,6,34,0.17,0.0,0.0,0.17,0.17,0.5,Telecommute,False,True,0.04,192
+S_2023-24_00496,2023,Student,,0,Trinity St & Edwards St,10.44,10,32,0.3,0.3,0.1,0.3,0.0,0.0,Drive Alone,False,False,2.72,326
+S_2022-23_00188,2022,Student,Eureka,95501,K St & Harris St,10.2,10,30,0.3,0.1,0.2,0.2,0.2,0.0,Drive Alone,False,False,2.19,297
+S_2021-22_00554,2021,Student,Arcata,95521,Union St & H St,1.37,9,30,0.38,0.0,0.24,0.27,0.05,0.05,Walk,False,False,0.35,258
+S_2020-21_00177,2020,Student,Arcata,95521,Samoa Blvd & G St,2.37,5,28,0.42,0.0,0.26,0.21,0.0,0.11,Walk,False,False,0.12,134
+S_2022-23_00578,2022,Student,Fortuna,95540,Main St & Newburg Rd,24.51,10,32,0.4,0.1,0.1,0.2,0.1,0.1,Drive Alone,False,False,3.77,313
+S_2024-25_00145,2024,Staff/Admin,Arcata,95521,Alliance Rd & G St,0.42,11,48,0.73,0.09,0.0,0.0,0.0,0.18,Drive Alone,False,False,0.65,544
+S_2020-21_00401,2020,Student,Fortuna,95540,Rohnerville Rd & Kenmar Rd,21.43,7,28,0.14,0.0,0.0,0.29,0.14,0.43,Telecommute,False,False,0.96,189
+S_2024-25_00071,2024,Staff/Admin,Mckinleyville,95519,Murray Rd & School Rd,12.18,10,52,0.7,0.1,0.0,0.1,0.0,0.1,Drive Alone,False,False,3.2,529
+F_2023-24_00315,2023,Faculty,Eureka,95501,I St & 6th St,10.34,10,39,0.6,0.1,0.0,0.1,0.1,0.1,Drive Alone,False,False,0.96,406
+S_2021-22_00191,2021,Staff/Admin,Arcata,95521,H St & G St,0.88,8,47,0.63,0.12,0.0,0.12,0.0,0.12,Drive Alone,False,False,0.4,358
+S_2021-22_00107,2021,Student,Fortuna,95540,Rohnerville Rd & Main St,26.31,9,29,0.46,0.0,0.29,0.13,0.0,0.13,Drive Alone,False,False,2.83,265
+S_2024-25_00455,2024,Student,Arcata,95521,14th St & G St,1.42,11,30,0.36,0.09,0.0,0.36,0.09,0.09,Walk,False,False,0.71,324
+S_2023-24_00225,2023,Student,Fortuna,95540,Kenmar Rd & Newburg Rd,20.37,10,32,0.3,0.1,0.2,0.2,0.2,0.0,Drive Alone,False,True,3.61,321
+S_2020-21_00453,2020,Student,,95519,Bates Rd & Central Ave,7.23,-10,52,0.17,0.17,0.0,0.17,0.17,0.33,Telecommute,False,False,0.65,180
+S_2020-21_00080,2020,Student,Eureka,95501,Myrtle Ave & 6th St,7.09,6,27,0.17,0.0,0.0,0.33,0.0,0.5,Telecommute,False,False,0.26,154
+S_2021-22_00281,2021,Staff/Admin,Blue Lake,95525,Greenwood Ave & South Rail St,12.36,9,46,0.67,0.11,0.0,0.0,0.0,0.22,Drive Alone,False,True,2.22,390
+S_2023-24_00132,2023,Staff/Admin,Trinidad,95570,Patrick Point Dr & Main St,12.38,11,46,0.73,0.09,0.0,0.09,0.0,0.09,Drive Alone,False,False,2.9,498
+S_2024-25_00236,2024,Staff/Admin,Mckinleyville,95519,Bates Rd & School Rd,6.31,10,46,0.8,0.1,0.0,0.0,0.0,0.1,Drive Alone,False,False,1.59,478
+S_2022-23_00437,2022,Student,Mckinleyville,95519,Hiller Rd & Bates Rd,9.08,11,30,0.45,0.18,0.09,0.18,0.09,0.0,Drive Alone,True,False,2.96,328
+S_2021-22_00166,2021,Student,Mckinleyville,95519,Murray Rd & Bates Rd,6.29,8,30,0.39,0.12,0.12,0.12,0.12,0.12,Drive Alone,False,False,1.3,250
+S_2022-23_00639,2022,Student,Mckinleyville,95500,Bates Rd & Central Ave,7.93,10,31,0.4,0.1,0.1,0.2,0.0,0.2,Drive Alone,False,True,2.16,300
+S_2024-25_00053,2024,Staff/Admin,Eureka,95501,I St & 5th St,7.58,10,46,0.89,0.0,0.0,0.0,0.0,0.11,Drive Alone,False,False,1.85,466
+S_2023-24_00263,2023,Staff/Admin,Fortuna,95540,Newburg Rd & Kenmar Rd,23.3,12,50,0.67,0.08,0.0,0.0,0.17,0.08,Drive Alone,False,False,3.86,585
+F_2020-21_00183,2020,Faculty,Mckinleyville,95519,Bates Rd & Central Ave,13.08,6,33,0.17,0.0,0.0,0.0,0.33,0.5,Telecommute,False,False,0.21,197
+S_2021-22_00101,2021,Staff/Admin,Eureka,95501,I St & Harris St,7.65,-10,52,0.78,0.11,0.0,0.0,0.0,0.11,Drive Alone,False,True,1.66,420
+F_2022-23_00015,2022,Faculty,Fortuna,95540,Rohnerville Rd & Kenmar Rd,19.39,10,37,0.62,0.0,0.0,0.25,0.0,0.13,Drive Alone,False,False,0.86,374
+S_2023-24_00134,2023,Student,Fortuna,95540,Newburg Rd & Kenmar Rd,22.66,9,31,0.33,0.11,0.11,0.22,0.11,0.11,Drive Alone,False,False,3.24,287
+F_2024-25_00046,2024,Faculty,Mckinleyville,0,Central Ave & Murray Rd,8.77,10,37,0.6,0.1,0.0,0.1,0.1,0.1,Drive Alone,False,True,0.75,357
+S_2022-23_00214,2022,Student,Eureka,95501,Harris St & J St,6.17,10,31,0.4,0.1,0.1,0.2,0.1,0.1,Drive Alone,False,False,1.81,308
+F_2023-24_00132,2021,Faculty,Fortuna,95540,Kenmar Rd & Rohnerville Rd,-5.0,10,39,0.5,0.1,0.0,0.1,0.1,0.2,Drive Alone,False,False,0.82,372
+S_2020-21_00101,2020,Student,Blue Lake,0,South Rail St & Greenwood Ave,7.08,-10,52,0.69,0.0,0.0,0.15,0.0,0.15,Telecommute,False,False,0.44,165
+S_2024-25_00139,2024,Student,Blue Lake,95525,Hatchery Rd & Chartin Rd,12.1,10,30,0.4,0.0,0.1,0.3,0.1,0.1,Drive Alone,False,False,3.15,317
+S_2022-23_00224,2022,Student,Trinidad,95570,Edwards St & Main St,12.96,-10,52,0.73,0.05,0.0,0.11,0.05,0.05,Drive Alone,False,False,3.36,295
+F_2020-21_00098,2020,Faculty,Eureka,95501,J St & 5th St,8.96,6,34,0.33,0.0,0.0,0.17,0.0,0.5,Telecommute,True,False,0.16,186
+S_2020-21_00010,2020,Staff/Admin,Mckinleyville,95519,School Rd & Murray Rd,9.68,-10,52,0.75,0.0,0.0,0.0,0.0,0.25,Drive Alone,False,False,0.75,274
+F_2024-25_00127,2024,Faculty,Blue Lake,95525,Greenwood Ave & Chartin Rd,13.4,-10,52,0.55,0.09,0.0,0.18,0.09,0.09,Drive Alone,True,True,1.03,423
+S_2020-21_00333,2021,Student,Eureka,95501,Myrtle Ave & H St,10.96,6,30,0.53,0.0,0.18,0.18,0.0,0.12,Telecommute,False,True,0.92,187
+S_2020-21_00319,2020,Student,Eureka,95501,I St & 5th St,8.27,6,29,0.15,0.0,0.0,0.28,0.15,0.43,Telecommute,False,False,0.44,179
+S_2022-23_00318,2022,Student,Mckinleyville,0,Bates Rd & Central Ave,9.1,10,32,0.5,0.1,0.1,0.2,0.1,0.0,Drive Alone,False,True,2.51,310
+S_2021-22_00155,2021,Student,Mckinleyville,95519,School Rd & Murray Rd,8.32,8,30,0.38,0.0,0.25,0.12,0.12,0.12,Drive Alone,True,False,1.86,253
+S_2022-23_00457,2022,Student,Trinidad,95570,Edwards St & Main St,8.62,10,30,0.3,0.1,0.1,0.3,0.1,0.1,Drive Alone,False,True,1.76,296
+S_2021-22_00481,2021,Student,Mckinleyville,95519,Murray Rd & School Rd,-5.0,9,31,0.33,0.11,0.11,0.22,0.11,0.11,Drive Alone,True,yes,1.95,279
+S_2021-22_00278,2021,Student,Arcata,95521,G St & LK Wood Blvd,0.2,8,31,0.12,0.12,0.12,0.39,0.12,0.12,Walk,False,False,0.41,241
+F_2020-21_00199,2020,Faculty,Fortuna,95540,Main St & Rohnerville Rd,25.41,6,33,0.17,0.0,0.0,0.17,0.0,0.66,Telecommute,True,False,0.21,198
+S_2022-23_00145,2022,Student,Fortuna,0,Newburg Rd & Rohnerville Rd,26.06,10,32,0.71,0.0,0.1,0.14,0.05,0.0,Drive Alone,yes,False,3.72,318
+S_2022-23_00345,2022,Student,Mckinleyville,95519,Hiller Rd & Murray Rd,9999.99,11,31,0.36,0.09,0.09,0.27,0.09,0.09,Drive Alone,False,False,2.3,336
+S_2020-21_00465,2020,Student,Fortuna,95540,Kenmar Rd & Newburg Rd,22.22,5,28,0.4,0.0,0.0,0.2,0.0,0.4,Telecommute,False,False,0.78,147
+S_2024-25_00180,2024,Staff/Admin,Mckinleyville,95519,Hiller Rd & School Rd,11.42,10,50,0.7,0.2,0.0,0.0,0.0,0.1,Drive Alone,False,False,2.99,515
+S_2022-23_00106,2022,Staff/Admin,Arcata,95521,G St & H St,0.85,9,50,0.6,0.1,0.0,0.1,0.1,0.1,Drive Alone,False,False,0.51,439
+S_2021-22_00337,2021,Student,Blue Lake,95525,South Rail St & Hatchery Rd,6.01,9,30,0.44,0.11,0.0,0.22,0.11,0.11,Drive Alone,False,False,1.42,260
+S_2023-24_00110,2023,Student,Trinidad,0,Patrick Point Dr & Main St,6.93,9,31,0.4,0.2,0.1,0.2,0.0,0.1,Drive Alone,False,False,2.13,297
+S_2023-24_00045,2023,Student,Blue Lake,95525,Hatchery Rd & Chartin Rd,6.76,10,32,0.5,0.0,0.1,0.2,0.1,0.1,Drive Alone,False,False,2.3,332
+S_2023-24_00553,2023,Student,Eureka,95501,H St & J St,10.56,8,33,0.25,0.12,0.25,0.25,0.12,0.0,Drive Alone,False,False,2.19,268
+S_2023-24_00259,2023,Staff/Admin,Fortuna,95540,Main St & Kenmar Rd,24.54,10,49,0.8,0.1,0.0,0.0,0.0,0.1,Drive Alone,False,False,3.37,479
+S_2020-21_00140,2020,Staff/Admin,Eureka,95501,6th St & K St,9.76,6,45,0.33,0.0,0.0,0.0,0.0,0.67,Telecommute,False,True,0.75,275
+S_2022-23_00518,2022,Student,Trinidad,95570,Patrick Point Dr & Edwards St,7.78,10,31,0.4,0.1,0.1,0.2,0.1,0.1,Drive Alone,False,False,2.17,315
+S_2023-24_00247,2023,Staff/Admin,Arcata,95521,Janis Ct & G St,1.68,10,47,0.7,0.1,0.0,0.0,0.0,0.2,Drive Alone,False,False,0.58,455
+S_2021-22_00420,2021,Student,Mckinleyville,95519,School Rd & Hiller Rd,9.77,9,31,0.33,0.0,0.11,0.33,0.11,0.11,Drive Alone,False,False,1.83,266
+S_2023-24_00578,2023,Student,Mckinleyville,95519,Murray Rd & School Rd,9999.99,9,33,0.44,0.11,0.22,0.22,0.0,0.0,Drive Alone,False,False,3.16,297
+S_2023-24_00412,2023,Student,Blue Lake,95525,Chartin Rd & Greenwood Ave,12.52,10,30,0.4,0.1,0.1,0.2,0.1,0.1,Drive Alone,False,False,3.62,308
+S_2024-25_00011,2024,Student,Arcata,95521,14th St & Union St,-5.0,7,32,0.45,0.09,0.18,0.18,0.09,0.0,Telecommute,True,True,2.01,346
+F_2023-24_00048,2023,Faculty,Mckinleyville,95519,Central Ave & Hiller Rd,9.83,9,39,0.44,0.11,0.0,0.11,0.22,0.11,Drive Alone,False,False,0.66,362
+S_2023-24_00353,2023,Student,Fortuna,0,Newburg Rd & Kenmar Rd,25.11,10,33,0.44,0.06,0.28,0.11,0.06,0.06,Drive Alone,False,False,3.92,326
+S_2022-23_00777,2022,Student,Trinidad,95570,Trinity St & Patrick Point Dr,11.35,11,30,0.46,0.05,0.29,0.15,0.05,0.0,Drive Alone,False,False,3.2,320
+S_2023-24_00435,2023,Student,Trinidad,95570,Edwards St & Main St,11.26,10,32,0.4,0.1,0.2,0.2,0.1,0.0,Drive Alone,False,False,3.52,323
+S_2020-21_00157,2020,Student,Trinidad,95570,Main St & Edwards St,12.65,6,29,0.17,0.0,0.0,0.17,0.0,0.66,Telecommute,False,False,0.85,169
+S_2020-21_00324,2020,Student,Trinidad,95570,Trinity St & Main St,7.02,5,28,0.2,0.0,0.0,0.2,0.0,0.6,Telecommute,True,True,0.58,149
+S_2020-21_00059,2020,Staff/Admin,Trinidad,95570,Main St & Edwards St,13.96,6,44,0.5,0.0,0.0,0.0,0.0,0.5,Telecommute,False,False,1.05,264
+S_2024-25_00452,2024,Student,,95501,Harris St & I St,9.38,10,31,0.44,0.06,0.28,0.11,0.06,0.06,Drive Alone,False,True,3.05,319
+S_2021-22_00462,2021,Student,Eureka,95501,H St & K St,7.23,8,30,0.38,0.0,0.12,0.25,0.12,0.12,Drive Alone,False,False,1.59,256
+S_2023-24_00144,2023,Staff/Admin,Blue Lake,95525,Hatchery Rd & Greenwood Ave,10.32,10,50,0.7,0.2,0.0,0.0,0.0,0.1,Drive Alone,True,False,2.51,498
+S_2023-24_00459,2023,Student,Fortuna,95540,Kenmar Rd & Main St,17.04,11,31,0.45,0.09,0.18,0.18,0.09,0.0,Drive Alone,False,False,4.77,329
+S_2023-24_00239,2023,Staff/Admin,Arcata,95521,Samoa Blvd & G St,5.67,10,48,0.7,0.2,0.0,0.0,0.0,0.1,No Answer,False,False,1.41,502
+S_2023-24_00115,2023,Staff/Admin,Trinidad,95570,Main St & Edwards St,8.78,12,47,0.67,0.25,0.0,0.0,0.0,0.08,Drive Alone,False,False,2.38,549
+S_2022-23_00140,2022,Staff/Admin,Arcata,95521,14th St & H St,1.4,9,50,0.78,0.22,0.0,0.0,0.0,0.0,Drive Alone,False,True,0.58,438
+S_2024-25_00304,2024,Student,Mckinleyville,0,School Rd & Hiller Rd,11.94,9,32,0.22,0.11,0.22,0.22,0.11,0.11,Drive Alone,yes,False,2.22,296
+S_2022-23_00090,2022,Staff/Admin,Blue Lake,95525,South Rail St & Greenwood Ave,9999.99,10,48,0.9,0.0,0.0,0.0,0.1,0.0,Drive Alone,False,False,2.85,476
+S_2023-24_00269,2023,Staff/Admin,Trinidad,95570,Patrick Point Dr & Trinity St,-5.0,10,47,0.7,0.1,0.0,0.1,0.1,0.0,Drive Alone,False,False,1.78,479
+S_2020-21_00346,2020,Student,Trinidad,95570,Patrick Point Dr & Main St,,5,26,0.38,0.0,0.24,0.1,0.1,0.19,Telecommute,True,False,0.32,136
+S_2022-23_00488,2022,Student,Mckinleyville,95519,Central Ave & Bates Rd,11.62,11,31,0.46,0.05,0.29,0.1,0.05,0.05,No Answer,False,False,4.08,347
+F_2021-22_00033,2021,Faculty,Blue Lake,95525,Chartin Rd & Hatchery Rd,13.03,9,35,0.44,0.0,0.0,0.11,0.11,0.33,Drive Alone,True,True,0.67,301
+F_2024-25_00279,2024,Faculty,Blue Lake,95525,Greenwood Ave & Chartin Rd,9.93,9,39,0.56,0.11,0.0,0.11,0.11,0.11,No Answer,False,True,0.74,339
+S_2023-24_00331,2023,Student,Eureka,95501,H St & K St,9.36,10,32,0.3,0.1,0.2,0.2,0.1,0.1,Drive Alone,False,False,2.52,324
+S_2022-23_00647,2022,Student,Fortuna,95540,Newburg Rd & Rohnerville Rd,18.81,-10,52,0.4,0.2,0.1,0.2,0.1,0.0,Drive Alone,False,False,4.38,328
+S_2020-21_00167,2020,Student,Mckinleyville,95519,Bates Rd & Murray Rd,13.9,6,30,0.17,0.0,0.0,0.5,0.0,0.33,Telecommute,False,False,1.03,173
+S_2021-22_00241,2021,Staff/Admin,Fortuna,95540,Newburg Rd & Kenmar Rd,19.47,8,46,0.84,0.0,0.0,0.0,0.0,0.16,Drive Alone,False,False,2.44,375
+S_2022-23_00663,2022,Student,Blue Lake,95500,Hatchery Rd & Greenwood Ave,,10,31,0.3,0.0,0.2,0.3,0.1,0.1,Drive Alone,False,False,2.44,306
+S_2021-22_00182,2021,Staff/Admin,Eureka,95501,K St & 6th St,6.54,9,46,0.75,0.0,0.0,0.0,0.0,0.25,Drive Alone,False,yes,1.23,418
+S_2022-23_00027,2022,Staff/Admin,Eureka,95501,I St & J St,8.88,11,49,0.73,0.18,0.0,0.0,0.0,0.09,Drive Alone,False,False,2.3,526
+S_2022-23_00158,2022,Student,Eureka,95501,K St & 5th St,9.54,7,32,0.4,0.0,0.1,0.2,0.2,0.1,Drive Alone,False,False,2.87,317
+S_2023-24_00134,2023,Staff/Admin,Mckinleyville,95519,Bates Rd & Hiller Rd,9999.99,11,49,0.82,0.09,0.0,0.0,0.0,0.09,Drive Alone,False,False,3.84,520
+F_2022-23_00174,2022,Faculty,Blue Lake,95525,Chartin Rd & Greenwood Ave,10.78,10,36,0.7,0.0,0.0,0.2,0.1,0.0,Drive Alone,False,False,0.94,351
+F_2024-25_00137,2024,Faculty,Arcata,95521,LK Wood Blvd & H St,3.0,-10,52,0.6,0.0,0.1,0.1,0.1,0.1,Drive Alone,False,True,0.26,345
+F_2022-23_00118,2022,Faculty,Mckinleyville,95519,Murray Rd & Central Ave,6.45,11,38,0.73,0.09,0.0,0.09,0.09,0.0,Drive Alone,True,False,0.68,399
