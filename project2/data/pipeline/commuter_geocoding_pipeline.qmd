@@ -1,9 +1,49 @@
 ---
-title: Import Libraries and Load Survey Data
-jupyter: python3
+title: "Commuter Survey & Population Address Cleaning and Geocoding"
+subtitle: "Data Cleaning Pipeline Documentation"
+author: "Redwood Analytics – Transportation & Commuting"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    number-sections: false
+    code-fold: true
+    code-overflow: wrap
+    theme: cosmo
+jupyter: 311-venv
 ---
 
+# Overview
 
+This Quarto document describes the full data-cleaning and geocoding workflow for:
+
+- A **simulated commuter survey** covering five years, and  
+- A **student population address file** with current and permanent addresses.
+
+The goals of this pipeline are to:
+
+- Standardize key variables (types, formats, naming conventions).
+- Handle missing or inconsistent values in survey and address fields.
+- Produce **cleaned CSV outputs** suitable for analysis and dashboarding.
+- Use the **Google Maps Geocoding API** to enrich address records with consistent
+  city/state/ZIP values and latitude/longitude coordinates.
+
+All original Python code blocks from the project are preserved exactly as-is; only
+YAML and markdown documentation have been added.
+
+---
+
+# 1. Commuter Survey Cleaning
+
+In this section we:
+
+- Load the messy raw survey data.
+- Inspect its structure.
+- Clean and standardize core fields such as year, trip counts, and mode shares.
+- Prepare a cleaned survey CSV for later geocoding and analysis.
+
+## 1.1 Import libraries and load raw survey data
 
 ```{python}
 import pandas as pd
@@ -15,7 +55,10 @@ df = pd.read_csv("../raw_data/simulated_commuter_survey_5yrs_messy_100.csv")
 df.head(10)
 ```
 
-### Print shape and info of DataFrame
+## 1.2 Inspect basic structure and data types
+
+We print the shape of the DataFrame (rows × columns) and the column-level
+metadata to understand types, missing values, and overall layout.
 
 ```{python}
 print(df.shape)
@@ -23,7 +66,15 @@ print(df.info())
 #print(df.describe())
 ```
 
-### Convert weeks_per_year to numeric, round mtcde_est to 2 decimal places, strip first 4 year characters to get start year, convert start_year to numeric, round and assert share_xyz columns to 2 decimal places and add to 100%
+## 1.3 Standardize numeric fields and mode shares
+
+Here we:
+
+- Convert `weeks_per_year` to integer.
+- Extract the 4-digit survey year and convert to integer.
+- Round emissions (`mtcde_est`) and estimated total trips.
+- Clean, clip, and re-normalize the mode share columns so that they are
+  non-negative and sum to 1.00 (100%) per row.
 
 ```{python}
 df['weeks_per_year'] = df['weeks_per_year'].astype(int)
@@ -49,7 +100,10 @@ df[columns_to_round] = df[columns_to_round].div(df[columns_to_round].sum(axis=1)
 df.head()
 ```
 
-### Check for Null Cities, Use Geocoding on nearest_intersection to Fill Later
+## 1.4 Handle missing city and ZIP fields
+
+We identify records with missing `city` and `zip`. These will later be
+candidates for filling using geocoding based on `nearest_intersection`.
 
 ```{python}
 null_city = df[df['city'].notna() == False]
@@ -57,13 +111,14 @@ print([id for id in null_city.index])
 null_city.head()
 ```
 
-### Check for Null Zipcodes, Use Geocoding on nearest_intersection to Fill Later
-
 ```{python}
 null_zip = df[df['zip'].notna() == False]
 print([id for id in null_zip.index])
 null_zip.head()
 ```
+
+We temporarily assign `"00000"` to missing or invalid ZIP codes, coerce ZIPs to a
+5-character string, then to numeric, and handle a specific truncated ZIP (955).
 
 ```{python}
 null_zip.loc[:, 'zip'] = '00000'
@@ -81,15 +136,17 @@ df.loc[df.zip == 955, 'zip'] = 95500
 df.zip.unique()
 ```
 
-### Check for Null Distances to Campus, Use Geocoding on nearest_intersection to Fill Later
+## 1.5 Missing distances and trip frequency
+
+We locate missing `distance_to_campus_miles` and `trips_per_week`. Distances
+will eventually be corrected using geocoding and network calculations; trips per
+week are imputed using the column mean and then coerced to integer.
 
 ```{python}
 null_dist_campus = df[df['distance_to_campus_miles'].notna() == False]
 print([id for id in null_dist_campus.index])
 null_dist_campus.head()
 ```
-
-### Check for Null Trips per Week, Use Average to Fill Later
 
 ```{python}
 null_trips_perweek = df[df['trips_per_week'].notna() == False]
@@ -102,7 +159,11 @@ df['trips_per_week'] = df['trips_per_week'].fillna(df['trips_per_week'].mean()).
 df.head()
 ```
 
-### Check for Null Mode Primary, won't matter since we provide data for all modes by default on dashboard
+## 1.6 Clean primary mode labels
+
+We inspect rows with missing `mode_primary`. Because our dashboard uses shares
+for all modes, missing primary modes are not fatal, but we still standardize
+spelling and case and assign `"No Answer"` where needed.
 
 ```{python}
 null_mode_primary = df[df['mode_primary'].notna() == False]
@@ -122,14 +183,15 @@ df.loc[df['mode_primary'].isna(), 'mode_primary'] = 'No Answer'
 df.mode_primary.unique()
 ```
 
-### Check dataframe head and info again
+## 1.7 Final consistency checks for survey data
+
+We re-print the DataFrame info and take a final look at the head, then standardize
+city names to title case and trimmed strings.
 
 ```{python}
 print(df.info())
 df.head()
 ```
-
-### Cities should be consistent in naming
 
 ```{python}
 df['city'] = df['city'].str.title().str.strip()
@@ -139,7 +201,17 @@ df['city'] = df['city'].str.title().str.strip()
 df.city.unique()
 ```
 
-## Messy Population Data Cleaning
+---
+
+# 2. Population Address Data Cleaning
+
+In this section we:
+
+- Load the messy population address file.
+- Clean current and permanent ZIPs, cities, states, and street fields.
+- Prepare a cleaned address CSV that is ready for geocoding.
+
+## 2.1 Load messy population address data
 
 ```{python}
 df2 = pd.read_csv("../raw_data/population_addresses_2024_25_messy_100.csv")
@@ -150,7 +222,13 @@ df2.head()
 df2.info()
 ```
 
-### Address invalid current_zip entries
+## 2.2 Clean current ZIP codes
+
+We:
+
+- Replace missing `current_zip` values with `"00000"`,
+- Fix a specific invalid ZIP (`"ABCDE"`),
+- Pad ZIP codes to 5 characters and coerce to integers.
 
 ```{python}
 null_zip2 = df2[df2['current_zip'].notna() == False]
@@ -166,7 +244,9 @@ df2.head()
 df2.current_zip.unique()
 ```
 
-### Same with permanent_zip
+## 2.3 Clean permanent ZIP codes
+
+We address missing `permanent_zip` values and coerce the column to integer.
 
 ```{python}
 df2.loc[df2.permanent_zip.isna(), 'permanent_zip'] = 0
@@ -174,7 +254,13 @@ df2['permanent_zip'] = df2['permanent_zip'].astype(int)
 df2.head()
 ```
 
-### Look at current_city unique values and acknowledge null entries
+## 2.4 Standardize current city names
+
+We:
+
+- Title-case and trim `current_city`,
+- Replace nulls with `"No Answer"`,
+- Correct common typos and fake entries.
 
 ```{python}
 df2['current_city'] = df2['current_city'].str.title().str.strip()
@@ -192,7 +278,11 @@ df2.loc[df2.current_city == 'Eurika', 'current_city'] = 'Eureka'
 df2.current_city.unique()
 ```
 
-### Same with current_state field
+## 2.5 Clean current state and street fields
+
+We normalize `current_state` to standard CA codes where appropriate, flag unusable
+states as `"No Answer"`, and ensure `current_street` is filled with a placeholder
+when missing.
 
 ```{python}
 df2.loc[df2.current_state.isna(), 'current_state'] = 'No Answer'
@@ -206,8 +296,6 @@ df2.loc[df2.current_state == 'XX', 'current_state'] = 'No Answer'
 df2.current_state.unique()
 ```
 
-### Same with current_street
-
 ```{python}
 df2.loc[df2.current_street.isna(), 'current_street'] = 'No Answer'
 ```
@@ -216,14 +304,20 @@ df2.loc[df2.current_street.isna(), 'current_street'] = 'No Answer'
 df2.current_street.unique()
 ```
 
-### Make permanent_city title case and permanent_state corrected
+## 2.6 Standardize permanent city and state
+
+Permanent cities are title-cased and trimmed. A lowercase `california` state
+entry is normalized to `CA`.
 
 ```{python}
 df2.permanent_city = df2.permanent_city.str.title().str.strip()
 df2.loc[df2.permanent_state == 'california', 'permanent_state'] = 'CA'
 ```
 
-### Final look at both dataframes before geocode-correcting address entries, zipcodes, states, cities, and distances to campus
+## 2.7 Save cleaned (pre-geocode) datasets
+
+Before geocoding, we write the cleaned survey and population data to disk so we
+have stable baseline inputs for later steps.
 
 ```{python}
 df.to_csv("../clean_data/Clean_Survey_Data.csv", index=False)
@@ -241,7 +335,20 @@ df2.to_csv("../clean_data/Clean_Population_Addresses.csv", index=False)
 df2.head(10)
 ```
 
-## Google Geocoding, Reverse Geocoding, and Distance Calculations using Python Client for Google Maps
+---
+
+# 3. Geocoding and Reverse Geocoding with Google Maps
+
+In this section, we:
+
+- Reload the cleaned survey and population datasets.
+- Configure the Google Maps Python client (API key from `.env`).
+- Define helper functions for geocoding and reverse geocoding.
+- Apply geocoding to:
+  - Fill in missing or inconsistent city/state/ZIP fields, and
+  - Attach latitude/longitude coordinates for mapping and distance calculations.
+
+## 3.1 Reload cleaned CSVs
 
 ```{python}
 survey_df = pd.read_csv("../clean_data/Clean_Survey_Data.csv")
@@ -251,7 +358,11 @@ survey_df = pd.read_csv("../clean_data/Clean_Survey_Data.csv")
 pop_df = pd.read_csv("../clean_data/Clean_Population_Addresses.csv")
 ```
 
-### Function to geocode addresses from survey data, overwrite with correct values
+## 3.2 Configure Google Maps client and survey geocode helper
+
+We set up the Google Maps Python client using an API key read from a `.env` file,
+define address component helpers, and implement `geocode_fill_row` to overwrite
+survey address fields (city/state/ZIP) when geocoding is successful.
 
 ```{python}
 import os
@@ -325,8 +436,12 @@ def geocode_fill_row(row, inter_col="nearest_intersection", city_col="city", sta
     loc = g["geometry"]["location"]
     row["lat"], row["lng"] = loc["lat"], loc["lng"]
     return row
-
 ```
+
+## 3.3 Apply geocoding to survey data
+
+We ensure relevant columns are strings, then apply `geocode_fill_row` row-wise
+to update city/state/ZIP and to add latitude/longitude where possible.
 
 ```{python}
 for c in ("city", "zip", "state"):
@@ -347,7 +462,20 @@ survey_df.head()
 survey_df.to_csv("../clean_data/Geocoded_Survey_Data.csv", index=False)
 ```
 
-### Function to geocode addresses from population dataframe, overwrite with correct values from current or permanent address fields and flag sources of working addresses
+---
+
+# 4. Geocoding Population Addresses with Fallback Logic
+
+Here we apply a more sophisticated geocoding strategy to population addresses:
+
+- Prefer **current addresses** when they geocode successfully and yield a
+  usable ZIP.
+- If current address geocoding fails or the ZIP is invalid, **fall back to the
+  permanent address**.
+- Track the chosen source in a `geocode_source` flag (`"current"` or
+  `"permanent"`).
+
+## 4.1 Helper functions for address validity and best match
 
 ```{python}
 import re, math
@@ -488,6 +616,11 @@ def correct_row_with_fallback(row, current_map, perm_map=None, country="US", def
     return row
 ```
 
+## 4.2 Apply fallback geocoding to population data
+
+We first ensure key address fields are treated as strings (to avoid integer/NaN
+artifacts), then apply the `correct_row_with_fallback` logic across all rows.
+
 ```{python}
 # make sure these are strings so writes stick (no 0/NaN weirdness)
 for c in ("current_street","current_city","current_state","current_zip",
@@ -514,5 +647,23 @@ pop_df.head()
 pop_df.to_csv("../clean_data/Geocoded_Population_Addresses.csv", index=False)
 ```
 
-## Done with Data Pipeline
+---
 
+# 5. Pipeline Status
+
+At this point, the pipeline has:
+
+- Cleaned and standardized **survey** and **population** datasets.
+- Saved intermediate cleaned CSVs.
+- Applied **Google Maps geocoding** to:
+  - Fix or enrich address components, and
+  - Attach latitude/longitude coordinates.
+- Written final geocoded outputs to the `../clean_data` directory.
+
+These geocoded CSVs are now ready for:
+
+- Spatial analysis and mapping,
+- Distance-to-campus calculations, and
+- Integration into project dashboards and reports.
+
+## Done with Data Pipeline
