@@ -1,0 +1,741 @@
+---
+title: Import Libraries and Load Survey Data
+jupyter: python3
+---
+
+
+
+```{python}
+import pandas as pd
+import re
+import requests
+import numpy as np
+
+df = pd.read_csv("../raw_data/simulated_commuter_survey_5yrs_messy_100.csv")
+df.head(10)
+```
+
+### Print shape and info of DataFrame
+
+```{python}
+print(df.shape)
+print(df.info())
+#print(df.describe())
+```
+
+### Convert weeks_per_year to numeric, round mtcde_est to 2 decimal places, strip first 4 year characters to get start year, convert start_year to numeric, round and assert share_xyz columns to 2 decimal places and add to 100%
+
+```{python}
+df['weeks_per_year'] = df['weeks_per_year'].astype(int)
+```
+
+```{python}
+df['year'] = df['year'].str[:4].astype(int)
+```
+
+```{python}
+df['mtcde_est'] = df['mtcde_est'].round(2)
+```
+
+```{python}
+df['total_trips_est'] = df['total_trips_est'].round(0).astype(int)
+```
+
+```{python}
+columns_to_round = ['share_drive', 'share_carpool', 'share_bus', 'share_walk', 'share_bike', 'share_tele']
+df[columns_to_round] = df[columns_to_round].clip(lower=0)
+df[columns_to_round] = df[columns_to_round].round(2)
+df[columns_to_round] = df[columns_to_round].div(df[columns_to_round].sum(axis=1), axis=0).fillna(0).round(2)
+df.head()
+```
+
+### Check for Null Cities, Use Geocoding on nearest_intersection to Fill Later
+
+```{python}
+null_city = df[df['city'].notna() == False]
+print([id for id in null_city.index])
+null_city.head()
+```
+
+### Check for Null Zipcodes, Use Geocoding on nearest_intersection to Fill Later
+
+```{python}
+null_zip = df[df['zip'].notna() == False]
+print([id for id in null_zip.index])
+null_zip.head()
+```
+
+```{python}
+null_zip.loc[:, 'zip'] = '00000'
+df.update(null_zip)
+df.loc[df.zip == 'invalid', 'zip'] = '00000'
+df['zip'] = df['zip'].astype(str).str.ljust(5, fillchar='0').astype(float).astype(int)
+df.head()
+```
+
+```{python}
+df.loc[df.zip == 955, 'zip'] = 95500
+```
+
+```{python}
+df.zip.unique()
+```
+
+### Check for Null Distances to Campus, Use Geocoding on nearest_intersection to Fill Later
+
+```{python}
+null_dist_campus = df[df['distance_to_campus_miles'].notna() == False]
+print([id for id in null_dist_campus.index])
+null_dist_campus.head()
+```
+
+### Check for Null Trips per Week, Use Average to Fill Later
+
+```{python}
+null_trips_perweek = df[df['trips_per_week'].notna() == False]
+print([id for id in null_trips_perweek.index])
+null_trips_perweek.head()
+```
+
+```{python}
+df['trips_per_week'] = df['trips_per_week'].fillna(df['trips_per_week'].mean()).astype(int)
+df.head()
+```
+
+### Check for Null Mode Primary, won't matter since we provide data for all modes by default on dashboard
+
+```{python}
+null_mode_primary = df[df['mode_primary'].notna() == False]
+print([id for id in null_mode_primary.index])
+null_mode_primary.head()
+```
+
+```{python}
+df.loc[df['mode_primary'] == 'drive alone', 'mode_primary'] = 'Drive Alone'
+df.loc[df['mode_primary'] == 'Drive alone', 'mode_primary'] = 'Drive Alone'
+df.loc[df['mode_primary'] == 'telecommute', 'mode_primary'] = 'Telecommute'
+df.loc[df['mode_primary'] == 'teleporting', 'mode_primary'] = 'Telecommute'
+df.loc[df['mode_primary'].isna(), 'mode_primary'] = 'No Answer'
+```
+
+```{python}
+df.mode_primary.unique()
+```
+
+### Check dataframe head and info again
+
+```{python}
+print(df.info())
+df.head()
+```
+
+### Cities should be consistent in naming
+
+```{python}
+df['city'] = df['city'].str.title().str.strip()
+```
+
+```{python}
+df.city.unique()
+```
+
+## Messy Population Data Cleaning
+
+```{python}
+df2 = pd.read_csv("../raw_data/population_addresses_2024_25_messy_100.csv")
+df2.head()
+```
+
+```{python}
+df2.info()
+```
+
+### Address invalid current_zip entries
+
+```{python}
+null_zip2 = df2[df2['current_zip'].notna() == False]
+null_zip2.loc[:, 'current_zip'] = '00000'
+df2.update(null_zip2)
+
+df2.loc[df2.current_zip == 'ABCDE', 'current_zip'] = '00000'
+df2['current_zip'] = df2['current_zip'].astype(str).str.ljust(5, fillchar='0').astype(float).astype(int)
+df2.head()
+```
+
+```{python}
+df2.current_zip.unique()
+```
+
+### Same with permanent_zip
+
+```{python}
+df2.loc[df2.permanent_zip.isna(), 'permanent_zip'] = 0
+df2['permanent_zip'] = df2['permanent_zip'].astype(int)
+df2.head()
+```
+
+### Look at current_city unique values and acknowledge null entries
+
+```{python}
+df2['current_city'] = df2['current_city'].str.title().str.strip()
+```
+
+```{python}
+df2.loc[df2.current_city.isna(), 'current_city'] = 'No Answer'
+df2.loc[df2.current_city == 'Arcatra', 'current_city'] = 'Arcata'
+df2.loc[df2.current_city == 'Fake City', 'current_city'] = 'No Answer'
+df2.loc[df2.current_city == 'Mckinelyville', 'current_city'] = 'Mckinleyville'
+df2.loc[df2.current_city == 'Eurika', 'current_city'] = 'Eureka'
+```
+
+```{python}
+df2.current_city.unique()
+```
+
+### Same with current_state field
+
+```{python}
+df2.loc[df2.current_state.isna(), 'current_state'] = 'No Answer'
+df2.loc[df2.current_state == 'California', 'current_state'] = 'CA'
+df2.loc[df2.current_state == 'california', 'current_state'] = 'CA'
+df2.loc[df2.current_state == 'ca', 'current_state'] = 'CA'
+df2.loc[df2.current_state == 'XX', 'current_state'] = 'No Answer'
+```
+
+```{python}
+df2.current_state.unique()
+```
+
+### Same with current_street
+
+```{python}
+df2.loc[df2.current_street.isna(), 'current_street'] = 'No Answer'
+```
+
+```{python}
+df2.current_street.unique()
+```
+
+### Make permanent_city title case and permanent_state corrected
+
+```{python}
+df2.permanent_city = df2.permanent_city.str.title().str.strip()
+df2.loc[df2.permanent_state == 'california', 'permanent_state'] = 'CA'
+```
+
+### Final look at both dataframes before geocode-correcting address entries, zipcodes, states, cities, and distances to campus
+
+```{python}
+df.to_csv("../clean_data/Clean_Survey_Data.csv", index=False)
+```
+
+```{python}
+df.head(10)
+```
+
+```{python}
+df2.to_csv("../clean_data/Clean_Population_Addresses.csv", index=False)
+```
+
+```{python}
+df2.head(10)
+```
+
+## Google Geocoding, Reverse Geocoding, and Distance Calculations using Python Client for Google Maps
+
+```{python}
+survey_df = pd.read_csv("../clean_data/Clean_Survey_Data.csv")
+```
+
+```{python}
+pop_df = pd.read_csv("../clean_data/Clean_Population_Addresses.csv")
+```
+
+### Function to geocode addresses from survey data, overwrite with correct values
+
+```{python}
+import os
+import googlemaps
+from datetime import datetime
+import dotenv
+
+dotenv.load_dotenv('.env')
+
+gmaps = googlemaps.Client(key=os.getenv('API_KEY'))
+
+import math
+
+def _s(v):
+    if v is None: return ""
+    if isinstance(v, float):
+        if math.isnan(v): return ""
+        if v.is_integer(): return str(int(v))
+    return str(v)
+
+def _comp(ac, *kinds):
+    for c in ac:
+        ts = set(c.get("types", []))
+        if any(k in ts for k in kinds):
+            return c.get("long_name")
+    return None
+
+_gc = {}
+
+def geocode_fill_row(row, inter_col="nearest_intersection", city_col="city", state_col="state", zip_col="zip",
+                     country="US", default_state="CA"):
+    q_inter = _s(row.get(inter_col)).strip()
+    city_in = _s(row.get(city_col)).strip()
+    state_in = _s(row.get(state_col)).strip() or default_state
+    zip_in = _s(row.get(zip_col)).strip()
+
+    comps = {"country": country, "administrative_area_level_1": state_in}
+    if city_in: comps["locality"] = city_in
+    if zip_in:  comps["postal_code"] = zip_in
+
+    query = ", ".join(x for x in [q_inter or None, city_in or None, state_in, country] if x)
+
+    if not query:
+        row[state_col] = state_in or default_state
+        return row
+
+    cache_key = (query, tuple(sorted(comps.items())))
+    if cache_key in _gc:
+        res = _gc[cache_key]
+    else:
+        try:
+            res = gmaps.geocode(address=query, components=comps)
+            if not res:
+                res = gmaps.geocode(query)
+        except Exception:
+            res = []
+        _gc[cache_key] = res
+
+    if not res:
+        row[state_col] = state_in or default_state
+        return row
+
+    res.sort(key=lambda r: r.get("geometry", {}).get("location_type") != "ROOFTOP")
+    g = res[0]
+    ac = g["address_components"]
+
+    row[city_col]  = _comp(ac, "locality") or _comp(ac, "postal_town") or _comp(ac, "sublocality", "sublocality_level_1") or city_in
+    row[zip_col]   = _comp(ac, "postal_code") or zip_in
+    row[state_col] = _comp(ac, "administrative_area_level_1") or state_in or default_state
+
+    loc = g["geometry"]["location"]
+    row["lat"], row["lng"] = loc["lat"], loc["lng"]
+    return row
+
+```
+
+```{python}
+for c in ("city", "zip", "state"):
+    if c in survey_df.columns:
+        survey_df[c] = survey_df[c].astype("string")
+
+survey_df = survey_df.apply(
+    lambda r: geocode_fill_row(r, inter_col="nearest_intersection", city_col="city", state_col="state", zip_col="zip"),
+    axis=1
+)
+```
+
+```{python}
+survey_df.head()
+```
+
+```{python}
+survey_df.to_csv("../clean_data/Geocoded_Survey_Data.csv", index=False)
+```
+
+### Function to geocode addresses from population dataframe, overwrite with correct values from current or permanent address fields and flag sources of working addresses
+
+```{python}
+import re, math
+
+# --- keep your existing helpers (_s, _comp, _gc) ---
+
+def _is_missing(v):
+    s = _s(v).strip().lower()
+    return (not s) or s in {"na", "n/a", "none", "no answer", "null"}
+
+def _bad_zip(z):
+    s = _s(z).strip()
+    if s in {"", "0", "00000", "99999", "95500"}:
+        return True
+    return not re.match(r"^\d{5}(-\d{4})?$", s)
+
+def _pick_best(res):
+    if not res: return None
+    res.sort(key=lambda r: r.get("geometry", {}).get("location_type") != "ROOFTOP")
+    return res[0]
+
+def _geocode_address(street, city=None, state=None, postal=None, country="US", default_state="CA"):
+    street = _s(street).strip()
+    city   = _s(city).strip() or None
+    state  = (_s(state).strip() or default_state)
+    postal = _s(postal).strip() or None
+    if not street or _is_missing(street):
+        return None, state
+
+    comps = {"country": country, "administrative_area_level_1": state}
+    if city:   comps["locality"] = city
+    if postal and not _bad_zip(postal): comps["postal_code"] = postal
+
+    q = ", ".join(x for x in [street, city or None, state, postal or None, country] if x)
+
+    cache_key = ("addr", street.lower(), (city or "").lower(), state, (postal or ""), country)
+    if cache_key in _gc:
+        res = _gc[cache_key]
+    else:
+        try:
+            res = gmaps.geocode(address=street, components=comps)
+            if not res:
+                res = gmaps.geocode(q)
+        except Exception:
+            res = []
+        _gc[cache_key] = res
+
+    return _pick_best(res), state
+
+def _apply_geo_to_row(row, mapping, g, fallback_state="CA"):
+    """
+    mapping: {'street': 'current_street', 'city':'current_city', 'state':'current_state', 'postal':'current_zip'}
+    Writes back in-place. Returns (row, ok_bool_with_valid_zip)
+    """
+    if g is None:
+        # ensure state isn’t blank
+        if mapping.get('state'):
+            row[mapping['state']] = _s(row.get(mapping['state'])).strip() or fallback_state
+        return row, False
+
+    ac = g["address_components"]
+
+    def comp(*kinds):
+        for c in ac:
+            ts = set(c.get("types", []))
+            if any(k in ts for k in kinds):
+                return c.get("long_name")
+        return None
+
+    # Street (street_number + route)
+    if mapping.get('street'):
+        sn = (comp("street_number") or "").strip()
+        rt = (comp("route") or "").strip()
+        base = _s(row.get(mapping['street'])).strip()
+        row[mapping['street']] = (sn + " " + rt).strip() or base
+
+    # City with fallbacks
+    if mapping.get('city'):
+        row[mapping['city']] = comp("locality") or comp("postal_town") or comp("sublocality", "sublocality_level_1") or _s(row.get(mapping['city'])).strip()
+
+    # State (prefer geocode; else fallback_state)
+    if mapping.get('state'):
+        row[mapping['state']] = comp("administrative_area_level_1") or _s(row.get(mapping['state'])).strip() or fallback_state
+
+    # ZIP (prefer geocode; if still bad, keep original)
+    ok_zip = False
+    if mapping.get('postal'):
+        new_zip = comp("postal_code") or _s(row.get(mapping['postal'])).strip()
+        row[mapping['postal']] = new_zip
+        ok_zip = not _bad_zip(new_zip)
+
+    # lat/lng
+    loc = g["geometry"]["location"]
+    row["lat"], row["lng"] = loc["lat"], loc["lng"]
+
+    # success = got a usable ZIP OR at least a valid geocode
+    return row, ok_zip
+
+def _correct_row(row, mapping, country="US", default_state="CA"):
+    g, norm_state = _geocode_address(
+        street=row.get(mapping.get('street')),
+        city=row.get(mapping.get('city')),
+        state=row.get(mapping.get('state')) or default_state,
+        postal=row.get(mapping.get('postal')),
+        country=country, default_state=default_state
+    )
+    return _apply_geo_to_row(row, mapping, g, fallback_state=norm_state or default_state)
+
+def correct_row_with_fallback(row, current_map, perm_map=None, country="US", default_state="CA"):
+    """
+    Try CURRENT first; if it fails or produces a bad ZIP, try PERMANENT.
+    """
+    # If current street is missing / "No Answer", skip straight to permanent (if available)
+    cur_street = _s(row.get(current_map.get('street'))).strip()
+    current_unusable = _is_missing(cur_street)
+
+    if not current_unusable:
+        row, ok = _correct_row(row, current_map, country, default_state)
+    else:
+        ok = False
+
+    if ok or not perm_map:
+        row["geocode_source"] = "current" if ok and not current_unusable else None
+        return row
+
+    # Only fall back if permanent street exists and isn’t "No Answer"
+    perm_street = _s(row.get(perm_map.get('street'))).strip()
+    if _is_missing(perm_street):
+        row["geocode_source"] = "current" if ok else None
+        return row
+
+    row2, ok2 = _correct_row(row, perm_map, country, default_state)
+    if ok2:
+        row2["geocode_source"] = "permanent"
+        return row2
+
+    row["geocode_source"] = "current" if ok else None
+    return row
+```
+
+```{python}
+# make sure these are strings so writes stick (no 0/NaN weirdness)
+for c in ("current_street","current_city","current_state","current_zip",
+          "permanent_street","permanent_city","permanent_state","permanent_zip"):
+    if c in pop_df.columns:
+        pop_df[c] = pop_df[c].astype("string")
+
+pop_df = pop_df.apply(
+    lambda r: correct_row_with_fallback(
+        r,
+        current_map={"street":"current_street","city":"current_city","state":"current_state","postal":"current_zip"},
+        perm_map   ={"street":"permanent_street","city":"permanent_city","state":"permanent_state","postal":"permanent_zip"},
+        country="US", default_state="CA"
+    ),
+    axis=1
+)
+```
+
+```{python}
+pop_df.head()
+```
+
+```{python}
+pop_df.to_csv("../clean_data/Geocoded_Population_Addresses.csv", index=False)
+```
+
+## External Data Pipeline for California Addresses and Transportation
+
+### Import Libraries, Set Up API Keys
+
+```{python}
+import numpy as np 
+import pandas as pd
+import requests
+import time
+import os
+from dotenv import load_dotenv
+import googlemaps
+
+load_dotenv('.env')
+
+gmaps = googlemaps.Client(key=os.getenv('API_KEY'))
+```
+
+### Within range of lat/lng pairs, reverse geocode lat/lng pairs to valid addresses, put into a Dataframe, then gather getDirections data from each valid address and put into column in Dataframe across multiple transportation modes
+
+```{python}
+#| eval: false
+grid_df = pd.DataFrame(columns = ['latitude', 'longitude', 'address', 'driving_time_to_campus', 'walking_time_to_campus', 'bicycling_time_to_campus', 'transit_time_to_campus'])
+latitudes = np.arange(40.0, 41.3, 0.01)  # Northern latitude range for CA county
+longitudes = np.arange(-124.5, -123.0, 0.01)  # Western longitude range for CA county
+```
+
+```{python}
+#| eval: false
+for lat in latitudes:
+    for lng in longitudes:
+        # Reverse geocode to get address
+        reverse_geocode_result = gmaps.reverse_geocode((lat, lng))
+        if reverse_geocode_result:
+            address = reverse_geocode_result[0]['formatted_address']
+            
+            # Get directions to campus for different modes of transportation
+            # Address: 1 Harpst St. Arcata CA 95521
+            driving_directions = gmaps.directions(address, "California State Polytechnic University, Humboldt", mode="driving")
+            walking_directions = gmaps.directions(address, "California State Polytechnic University, Humboldt", mode="walking")
+            bicycling_directions = gmaps.directions(address, "California State Polytechnic University, Humboldt", mode="bicycling")
+            transit_directions = gmaps.directions(address, "California State Polytechnic University, Humboldt", mode="transit")
+            if driving_directions and walking_directions and bicycling_directions and transit_directions:
+                driving_time = driving_directions[0]['legs'][0]['duration']['text']
+                walking_time = walking_directions[0]['legs'][0]['duration']['text']
+                bicycling_time = bicycling_directions[0]['legs'][0]['duration']['text']
+                transit_time = transit_directions[0]['legs'][0]['duration']['text']
+                
+                # Append to DataFrame
+                grid_df = pd.concat([grid_df, pd.DataFrame({
+                    'latitude': [lat],
+                    'longitude': [lng],
+                    'address': [address],
+                    'driving_time_to_campus': [driving_time],
+                    'walking_time_to_campus': [walking_time],
+                    'bicycling_time_to_campus': [bicycling_time],
+                    'transit_time_to_campus': [transit_time]
+                })], ignore_index=True)
+```
+
+```{python}
+#| eval: false
+grid_df.shape
+```
+
+```{python}
+#| eval: false
+grid_df.head()
+```
+
+```{python}
+#| eval: false
+grid_df.to_csv('../clean_data/Grid_Data_01.csv', index=False)
+```
+
+### Convert Text of Transportation times into minutes in Dataframe, then save Dataframe as CSV again
+
+```{python}
+grid_df = pd.read_csv('../clean_data/Grid_Data_01.csv')
+```
+
+```{python}
+def text_to_hours(time_str):
+    if 'day' in time_str:
+        parts = time_str.split()
+        days = int(parts[0])
+        if 'hour' in time_str:
+            hours = int(parts[2])
+            if 'min' in time_str:
+                minutes = int(parts[4])
+                return days * 24 + hours + minutes / 60.0
+            return days * 24 + hours
+        return days * 24
+    elif 'hour' in time_str:
+        parts = time_str.split()
+        hours = int(parts[0])
+        if 'min' in time_str:
+            minutes = int(parts[2])
+            return hours + minutes / 60.0
+        return hours
+    else:
+        parts = time_str.split()
+        minutes = int(parts[0])
+        return minutes / 60.0
+    
+grid_df['driving_time_to_campus'] = grid_df['driving_time_to_campus'].apply(text_to_hours)
+grid_df['walking_time_to_campus'] = grid_df['walking_time_to_campus'].apply(text_to_hours)
+grid_df['bicycling_time_to_campus'] = grid_df['bicycling_time_to_campus'].apply(text_to_hours)
+grid_df['transit_time_to_campus'] = grid_df['transit_time_to_campus'].apply(text_to_hours)
+```
+
+```{python}
+# convert hours to minutes and round to nearest integer
+
+grid_df['driving_time_to_campus'] = (grid_df['driving_time_to_campus'] * 60).round().astype(int)
+grid_df['walking_time_to_campus'] = (grid_df['walking_time_to_campus'] * 60).round().astype(int)
+grid_df['bicycling_time_to_campus'] = (grid_df['bicycling_time_to_campus'] * 60).round().astype(int)
+grid_df['transit_time_to_campus'] = (grid_df['transit_time_to_campus'] * 60).round().astype(int)
+
+grid_df.head()
+```
+
+```{python}
+grid_df.to_csv('../clean_data/Humboldt_Travel_Times_Grid.csv', index=False)
+```
+
+### Plot Histograms of Transportation times across different modes of transportation to identify any modality that allows us to cluster addresses by transportation time to campus
+
+```{python}
+# plot histograms of transportation times on different axes to uncover any clustering patterns 
+import matplotlib.pyplot as plt
+fig, axs = plt.subplots(2, 2, figsize=(12, 10))
+axs[0, 0].hist(grid_df['driving_time_to_campus'], bins=30, color='blue', alpha=0.7)
+axs[0, 0].set_title('Driving Time to Campus (minutes)')
+axs[0, 0].set_xlabel('Time (minutes)')
+axs[0, 0].set_ylabel('Frequency')
+axs[0, 1].hist(grid_df['walking_time_to_campus'], bins=30, color='green', alpha=0.7)
+axs[0, 1].set_title('Walking Time to Campus (minutes)')
+axs[0, 1].set_xlabel('Time (minutes)')
+axs[0, 1].set_ylabel('Frequency')
+axs[1, 0].hist(grid_df['bicycling_time_to_campus'], bins=30, color='orange', alpha=0.7)
+axs[1, 0].set_title('Bicycling Time to Campus (minutes)')
+axs[1, 0].set_xlabel('Time (minutes)')
+axs[1, 0].set_ylabel('Frequency')
+axs[1, 1].hist(grid_df['transit_time_to_campus'], bins=30, color='red', alpha=0.7)
+axs[1, 1].set_title('Transit Time to Campus (minutes)')
+axs[1, 1].set_xlabel('Time (minutes)')
+axs[1, 1].set_ylabel('Frequency')
+plt.tight_layout()
+plt.show()
+```
+
+### Create new column for each transport method that labels them by K-means clusters of transportation time to campus, then visualize
+
+```{python}
+# Using clustering algorithms such as KMeans to create new columns for each transport method that labels them by clusters of transportation time to campus
+from sklearn.cluster import KMeans
+kmeans_driving = KMeans(n_clusters=3, random_state=0).fit(grid_df[['driving_time_to_campus']])
+grid_df['driving_time_cluster'] = kmeans_driving.labels_
+kmeans_walking = KMeans(n_clusters=3, random_state=0).fit(grid_df[['walking_time_to_campus']])
+grid_df['walking_time_cluster'] = kmeans_walking.labels_
+kmeans_bicycling = KMeans(n_clusters=3, random_state=0).fit(grid_df[['bicycling_time_to_campus']])
+grid_df['bicycling_time_cluster'] = kmeans_bicycling.labels_
+kmeans_transit = KMeans(n_clusters=3, random_state=0).fit(grid_df[['transit_time_to_campus']])
+grid_df['transit_time_cluster'] = kmeans_transit.labels_
+grid_df.head()
+```
+
+```{python}
+# Visualize each cluster for each transportation time
+fig, axs = plt.subplots(2, 2, figsize=(12, 10))
+scatter1 = axs[0, 0].scatter(grid_df['driving_time_to_campus'], np.zeros_like(grid_df['driving_time_to_campus']), c=grid_df['driving_time_cluster'], cmap='viridis', alpha=0.7)
+axs[0, 0].set_title('Driving Time Clusters')
+scatter2 = axs[0, 1].scatter(grid_df['walking_time_to_campus'], np.zeros_like(grid_df['walking_time_to_campus']), c=grid_df['walking_time_cluster'], cmap='viridis', alpha=0.7)
+axs[0, 1].set_title('Walking Time Clusters')
+scatter3 = axs[1, 0].scatter(grid_df['bicycling_time_to_campus'], np.zeros_like(grid_df['bicycling_time_to_campus']), c=grid_df['bicycling_time_cluster'], cmap='viridis', alpha=0.7)
+axs[1, 0].set_title('Bicycling Time Clusters')
+scatter4 = axs[1, 1].scatter(grid_df['transit_time_to_campus'], np.zeros_like(grid_df['transit_time_to_campus']), c=grid_df['transit_time_cluster'], cmap='viridis', alpha=0.7)
+axs[1, 1].set_title('Transit Time Clusters')
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+grid_df.to_csv('../clean_data/Kmeans_Clusters_Grid_Data.csv', index=False)
+```
+
+### Get Bus Stop Addresses to place as points on map visualizations in separate streamlit app
+
+```{python}
+overpass_url = "https://overpass-api.de/api/interpreter"
+
+bus_stops_df = pd.DataFrame(columns=['latitude', 'longitude', 'name'])
+SOUTH, WEST, NORTH, EAST = 40.0, -124.5, 41.3, -123.0  # Define bounding box for the query
+
+query = f"""
+[out:json][timeout:25];
+(
+    node["highway"="bus_stop"]({SOUTH},{WEST},{NORTH},{EAST});
+);
+out body;
+"""
+
+response = requests.get(overpass_url, params={'data': query})
+
+if response.status_code == 200:
+        data = response.json()
+        for element in data['elements']:
+                lat = element['lat']
+                lon = element['lon']
+                name = element['tags'].get('name', 'Unknown')  # Get the name of the bus stop if available
+                bus_stops_df = pd.concat([bus_stops_df, pd.DataFrame({
+                        'latitude': [lat],
+                        'longitude': [lon],
+                        'name': [name]
+                })], ignore_index=True)
+
+bus_stops_df.head()
+bus_stops_df.to_csv('../clean_data/Bus_Stops_Data.csv', index=False)
+```
+
+# Done
+
+## Done with Data Pipeline
+
