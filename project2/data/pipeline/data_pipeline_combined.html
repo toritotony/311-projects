@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Thursday Thoroughbreads">
 
-<title>Import Libraries and Load Survey Data</title>
+<title>Commuter Survey &amp; Population Address Cleaning and Geocoding</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -69,7 +70,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="data_pipeline_combined_files/libs/quarto-html/quarto-syntax-highlighting-1fe81d0376b2c50856e68e651e390326.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="data_pipeline_combined_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="data_pipeline_combined_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="data_pipeline_combined_files/libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="data_pipeline_combined_files/libs/bootstrap/bootstrap-e067826dbe74b38597b11b8554fef4f4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
@@ -77,21 +78,74 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="fullcontent quarto-light">
+<body class="quarto-light">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#print-shape-and-info-of-dataframe" id="toc-print-shape-and-info-of-dataframe" class="nav-link active" data-scroll-target="#print-shape-and-info-of-dataframe"><span class="header-section-number">0.0.1</span> Print shape and info of DataFrame</a></li>
+  <li><a href="#convert-weeks_per_year-to-numeric-round-mtcde_est-to-2-decimal-places-strip-first-4-year-characters-to-get-start-year-convert-start_year-to-numeric-round-and-assert-share_xyz-columns-to-2-decimal-places-and-add-to-100" id="toc-convert-weeks_per_year-to-numeric-round-mtcde_est-to-2-decimal-places-strip-first-4-year-characters-to-get-start-year-convert-start_year-to-numeric-round-and-assert-share_xyz-columns-to-2-decimal-places-and-add-to-100" class="nav-link" data-scroll-target="#convert-weeks_per_year-to-numeric-round-mtcde_est-to-2-decimal-places-strip-first-4-year-characters-to-get-start-year-convert-start_year-to-numeric-round-and-assert-share_xyz-columns-to-2-decimal-places-and-add-to-100"><span class="header-section-number">0.0.2</span> Convert weeks_per_year to numeric, round mtcde_est to 2 decimal places, strip first 4 year characters to get start year, convert start_year to numeric, round and assert share_xyz columns to 2 decimal places and add to 100%</a></li>
+  <li><a href="#check-for-null-cities-use-geocoding-on-nearest_intersection-to-fill-later" id="toc-check-for-null-cities-use-geocoding-on-nearest_intersection-to-fill-later" class="nav-link" data-scroll-target="#check-for-null-cities-use-geocoding-on-nearest_intersection-to-fill-later"><span class="header-section-number">0.0.3</span> Check for Null Cities, Use Geocoding on nearest_intersection to Fill Later</a></li>
+  <li><a href="#check-for-null-zipcodes-use-geocoding-on-nearest_intersection-to-fill-later" id="toc-check-for-null-zipcodes-use-geocoding-on-nearest_intersection-to-fill-later" class="nav-link" data-scroll-target="#check-for-null-zipcodes-use-geocoding-on-nearest_intersection-to-fill-later"><span class="header-section-number">0.0.4</span> Check for Null Zipcodes, Use Geocoding on nearest_intersection to Fill Later</a></li>
+  <li><a href="#check-for-null-distances-to-campus-use-geocoding-on-nearest_intersection-to-fill-later" id="toc-check-for-null-distances-to-campus-use-geocoding-on-nearest_intersection-to-fill-later" class="nav-link" data-scroll-target="#check-for-null-distances-to-campus-use-geocoding-on-nearest_intersection-to-fill-later"><span class="header-section-number">0.0.5</span> Check for Null Distances to Campus, Use Geocoding on nearest_intersection to Fill Later</a></li>
+  <li><a href="#check-for-null-trips-per-week-use-average-to-fill-later" id="toc-check-for-null-trips-per-week-use-average-to-fill-later" class="nav-link" data-scroll-target="#check-for-null-trips-per-week-use-average-to-fill-later"><span class="header-section-number">0.0.6</span> Check for Null Trips per Week, Use Average to Fill Later</a></li>
+  <li><a href="#check-for-null-mode-primary-wont-matter-since-we-provide-data-for-all-modes-by-default-on-dashboard" id="toc-check-for-null-mode-primary-wont-matter-since-we-provide-data-for-all-modes-by-default-on-dashboard" class="nav-link" data-scroll-target="#check-for-null-mode-primary-wont-matter-since-we-provide-data-for-all-modes-by-default-on-dashboard"><span class="header-section-number">0.0.7</span> Check for Null Mode Primary, won’t matter since we provide data for all modes by default on dashboard</a></li>
+  <li><a href="#check-dataframe-head-and-info-again" id="toc-check-dataframe-head-and-info-again" class="nav-link" data-scroll-target="#check-dataframe-head-and-info-again"><span class="header-section-number">0.0.8</span> Check dataframe head and info again</a></li>
+  <li><a href="#cities-should-be-consistent-in-naming" id="toc-cities-should-be-consistent-in-naming" class="nav-link" data-scroll-target="#cities-should-be-consistent-in-naming"><span class="header-section-number">0.0.9</span> Cities should be consistent in naming</a></li>
+  <li><a href="#messy-population-data-cleaning" id="toc-messy-population-data-cleaning" class="nav-link" data-scroll-target="#messy-population-data-cleaning"><span class="header-section-number">0.1</span> Messy Population Data Cleaning</a>
+  <ul class="collapse">
+  <li><a href="#address-invalid-current_zip-entries" id="toc-address-invalid-current_zip-entries" class="nav-link" data-scroll-target="#address-invalid-current_zip-entries"><span class="header-section-number">0.1.1</span> Address invalid current_zip entries</a></li>
+  <li><a href="#same-with-permanent_zip" id="toc-same-with-permanent_zip" class="nav-link" data-scroll-target="#same-with-permanent_zip"><span class="header-section-number">0.1.2</span> Same with permanent_zip</a></li>
+  <li><a href="#look-at-current_city-unique-values-and-acknowledge-null-entries" id="toc-look-at-current_city-unique-values-and-acknowledge-null-entries" class="nav-link" data-scroll-target="#look-at-current_city-unique-values-and-acknowledge-null-entries"><span class="header-section-number">0.1.3</span> Look at current_city unique values and acknowledge null entries</a></li>
+  <li><a href="#same-with-current_state-field" id="toc-same-with-current_state-field" class="nav-link" data-scroll-target="#same-with-current_state-field"><span class="header-section-number">0.1.4</span> Same with current_state field</a></li>
+  <li><a href="#same-with-current_street" id="toc-same-with-current_street" class="nav-link" data-scroll-target="#same-with-current_street"><span class="header-section-number">0.1.5</span> Same with current_street</a></li>
+  <li><a href="#make-permanent_city-title-case-and-permanent_state-corrected" id="toc-make-permanent_city-title-case-and-permanent_state-corrected" class="nav-link" data-scroll-target="#make-permanent_city-title-case-and-permanent_state-corrected"><span class="header-section-number">0.1.6</span> Make permanent_city title case and permanent_state corrected</a></li>
+  <li><a href="#final-look-at-both-dataframes-before-geocode-correcting-address-entries-zipcodes-states-cities-and-distances-to-campus" id="toc-final-look-at-both-dataframes-before-geocode-correcting-address-entries-zipcodes-states-cities-and-distances-to-campus" class="nav-link" data-scroll-target="#final-look-at-both-dataframes-before-geocode-correcting-address-entries-zipcodes-states-cities-and-distances-to-campus"><span class="header-section-number">0.1.7</span> Final look at both dataframes before geocode-correcting address entries, zipcodes, states, cities, and distances to campus</a></li>
+  </ul></li>
+  <li><a href="#google-geocoding-reverse-geocoding-and-distance-calculations-using-python-client-for-google-maps" id="toc-google-geocoding-reverse-geocoding-and-distance-calculations-using-python-client-for-google-maps" class="nav-link" data-scroll-target="#google-geocoding-reverse-geocoding-and-distance-calculations-using-python-client-for-google-maps"><span class="header-section-number">0.2</span> Google Geocoding, Reverse Geocoding, and Distance Calculations using Python Client for Google Maps</a>
+  <ul class="collapse">
+  <li><a href="#function-to-geocode-addresses-from-survey-data-overwrite-with-correct-values" id="toc-function-to-geocode-addresses-from-survey-data-overwrite-with-correct-values" class="nav-link" data-scroll-target="#function-to-geocode-addresses-from-survey-data-overwrite-with-correct-values"><span class="header-section-number">0.2.1</span> Function to geocode addresses from survey data, overwrite with correct values</a></li>
+  <li><a href="#function-to-geocode-addresses-from-population-dataframe-overwrite-with-correct-values-from-current-or-permanent-address-fields-and-flag-sources-of-working-addresses" id="toc-function-to-geocode-addresses-from-population-dataframe-overwrite-with-correct-values-from-current-or-permanent-address-fields-and-flag-sources-of-working-addresses" class="nav-link" data-scroll-target="#function-to-geocode-addresses-from-population-dataframe-overwrite-with-correct-values-from-current-or-permanent-address-fields-and-flag-sources-of-working-addresses"><span class="header-section-number">0.2.2</span> Function to geocode addresses from population dataframe, overwrite with correct values from current or permanent address fields and flag sources of working addresses</a></li>
+  </ul></li>
+  <li><a href="#external-data-pipeline-for-california-addresses-and-transportation" id="toc-external-data-pipeline-for-california-addresses-and-transportation" class="nav-link" data-scroll-target="#external-data-pipeline-for-california-addresses-and-transportation"><span class="header-section-number">0.3</span> External Data Pipeline for California Addresses and Transportation</a>
+  <ul class="collapse">
+  <li><a href="#import-libraries-set-up-api-keys" id="toc-import-libraries-set-up-api-keys" class="nav-link" data-scroll-target="#import-libraries-set-up-api-keys"><span class="header-section-number">0.3.1</span> Import Libraries, Set Up API Keys</a></li>
+  <li><a href="#within-range-of-latlng-pairs-reverse-geocode-latlng-pairs-to-valid-addresses-put-into-a-dataframe-then-gather-getdirections-data-from-each-valid-address-and-put-into-column-in-dataframe-across-multiple-transportation-modes" id="toc-within-range-of-latlng-pairs-reverse-geocode-latlng-pairs-to-valid-addresses-put-into-a-dataframe-then-gather-getdirections-data-from-each-valid-address-and-put-into-column-in-dataframe-across-multiple-transportation-modes" class="nav-link" data-scroll-target="#within-range-of-latlng-pairs-reverse-geocode-latlng-pairs-to-valid-addresses-put-into-a-dataframe-then-gather-getdirections-data-from-each-valid-address-and-put-into-column-in-dataframe-across-multiple-transportation-modes"><span class="header-section-number">0.3.2</span> Within range of lat/lng pairs, reverse geocode lat/lng pairs to valid addresses, put into a Dataframe, then gather getDirections data from each valid address and put into column in Dataframe across multiple transportation modes</a></li>
+  <li><a href="#convert-text-of-transportation-times-into-minutes-in-dataframe-then-save-dataframe-as-csv-again" id="toc-convert-text-of-transportation-times-into-minutes-in-dataframe-then-save-dataframe-as-csv-again" class="nav-link" data-scroll-target="#convert-text-of-transportation-times-into-minutes-in-dataframe-then-save-dataframe-as-csv-again"><span class="header-section-number">0.3.3</span> Convert Text of Transportation times into minutes in Dataframe, then save Dataframe as CSV again</a></li>
+  <li><a href="#plot-histograms-of-transportation-times-across-different-modes-of-transportation-to-identify-any-modality-that-allows-us-to-cluster-addresses-by-transportation-time-to-campus" id="toc-plot-histograms-of-transportation-times-across-different-modes-of-transportation-to-identify-any-modality-that-allows-us-to-cluster-addresses-by-transportation-time-to-campus" class="nav-link" data-scroll-target="#plot-histograms-of-transportation-times-across-different-modes-of-transportation-to-identify-any-modality-that-allows-us-to-cluster-addresses-by-transportation-time-to-campus"><span class="header-section-number">0.3.4</span> Plot Histograms of Transportation times across different modes of transportation to identify any modality that allows us to cluster addresses by transportation time to campus</a></li>
+  <li><a href="#create-new-column-for-each-transport-method-that-labels-them-by-k-means-clusters-of-transportation-time-to-campus-then-visualize" id="toc-create-new-column-for-each-transport-method-that-labels-them-by-k-means-clusters-of-transportation-time-to-campus-then-visualize" class="nav-link" data-scroll-target="#create-new-column-for-each-transport-method-that-labels-them-by-k-means-clusters-of-transportation-time-to-campus-then-visualize"><span class="header-section-number">0.3.5</span> Create new column for each transport method that labels them by K-means clusters of transportation time to campus, then visualize</a></li>
+  <li><a href="#get-bus-stop-addresses-to-place-as-points-on-map-visualizations-in-separate-streamlit-app" id="toc-get-bus-stop-addresses-to-place-as-points-on-map-visualizations-in-separate-streamlit-app" class="nav-link" data-scroll-target="#get-bus-stop-addresses-to-place-as-points-on-map-visualizations-in-separate-streamlit-app"><span class="header-section-number">0.3.6</span> Get Bus Stop Addresses to place as points on map visualizations in separate streamlit app</a></li>
+  </ul></li>
+  <li><a href="#done" id="toc-done" class="nav-link" data-scroll-target="#done"><span class="header-section-number">1</span> Done</a>
+  <ul class="collapse">
+  <li><a href="#done-with-data-pipeline" id="toc-done-with-data-pipeline" class="nav-link" data-scroll-target="#done-with-data-pipeline"><span class="header-section-number">1.1</span> Done with Data Pipeline</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Import Libraries and Load Survey Data</h1>
+<h1 class="title">Commuter Survey &amp; Population Address Cleaning and Geocoding</h1>
+<p class="subtitle lead">Data Cleaning Pipeline Documentation</p>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Thursday Thoroughbreads </p>
+          </div>
+  </div>
     
   
     
@@ -102,7 +156,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="a04d510c" class="cell" data-execution_count="1">
+<div id="c71cdf70" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
@@ -110,6 +166,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"../raw_data/simulated_commuter_survey_5yrs_messy_100.csv"</span>)</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <div>
 
@@ -377,12 +434,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<section id="print-shape-and-info-of-dataframe" class="level3">
-<h3 class="anchored" data-anchor-id="print-shape-and-info-of-dataframe">Print shape and info of DataFrame</h3>
-<div id="dcf26ffb" class="cell" data-execution_count="2">
+<section id="print-shape-and-info-of-dataframe" class="level3" data-number="0.0.1">
+<h3 data-number="0.0.1" class="anchored" data-anchor-id="print-shape-and-info-of-dataframe"><span class="header-section-number">0.0.1</span> Print shape and info of DataFrame</h3>
+<div id="fb312797" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.shape)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.info())</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#print(df.describe())</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>(100, 20)
 &lt;class 'pandas.core.frame.DataFrame'&gt;
@@ -416,26 +476,41 @@ None</code></pre>
 </div>
 </div>
 </section>
-<section id="convert-weeks_per_year-to-numeric-round-mtcde_est-to-2-decimal-places-strip-first-4-year-characters-to-get-start-year-convert-start_year-to-numeric-round-and-assert-share_xyz-columns-to-2-decimal-places-and-add-to-100" class="level3">
-<h3 class="anchored" data-anchor-id="convert-weeks_per_year-to-numeric-round-mtcde_est-to-2-decimal-places-strip-first-4-year-characters-to-get-start-year-convert-start_year-to-numeric-round-and-assert-share_xyz-columns-to-2-decimal-places-and-add-to-100">Convert weeks_per_year to numeric, round mtcde_est to 2 decimal places, strip first 4 year characters to get start year, convert start_year to numeric, round and assert share_xyz columns to 2 decimal places and add to 100%</h3>
-<div id="ed04a9c2" class="cell" data-execution_count="3">
+<section id="convert-weeks_per_year-to-numeric-round-mtcde_est-to-2-decimal-places-strip-first-4-year-characters-to-get-start-year-convert-start_year-to-numeric-round-and-assert-share_xyz-columns-to-2-decimal-places-and-add-to-100" class="level3" data-number="0.0.2">
+<h3 data-number="0.0.2" class="anchored" data-anchor-id="convert-weeks_per_year-to-numeric-round-mtcde_est-to-2-decimal-places-strip-first-4-year-characters-to-get-start-year-convert-start_year-to-numeric-round-and-assert-share_xyz-columns-to-2-decimal-places-and-add-to-100"><span class="header-section-number">0.0.2</span> Convert weeks_per_year to numeric, round mtcde_est to 2 decimal places, strip first 4 year characters to get start year, convert start_year to numeric, round and assert share_xyz columns to 2 decimal places and add to 100%</h3>
+<div id="c10af799" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'weeks_per_year'</span>] <span class="op">=</span> df[<span class="st">'weeks_per_year'</span>].astype(<span class="bu">int</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="4916564f" class="cell" data-execution_count="4">
+<div id="411c0ff2" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'year'</span>] <span class="op">=</span> df[<span class="st">'year'</span>].<span class="bu">str</span>[:<span class="dv">4</span>].astype(<span class="bu">int</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="b8eb1fb2" class="cell" data-execution_count="5">
+<div id="55924d8e" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'mtcde_est'</span>] <span class="op">=</span> df[<span class="st">'mtcde_est'</span>].<span class="bu">round</span>(<span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="97945695" class="cell" data-execution_count="6">
+<div id="6614078c" class="cell" data-execution_count="6">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'total_trips_est'</span>] <span class="op">=</span> df[<span class="st">'total_trips_est'</span>].<span class="bu">round</span>(<span class="dv">0</span>).astype(<span class="bu">int</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="8ca40c8a" class="cell" data-execution_count="7">
+<div id="05bcff09" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>columns_to_round <span class="op">=</span> [<span class="st">'share_drive'</span>, <span class="st">'share_carpool'</span>, <span class="st">'share_bus'</span>, <span class="st">'share_walk'</span>, <span class="st">'share_bike'</span>, <span class="st">'share_tele'</span>]</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df[columns_to_round] <span class="op">=</span> df[columns_to_round].clip(lower<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>df[columns_to_round] <span class="op">=</span> df[columns_to_round].<span class="bu">round</span>(<span class="dv">2</span>)</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>df[columns_to_round] <span class="op">=</span> df[columns_to_round].div(df[columns_to_round].<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>), axis<span class="op">=</span><span class="dv">0</span>).fillna(<span class="dv">0</span>).<span class="bu">round</span>(<span class="dv">2</span>)</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 
@@ -589,12 +664,15 @@ None</code></pre>
 </div>
 </div>
 </section>
-<section id="check-for-null-cities-use-geocoding-on-nearest_intersection-to-fill-later" class="level3">
-<h3 class="anchored" data-anchor-id="check-for-null-cities-use-geocoding-on-nearest_intersection-to-fill-later">Check for Null Cities, Use Geocoding on nearest_intersection to Fill Later</h3>
-<div id="9ba6890e" class="cell" data-execution_count="8">
+<section id="check-for-null-cities-use-geocoding-on-nearest_intersection-to-fill-later" class="level3" data-number="0.0.3">
+<h3 data-number="0.0.3" class="anchored" data-anchor-id="check-for-null-cities-use-geocoding-on-nearest_intersection-to-fill-later"><span class="header-section-number">0.0.3</span> Check for Null Cities, Use Geocoding on nearest_intersection to Fill Later</h3>
+<div id="797a315d" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>null_city <span class="op">=</span> df[df[<span class="st">'city'</span>].notna() <span class="op">==</span> <span class="va">False</span>]</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>([<span class="bu">id</span> <span class="cf">for</span> <span class="bu">id</span> <span class="kw">in</span> null_city.index])</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>null_city.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[6, 19, 74]</code></pre>
 </div>
@@ -705,12 +783,15 @@ None</code></pre>
 </div>
 </div>
 </section>
-<section id="check-for-null-zipcodes-use-geocoding-on-nearest_intersection-to-fill-later" class="level3">
-<h3 class="anchored" data-anchor-id="check-for-null-zipcodes-use-geocoding-on-nearest_intersection-to-fill-later">Check for Null Zipcodes, Use Geocoding on nearest_intersection to Fill Later</h3>
-<div id="1dcc3a20" class="cell" data-execution_count="9">
+<section id="check-for-null-zipcodes-use-geocoding-on-nearest_intersection-to-fill-later" class="level3" data-number="0.0.4">
+<h3 data-number="0.0.4" class="anchored" data-anchor-id="check-for-null-zipcodes-use-geocoding-on-nearest_intersection-to-fill-later"><span class="header-section-number">0.0.4</span> Check for Null Zipcodes, Use Geocoding on nearest_intersection to Fill Later</h3>
+<div id="98744994" class="cell" data-execution_count="9">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>null_zip <span class="op">=</span> df[df[<span class="st">'zip'</span>].notna() <span class="op">==</span> <span class="va">False</span>]</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>([<span class="bu">id</span> <span class="cf">for</span> <span class="bu">id</span> <span class="kw">in</span> null_zip.index])</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>null_zip.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[33, 36, 68]</code></pre>
 </div>
@@ -820,12 +901,15 @@ None</code></pre>
 </div>
 </div>
 </div>
-<div id="c1aff902" class="cell" data-execution_count="10">
+<div id="0624fe97" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>null_zip.loc[:, <span class="st">'zip'</span>] <span class="op">=</span> <span class="st">'00000'</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>df.update(null_zip)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>df.loc[df.<span class="bu">zip</span> <span class="op">==</span> <span class="st">'invalid'</span>, <span class="st">'zip'</span>] <span class="op">=</span> <span class="st">'00000'</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'zip'</span>] <span class="op">=</span> df[<span class="st">'zip'</span>].astype(<span class="bu">str</span>).<span class="bu">str</span>.ljust(<span class="dv">5</span>, fillchar<span class="op">=</span><span class="st">'0'</span>).astype(<span class="bu">float</span>).astype(<span class="bu">int</span>)</span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <div>
 
@@ -978,22 +1062,31 @@ None</code></pre>
 </div>
 </div>
 </div>
-<div id="a8a78286" class="cell" data-execution_count="11">
+<div id="d9aea78b" class="cell" data-execution_count="11">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df.loc[df.<span class="bu">zip</span> <span class="op">==</span> <span class="dv">955</span>, <span class="st">'zip'</span>] <span class="op">=</span> <span class="dv">95500</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="cc2af8fb" class="cell" data-execution_count="12">
+<div id="689dfb5b" class="cell" data-execution_count="12">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df.<span class="bu">zip</span>.unique()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>array([95500, 95540, 95570, 95501, 95519, 95521,     0, 95525])</code></pre>
 </div>
 </div>
 </section>
-<section id="check-for-null-distances-to-campus-use-geocoding-on-nearest_intersection-to-fill-later" class="level3">
-<h3 class="anchored" data-anchor-id="check-for-null-distances-to-campus-use-geocoding-on-nearest_intersection-to-fill-later">Check for Null Distances to Campus, Use Geocoding on nearest_intersection to Fill Later</h3>
-<div id="3f39ccd9" class="cell" data-execution_count="13">
+<section id="check-for-null-distances-to-campus-use-geocoding-on-nearest_intersection-to-fill-later" class="level3" data-number="0.0.5">
+<h3 data-number="0.0.5" class="anchored" data-anchor-id="check-for-null-distances-to-campus-use-geocoding-on-nearest_intersection-to-fill-later"><span class="header-section-number">0.0.5</span> Check for Null Distances to Campus, Use Geocoding on nearest_intersection to Fill Later</h3>
+<div id="ea773456" class="cell" data-execution_count="13">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>null_dist_campus <span class="op">=</span> df[df[<span class="st">'distance_to_campus_miles'</span>].notna() <span class="op">==</span> <span class="va">False</span>]</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>([<span class="bu">id</span> <span class="cf">for</span> <span class="bu">id</span> <span class="kw">in</span> null_dist_campus.index])</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>null_dist_campus.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[84, 92]</code></pre>
 </div>
@@ -1081,12 +1174,15 @@ None</code></pre>
 </div>
 </div>
 </section>
-<section id="check-for-null-trips-per-week-use-average-to-fill-later" class="level3">
-<h3 class="anchored" data-anchor-id="check-for-null-trips-per-week-use-average-to-fill-later">Check for Null Trips per Week, Use Average to Fill Later</h3>
-<div id="5b3e7e67" class="cell" data-execution_count="14">
+<section id="check-for-null-trips-per-week-use-average-to-fill-later" class="level3" data-number="0.0.6">
+<h3 data-number="0.0.6" class="anchored" data-anchor-id="check-for-null-trips-per-week-use-average-to-fill-later"><span class="header-section-number">0.0.6</span> Check for Null Trips per Week, Use Average to Fill Later</h3>
+<div id="aa38f090" class="cell" data-execution_count="14">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>null_trips_perweek <span class="op">=</span> df[df[<span class="st">'trips_per_week'</span>].notna() <span class="op">==</span> <span class="va">False</span>]</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>([<span class="bu">id</span> <span class="cf">for</span> <span class="bu">id</span> <span class="kw">in</span> null_trips_perweek.index])</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>null_trips_perweek.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[66, 95]</code></pre>
 </div>
@@ -1173,9 +1269,12 @@ None</code></pre>
 </div>
 </div>
 </div>
-<div id="e9c26bfc" class="cell" data-execution_count="15">
+<div id="06bce076" class="cell" data-execution_count="15">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'trips_per_week'</span>] <span class="op">=</span> df[<span class="st">'trips_per_week'</span>].fillna(df[<span class="st">'trips_per_week'</span>].mean()).astype(<span class="bu">int</span>)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="15">
 <div>
 
@@ -1329,12 +1428,15 @@ None</code></pre>
 </div>
 </div>
 </section>
-<section id="check-for-null-mode-primary-wont-matter-since-we-provide-data-for-all-modes-by-default-on-dashboard" class="level3">
-<h3 class="anchored" data-anchor-id="check-for-null-mode-primary-wont-matter-since-we-provide-data-for-all-modes-by-default-on-dashboard">Check for Null Mode Primary, won’t matter since we provide data for all modes by default on dashboard</h3>
-<div id="b5eb780f" class="cell" data-execution_count="16">
+<section id="check-for-null-mode-primary-wont-matter-since-we-provide-data-for-all-modes-by-default-on-dashboard" class="level3" data-number="0.0.7">
+<h3 data-number="0.0.7" class="anchored" data-anchor-id="check-for-null-mode-primary-wont-matter-since-we-provide-data-for-all-modes-by-default-on-dashboard"><span class="header-section-number">0.0.7</span> Check for Null Mode Primary, won’t matter since we provide data for all modes by default on dashboard</h3>
+<div id="eb7db76f" class="cell" data-execution_count="16">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>null_mode_primary <span class="op">=</span> df[df[<span class="st">'mode_primary'</span>].notna() <span class="op">==</span> <span class="va">False</span>]</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>([<span class="bu">id</span> <span class="cf">for</span> <span class="bu">id</span> <span class="kw">in</span> null_mode_primary.index])</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>null_mode_primary.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[78, 85, 87]</code></pre>
 </div>
@@ -1444,25 +1546,34 @@ None</code></pre>
 </div>
 </div>
 </div>
-<div id="8a58b4e5" class="cell" data-execution_count="17">
+<div id="386cec03" class="cell" data-execution_count="17">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>df.loc[df[<span class="st">'mode_primary'</span>] <span class="op">==</span> <span class="st">'drive alone'</span>, <span class="st">'mode_primary'</span>] <span class="op">=</span> <span class="st">'Drive Alone'</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>df.loc[df[<span class="st">'mode_primary'</span>] <span class="op">==</span> <span class="st">'Drive alone'</span>, <span class="st">'mode_primary'</span>] <span class="op">=</span> <span class="st">'Drive Alone'</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>df.loc[df[<span class="st">'mode_primary'</span>] <span class="op">==</span> <span class="st">'telecommute'</span>, <span class="st">'mode_primary'</span>] <span class="op">=</span> <span class="st">'Telecommute'</span></span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>df.loc[df[<span class="st">'mode_primary'</span>] <span class="op">==</span> <span class="st">'teleporting'</span>, <span class="st">'mode_primary'</span>] <span class="op">=</span> <span class="st">'Telecommute'</span></span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>df.loc[df[<span class="st">'mode_primary'</span>].isna(), <span class="st">'mode_primary'</span>] <span class="op">=</span> <span class="st">'No Answer'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="9fe47a3c" class="cell" data-execution_count="18">
+<div id="6310d662" class="cell" data-execution_count="18">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>df.mode_primary.unique()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="18">
 <pre><code>array(['Drive Alone', 'Telecommute', 'Walk', 'No Answer'], dtype=object)</code></pre>
 </div>
 </div>
 </section>
-<section id="check-dataframe-head-and-info-again" class="level3">
-<h3 class="anchored" data-anchor-id="check-dataframe-head-and-info-again">Check dataframe head and info again</h3>
-<div id="527218b9" class="cell" data-execution_count="19">
+<section id="check-dataframe-head-and-info-again" class="level3" data-number="0.0.8">
+<h3 data-number="0.0.8" class="anchored" data-anchor-id="check-dataframe-head-and-info-again"><span class="header-section-number">0.0.8</span> Check dataframe head and info again</h3>
+<div id="9270b205" class="cell" data-execution_count="19">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.info())</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
 RangeIndex: 100 entries, 0 to 99
@@ -1646,24 +1757,33 @@ None</code></pre>
 </div>
 </div>
 </section>
-<section id="cities-should-be-consistent-in-naming" class="level3">
-<h3 class="anchored" data-anchor-id="cities-should-be-consistent-in-naming">Cities should be consistent in naming</h3>
-<div id="d168649c" class="cell" data-execution_count="20">
+<section id="cities-should-be-consistent-in-naming" class="level3" data-number="0.0.9">
+<h3 data-number="0.0.9" class="anchored" data-anchor-id="cities-should-be-consistent-in-naming"><span class="header-section-number">0.0.9</span> Cities should be consistent in naming</h3>
+<div id="05122290" class="cell" data-execution_count="20">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'city'</span>] <span class="op">=</span> df[<span class="st">'city'</span>].<span class="bu">str</span>.title().<span class="bu">str</span>.strip()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="ffa21999" class="cell" data-execution_count="21">
+<div id="661bd2be" class="cell" data-execution_count="21">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>df.city.unique()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="21">
 <pre><code>array(['Blue Lake', 'Fortuna', 'Trinidad', 'Eureka', 'Mckinleyville',
        'Arcata', nan], dtype=object)</code></pre>
 </div>
 </div>
 </section>
-<section id="messy-population-data-cleaning" class="level2">
-<h2 class="anchored" data-anchor-id="messy-population-data-cleaning">Messy Population Data Cleaning</h2>
-<div id="a6726e6b" class="cell" data-execution_count="22">
+<section id="messy-population-data-cleaning" class="level2" data-number="0.1">
+<h2 data-number="0.1" class="anchored" data-anchor-id="messy-population-data-cleaning"><span class="header-section-number">0.1</span> Messy Population Data Cleaning</h2>
+<div id="9cf75af8" class="cell" data-execution_count="22">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> pd.read_csv(<span class="st">"../raw_data/population_addresses_2024_25_messy_100.csv"</span>)</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>df2.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="22">
 <div>
 
@@ -1762,8 +1882,11 @@ None</code></pre>
 </div>
 </div>
 </div>
-<div id="583d6b61" class="cell" data-execution_count="23">
+<div id="39db05f9" class="cell" data-execution_count="23">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>df2.info()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
 RangeIndex: 100 entries, 0 to 99
@@ -1785,9 +1908,11 @@ dtypes: float64(1), object(10)
 memory usage: 8.7+ KB</code></pre>
 </div>
 </div>
-<section id="address-invalid-current_zip-entries" class="level3">
-<h3 class="anchored" data-anchor-id="address-invalid-current_zip-entries">Address invalid current_zip entries</h3>
-<div id="c2554931" class="cell" data-execution_count="24">
+<section id="address-invalid-current_zip-entries" class="level3" data-number="0.1.1">
+<h3 data-number="0.1.1" class="anchored" data-anchor-id="address-invalid-current_zip-entries"><span class="header-section-number">0.1.1</span> Address invalid current_zip entries</h3>
+<div id="6f550614" class="cell" data-execution_count="24">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>null_zip2 <span class="op">=</span> df2[df2[<span class="st">'current_zip'</span>].notna() <span class="op">==</span> <span class="va">False</span>]</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>null_zip2.loc[:, <span class="st">'current_zip'</span>] <span class="op">=</span> <span class="st">'00000'</span></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>df2.update(null_zip2)</span>
@@ -1795,6 +1920,7 @@ memory usage: 8.7+ KB</code></pre>
 <span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>df2.loc[df2.current_zip <span class="op">==</span> <span class="st">'ABCDE'</span>, <span class="st">'current_zip'</span>] <span class="op">=</span> <span class="st">'00000'</span></span>
 <span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>df2[<span class="st">'current_zip'</span>] <span class="op">=</span> df2[<span class="st">'current_zip'</span>].astype(<span class="bu">str</span>).<span class="bu">str</span>.ljust(<span class="dv">5</span>, fillchar<span class="op">=</span><span class="st">'0'</span>).astype(<span class="bu">float</span>).astype(<span class="bu">int</span>)</span>
 <span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>df2.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="24">
 <div>
 
@@ -1893,19 +2019,25 @@ memory usage: 8.7+ KB</code></pre>
 </div>
 </div>
 </div>
-<div id="097599e4" class="cell" data-execution_count="25">
+<div id="26ad3d68" class="cell" data-execution_count="25">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>df2.current_zip.unique()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="25">
 <pre><code>array([95500, 95519, 95501,     0, 99999, 95521, 95540, 95525, 95570])</code></pre>
 </div>
 </div>
 </section>
-<section id="same-with-permanent_zip" class="level3">
-<h3 class="anchored" data-anchor-id="same-with-permanent_zip">Same with permanent_zip</h3>
-<div id="5a4be4dd" class="cell" data-execution_count="26">
+<section id="same-with-permanent_zip" class="level3" data-number="0.1.2">
+<h3 data-number="0.1.2" class="anchored" data-anchor-id="same-with-permanent_zip"><span class="header-section-number">0.1.2</span> Same with permanent_zip</h3>
+<div id="51de6173" class="cell" data-execution_count="26">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>df2.loc[df2.permanent_zip.isna(), <span class="st">'permanent_zip'</span>] <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>df2[<span class="st">'permanent_zip'</span>] <span class="op">=</span> df2[<span class="st">'permanent_zip'</span>].astype(<span class="bu">int</span>)</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>df2.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="26">
 <div>
 
@@ -2005,49 +2137,70 @@ memory usage: 8.7+ KB</code></pre>
 </div>
 </div>
 </section>
-<section id="look-at-current_city-unique-values-and-acknowledge-null-entries" class="level3">
-<h3 class="anchored" data-anchor-id="look-at-current_city-unique-values-and-acknowledge-null-entries">Look at current_city unique values and acknowledge null entries</h3>
-<div id="ff361234" class="cell" data-execution_count="27">
+<section id="look-at-current_city-unique-values-and-acknowledge-null-entries" class="level3" data-number="0.1.3">
+<h3 data-number="0.1.3" class="anchored" data-anchor-id="look-at-current_city-unique-values-and-acknowledge-null-entries"><span class="header-section-number">0.1.3</span> Look at current_city unique values and acknowledge null entries</h3>
+<div id="88a8e429" class="cell" data-execution_count="27">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>df2[<span class="st">'current_city'</span>] <span class="op">=</span> df2[<span class="st">'current_city'</span>].<span class="bu">str</span>.title().<span class="bu">str</span>.strip()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="f32b7e1c" class="cell" data-execution_count="28">
+<div id="12f3ea46" class="cell" data-execution_count="28">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>df2.loc[df2.current_city.isna(), <span class="st">'current_city'</span>] <span class="op">=</span> <span class="st">'No Answer'</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>df2.loc[df2.current_city <span class="op">==</span> <span class="st">'Arcatra'</span>, <span class="st">'current_city'</span>] <span class="op">=</span> <span class="st">'Arcata'</span></span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>df2.loc[df2.current_city <span class="op">==</span> <span class="st">'Fake City'</span>, <span class="st">'current_city'</span>] <span class="op">=</span> <span class="st">'No Answer'</span></span>
 <span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>df2.loc[df2.current_city <span class="op">==</span> <span class="st">'Mckinelyville'</span>, <span class="st">'current_city'</span>] <span class="op">=</span> <span class="st">'Mckinleyville'</span></span>
 <span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>df2.loc[df2.current_city <span class="op">==</span> <span class="st">'Eurika'</span>, <span class="st">'current_city'</span>] <span class="op">=</span> <span class="st">'Eureka'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="e8639b60" class="cell" data-execution_count="29">
+<div id="e63a6acc" class="cell" data-execution_count="29">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>df2.current_city.unique()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="29">
 <pre><code>array(['Eureka', 'Mckinleyville', 'No Answer', 'Arcata', 'Fortuna',
        'Blue Lake', 'Trinidad'], dtype=object)</code></pre>
 </div>
 </div>
 </section>
-<section id="same-with-current_state-field" class="level3">
-<h3 class="anchored" data-anchor-id="same-with-current_state-field">Same with current_state field</h3>
-<div id="1142c651" class="cell" data-execution_count="30">
+<section id="same-with-current_state-field" class="level3" data-number="0.1.4">
+<h3 data-number="0.1.4" class="anchored" data-anchor-id="same-with-current_state-field"><span class="header-section-number">0.1.4</span> Same with current_state field</h3>
+<div id="51d4173f" class="cell" data-execution_count="30">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>df2.loc[df2.current_state.isna(), <span class="st">'current_state'</span>] <span class="op">=</span> <span class="st">'No Answer'</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>df2.loc[df2.current_state <span class="op">==</span> <span class="st">'California'</span>, <span class="st">'current_state'</span>] <span class="op">=</span> <span class="st">'CA'</span></span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>df2.loc[df2.current_state <span class="op">==</span> <span class="st">'california'</span>, <span class="st">'current_state'</span>] <span class="op">=</span> <span class="st">'CA'</span></span>
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>df2.loc[df2.current_state <span class="op">==</span> <span class="st">'ca'</span>, <span class="st">'current_state'</span>] <span class="op">=</span> <span class="st">'CA'</span></span>
 <span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>df2.loc[df2.current_state <span class="op">==</span> <span class="st">'XX'</span>, <span class="st">'current_state'</span>] <span class="op">=</span> <span class="st">'No Answer'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="8df2394e" class="cell" data-execution_count="31">
+<div id="5eb10137" class="cell" data-execution_count="31">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>df2.current_state.unique()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="31">
 <pre><code>array(['CA', 'NV', 'No Answer', 'WA'], dtype=object)</code></pre>
 </div>
 </div>
 </section>
-<section id="same-with-current_street" class="level3">
-<h3 class="anchored" data-anchor-id="same-with-current_street">Same with current_street</h3>
-<div id="5e35d383" class="cell" data-execution_count="32">
+<section id="same-with-current_street" class="level3" data-number="0.1.5">
+<h3 data-number="0.1.5" class="anchored" data-anchor-id="same-with-current_street"><span class="header-section-number">0.1.5</span> Same with current_street</h3>
+<div id="4d76bea5" class="cell" data-execution_count="32">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>df2.loc[df2.current_street.isna(), <span class="st">'current_street'</span>] <span class="op">=</span> <span class="st">'No Answer'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="737ad84f" class="cell" data-execution_count="33">
+<div id="d1e981b2" class="cell" data-execution_count="33">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>df2.current_street.unique()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="33">
 <pre><code>array(['7917 J St', '1845 Bates Rd', 'No Answer', '8466 H St',
        '9999 Nonexistent Ln', '4132 Broadway St', '8337 G St',
@@ -2079,20 +2232,29 @@ memory usage: 8.7+ KB</code></pre>
 </div>
 </div>
 </section>
-<section id="make-permanent_city-title-case-and-permanent_state-corrected" class="level3">
-<h3 class="anchored" data-anchor-id="make-permanent_city-title-case-and-permanent_state-corrected">Make permanent_city title case and permanent_state corrected</h3>
-<div id="94cd205b" class="cell" data-execution_count="34">
+<section id="make-permanent_city-title-case-and-permanent_state-corrected" class="level3" data-number="0.1.6">
+<h3 data-number="0.1.6" class="anchored" data-anchor-id="make-permanent_city-title-case-and-permanent_state-corrected"><span class="header-section-number">0.1.6</span> Make permanent_city title case and permanent_state corrected</h3>
+<div id="3a2c5deb" class="cell" data-execution_count="34">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>df2.permanent_city <span class="op">=</span> df2.permanent_city.<span class="bu">str</span>.title().<span class="bu">str</span>.strip()</span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>df2.loc[df2.permanent_state <span class="op">==</span> <span class="st">'california'</span>, <span class="st">'permanent_state'</span>] <span class="op">=</span> <span class="st">'CA'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
-<section id="final-look-at-both-dataframes-before-geocode-correcting-address-entries-zipcodes-states-cities-and-distances-to-campus" class="level3">
-<h3 class="anchored" data-anchor-id="final-look-at-both-dataframes-before-geocode-correcting-address-entries-zipcodes-states-cities-and-distances-to-campus">Final look at both dataframes before geocode-correcting address entries, zipcodes, states, cities, and distances to campus</h3>
-<div id="2ca78422" class="cell" data-execution_count="35">
+<section id="final-look-at-both-dataframes-before-geocode-correcting-address-entries-zipcodes-states-cities-and-distances-to-campus" class="level3" data-number="0.1.7">
+<h3 data-number="0.1.7" class="anchored" data-anchor-id="final-look-at-both-dataframes-before-geocode-correcting-address-entries-zipcodes-states-cities-and-distances-to-campus"><span class="header-section-number">0.1.7</span> Final look at both dataframes before geocode-correcting address entries, zipcodes, states, cities, and distances to campus</h3>
+<div id="fc8937cf" class="cell" data-execution_count="35">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>df.to_csv(<span class="st">"../clean_data/Clean_Survey_Data.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="04fbb332" class="cell" data-execution_count="36">
+<div id="6635b758" class="cell" data-execution_count="36">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="36">
 <div>
 
@@ -2360,11 +2522,17 @@ memory usage: 8.7+ KB</code></pre>
 </div>
 </div>
 </div>
-<div id="bdab092c" class="cell" data-execution_count="37">
+<div id="7c3419de" class="cell" data-execution_count="37">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>df2.to_csv(<span class="st">"../clean_data/Clean_Population_Addresses.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="a0c2e255" class="cell" data-execution_count="38">
+<div id="a0e7b0a6" class="cell" data-execution_count="38">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>df2.head(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="38">
 <div>
 
@@ -2535,17 +2703,25 @@ memory usage: 8.7+ KB</code></pre>
 </div>
 </section>
 </section>
-<section id="google-geocoding-reverse-geocoding-and-distance-calculations-using-python-client-for-google-maps" class="level2">
-<h2 class="anchored" data-anchor-id="google-geocoding-reverse-geocoding-and-distance-calculations-using-python-client-for-google-maps">Google Geocoding, Reverse Geocoding, and Distance Calculations using Python Client for Google Maps</h2>
-<div id="f23a4ca7" class="cell" data-execution_count="39">
+<section id="google-geocoding-reverse-geocoding-and-distance-calculations-using-python-client-for-google-maps" class="level2" data-number="0.2">
+<h2 data-number="0.2" class="anchored" data-anchor-id="google-geocoding-reverse-geocoding-and-distance-calculations-using-python-client-for-google-maps"><span class="header-section-number">0.2</span> Google Geocoding, Reverse Geocoding, and Distance Calculations using Python Client for Google Maps</h2>
+<div id="6a1ee7af" class="cell" data-execution_count="39">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>survey_df <span class="op">=</span> pd.read_csv(<span class="st">"../clean_data/Clean_Survey_Data.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="4f007536" class="cell" data-execution_count="40">
+<div id="46b6bff6" class="cell" data-execution_count="40">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>pop_df <span class="op">=</span> pd.read_csv(<span class="st">"../clean_data/Clean_Population_Addresses.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<section id="function-to-geocode-addresses-from-survey-data-overwrite-with-correct-values" class="level3">
-<h3 class="anchored" data-anchor-id="function-to-geocode-addresses-from-survey-data-overwrite-with-correct-values">Function to geocode addresses from survey data, overwrite with correct values</h3>
-<div id="0846ba29" class="cell" data-execution_count="41">
+<section id="function-to-geocode-addresses-from-survey-data-overwrite-with-correct-values" class="level3" data-number="0.2.1">
+<h3 data-number="0.2.1" class="anchored" data-anchor-id="function-to-geocode-addresses-from-survey-data-overwrite-with-correct-values"><span class="header-section-number">0.2.1</span> Function to geocode addresses from survey data, overwrite with correct values</h3>
+<div id="387c8403" class="cell" data-execution_count="41">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> googlemaps</span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
@@ -2617,8 +2793,11 @@ memory usage: 8.7+ KB</code></pre>
 <span id="cb56-69"><a href="#cb56-69" aria-hidden="true" tabindex="-1"></a>    loc <span class="op">=</span> g[<span class="st">"geometry"</span>][<span class="st">"location"</span>]</span>
 <span id="cb56-70"><a href="#cb56-70" aria-hidden="true" tabindex="-1"></a>    row[<span class="st">"lat"</span>], row[<span class="st">"lng"</span>] <span class="op">=</span> loc[<span class="st">"lat"</span>], loc[<span class="st">"lng"</span>]</span>
 <span id="cb56-71"><a href="#cb56-71" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> row</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="96fd746e" class="cell" data-execution_count="42">
+<div id="a0a14fdd" class="cell" data-execution_count="42">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> c <span class="kw">in</span> (<span class="st">"city"</span>, <span class="st">"zip"</span>, <span class="st">"state"</span>):</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> c <span class="kw">in</span> survey_df.columns:</span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>        survey_df[c] <span class="op">=</span> survey_df[c].astype(<span class="st">"string"</span>)</span>
@@ -2627,9 +2806,13 @@ memory usage: 8.7+ KB</code></pre>
 <span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> r: geocode_fill_row(r, inter_col<span class="op">=</span><span class="st">"nearest_intersection"</span>, city_col<span class="op">=</span><span class="st">"city"</span>, state_col<span class="op">=</span><span class="st">"state"</span>, zip_col<span class="op">=</span><span class="st">"zip"</span>),</span>
 <span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>    axis<span class="op">=</span><span class="dv">1</span></span>
 <span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="154e6fee" class="cell" data-execution_count="43">
+<div id="190405ca" class="cell" data-execution_count="43">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>survey_df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="43">
 <div>
 
@@ -2789,13 +2972,18 @@ memory usage: 8.7+ KB</code></pre>
 </div>
 </div>
 </div>
-<div id="2575fe4c" class="cell" data-execution_count="44">
+<div id="e1b2be0f" class="cell" data-execution_count="44">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>survey_df.to_csv(<span class="st">"../clean_data/Geocoded_Survey_Data.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
-<section id="function-to-geocode-addresses-from-population-dataframe-overwrite-with-correct-values-from-current-or-permanent-address-fields-and-flag-sources-of-working-addresses" class="level3">
-<h3 class="anchored" data-anchor-id="function-to-geocode-addresses-from-population-dataframe-overwrite-with-correct-values-from-current-or-permanent-address-fields-and-flag-sources-of-working-addresses">Function to geocode addresses from population dataframe, overwrite with correct values from current or permanent address fields and flag sources of working addresses</h3>
-<div id="7241f9fe" class="cell" data-execution_count="45">
+<section id="function-to-geocode-addresses-from-population-dataframe-overwrite-with-correct-values-from-current-or-permanent-address-fields-and-flag-sources-of-working-addresses" class="level3" data-number="0.2.2">
+<h3 data-number="0.2.2" class="anchored" data-anchor-id="function-to-geocode-addresses-from-population-dataframe-overwrite-with-correct-values-from-current-or-permanent-address-fields-and-flag-sources-of-working-addresses"><span class="header-section-number">0.2.2</span> Function to geocode addresses from population dataframe, overwrite with correct values from current or permanent address fields and flag sources of working addresses</h3>
+<div id="c01fde3a" class="cell" data-execution_count="45">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re, math</span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="co"># --- keep your existing helpers (_s, _comp, _gc) ---</span></span>
@@ -2932,8 +3120,11 @@ memory usage: 8.7+ KB</code></pre>
 <span id="cb60-134"><a href="#cb60-134" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-135"><a href="#cb60-135" aria-hidden="true" tabindex="-1"></a>    row[<span class="st">"geocode_source"</span>] <span class="op">=</span> <span class="st">"current"</span> <span class="cf">if</span> ok <span class="cf">else</span> <span class="va">None</span></span>
 <span id="cb60-136"><a href="#cb60-136" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> row</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="390f7228" class="cell" data-execution_count="46">
+<div id="836d944f" class="cell" data-execution_count="46">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make sure these are strings so writes stick (no 0/NaN weirdness)</span></span>
 <span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> c <span class="kw">in</span> (<span class="st">"current_street"</span>,<span class="st">"current_city"</span>,<span class="st">"current_state"</span>,<span class="st">"current_zip"</span>,</span>
 <span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>          <span class="st">"permanent_street"</span>,<span class="st">"permanent_city"</span>,<span class="st">"permanent_state"</span>,<span class="st">"permanent_zip"</span>):</span>
@@ -2949,9 +3140,13 @@ memory usage: 8.7+ KB</code></pre>
 <span id="cb61-13"><a href="#cb61-13" aria-hidden="true" tabindex="-1"></a>    ),</span>
 <span id="cb61-14"><a href="#cb61-14" aria-hidden="true" tabindex="-1"></a>    axis<span class="op">=</span><span class="dv">1</span></span>
 <span id="cb61-15"><a href="#cb61-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="126d2c74" class="cell" data-execution_count="47">
+<div id="8de22f61" class="cell" data-execution_count="47">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>pop_df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="47">
 <div>
 
@@ -3068,16 +3263,21 @@ memory usage: 8.7+ KB</code></pre>
 </div>
 </div>
 </div>
-<div id="b32cafb1" class="cell" data-execution_count="48">
+<div id="1c272f51" class="cell" data-execution_count="48">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>pop_df.to_csv(<span class="st">"../clean_data/Geocoded_Population_Addresses.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
 </section>
-<section id="external-data-pipeline-for-california-addresses-and-transportation" class="level2">
-<h2 class="anchored" data-anchor-id="external-data-pipeline-for-california-addresses-and-transportation">External Data Pipeline for California Addresses and Transportation</h2>
-<section id="import-libraries-set-up-api-keys" class="level3">
-<h3 class="anchored" data-anchor-id="import-libraries-set-up-api-keys">Import Libraries, Set Up API Keys</h3>
-<div id="4dc811db" class="cell" data-execution_count="49">
+<section id="external-data-pipeline-for-california-addresses-and-transportation" class="level2" data-number="0.3">
+<h2 data-number="0.3" class="anchored" data-anchor-id="external-data-pipeline-for-california-addresses-and-transportation"><span class="header-section-number">0.3</span> External Data Pipeline for California Addresses and Transportation</h2>
+<section id="import-libraries-set-up-api-keys" class="level3" data-number="0.3.1">
+<h3 data-number="0.3.1" class="anchored" data-anchor-id="import-libraries-set-up-api-keys"><span class="header-section-number">0.3.1</span> Import Libraries, Set Up API Keys</h3>
+<div id="c5a75a5f" class="cell" data-execution_count="49">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np </span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
@@ -3089,16 +3289,22 @@ memory usage: 8.7+ KB</code></pre>
 <span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a>load_dotenv(<span class="st">'.env'</span>)</span>
 <span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb64-11"><a href="#cb64-11" aria-hidden="true" tabindex="-1"></a>gmaps <span class="op">=</span> googlemaps.Client(key<span class="op">=</span>os.getenv(<span class="st">'API_KEY'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
-<section id="within-range-of-latlng-pairs-reverse-geocode-latlng-pairs-to-valid-addresses-put-into-a-dataframe-then-gather-getdirections-data-from-each-valid-address-and-put-into-column-in-dataframe-across-multiple-transportation-modes" class="level3">
-<h3 class="anchored" data-anchor-id="within-range-of-latlng-pairs-reverse-geocode-latlng-pairs-to-valid-addresses-put-into-a-dataframe-then-gather-getdirections-data-from-each-valid-address-and-put-into-column-in-dataframe-across-multiple-transportation-modes">Within range of lat/lng pairs, reverse geocode lat/lng pairs to valid addresses, put into a Dataframe, then gather getDirections data from each valid address and put into column in Dataframe across multiple transportation modes</h3>
-<div id="eefd68f1" class="cell" data-execution_count="50">
+<section id="within-range-of-latlng-pairs-reverse-geocode-latlng-pairs-to-valid-addresses-put-into-a-dataframe-then-gather-getdirections-data-from-each-valid-address-and-put-into-column-in-dataframe-across-multiple-transportation-modes" class="level3" data-number="0.3.2">
+<h3 data-number="0.3.2" class="anchored" data-anchor-id="within-range-of-latlng-pairs-reverse-geocode-latlng-pairs-to-valid-addresses-put-into-a-dataframe-then-gather-getdirections-data-from-each-valid-address-and-put-into-column-in-dataframe-across-multiple-transportation-modes"><span class="header-section-number">0.3.2</span> Within range of lat/lng pairs, reverse geocode lat/lng pairs to valid addresses, put into a Dataframe, then gather getDirections data from each valid address and put into column in Dataframe across multiple transportation modes</h3>
+<div id="77c67a05" class="cell" data-execution_count="50">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>grid_df <span class="op">=</span> pd.DataFrame(columns <span class="op">=</span> [<span class="st">'latitude'</span>, <span class="st">'longitude'</span>, <span class="st">'address'</span>, <span class="st">'driving_time_to_campus'</span>, <span class="st">'walking_time_to_campus'</span>, <span class="st">'bicycling_time_to_campus'</span>, <span class="st">'transit_time_to_campus'</span>])</span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>latitudes <span class="op">=</span> np.arange(<span class="fl">40.0</span>, <span class="fl">41.3</span>, <span class="fl">0.01</span>)  <span class="co"># Northern latitude range for CA county</span></span>
 <span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>longitudes <span class="op">=</span> np.arange(<span class="op">-</span><span class="fl">124.5</span>, <span class="op">-</span><span class="fl">123.0</span>, <span class="fl">0.01</span>)  <span class="co"># Western longitude range for CA county</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="951b2011" class="cell" data-execution_count="51">
+<div id="959e1fef" class="cell" data-execution_count="51">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> lat <span class="kw">in</span> latitudes:</span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> lng <span class="kw">in</span> longitudes:</span>
 <span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Reverse geocode to get address</span></span>
@@ -3128,23 +3334,38 @@ memory usage: 8.7+ KB</code></pre>
 <span id="cb66-27"><a href="#cb66-27" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'bicycling_time_to_campus'</span>: [bicycling_time],</span>
 <span id="cb66-28"><a href="#cb66-28" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'transit_time_to_campus'</span>: [transit_time]</span>
 <span id="cb66-29"><a href="#cb66-29" aria-hidden="true" tabindex="-1"></a>                })], ignore_index<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="4528e49f" class="cell" data-execution_count="52">
+<div id="b9ccbd28" class="cell" data-execution_count="52">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>grid_df.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="44b784a2" class="cell" data-execution_count="53">
+<div id="7f4a7e1e" class="cell" data-execution_count="53">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>grid_df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="e6b8ee91" class="cell" data-execution_count="54">
+<div id="17ac4c16" class="cell" data-execution_count="54">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>grid_df.to_csv(<span class="st">'../clean_data/Grid_Data_01.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
-<section id="convert-text-of-transportation-times-into-minutes-in-dataframe-then-save-dataframe-as-csv-again" class="level3">
-<h3 class="anchored" data-anchor-id="convert-text-of-transportation-times-into-minutes-in-dataframe-then-save-dataframe-as-csv-again">Convert Text of Transportation times into minutes in Dataframe, then save Dataframe as CSV again</h3>
-<div id="c0ee752a" class="cell" data-execution_count="55">
+<section id="convert-text-of-transportation-times-into-minutes-in-dataframe-then-save-dataframe-as-csv-again" class="level3" data-number="0.3.3">
+<h3 data-number="0.3.3" class="anchored" data-anchor-id="convert-text-of-transportation-times-into-minutes-in-dataframe-then-save-dataframe-as-csv-again"><span class="header-section-number">0.3.3</span> Convert Text of Transportation times into minutes in Dataframe, then save Dataframe as CSV again</h3>
+<div id="9c9e61d7" class="cell" data-execution_count="55">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>grid_df <span class="op">=</span> pd.read_csv(<span class="st">'../clean_data/Grid_Data_01.csv'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="b241cdfc" class="cell" data-execution_count="56">
+<div id="23e7b8ef" class="cell" data-execution_count="56">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> text_to_hours(time_str):</span>
 <span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'day'</span> <span class="kw">in</span> time_str:</span>
 <span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>        parts <span class="op">=</span> time_str.split()</span>
@@ -3172,8 +3393,11 @@ memory usage: 8.7+ KB</code></pre>
 <span id="cb71-25"><a href="#cb71-25" aria-hidden="true" tabindex="-1"></a>grid_df[<span class="st">'walking_time_to_campus'</span>] <span class="op">=</span> grid_df[<span class="st">'walking_time_to_campus'</span>].<span class="bu">apply</span>(text_to_hours)</span>
 <span id="cb71-26"><a href="#cb71-26" aria-hidden="true" tabindex="-1"></a>grid_df[<span class="st">'bicycling_time_to_campus'</span>] <span class="op">=</span> grid_df[<span class="st">'bicycling_time_to_campus'</span>].<span class="bu">apply</span>(text_to_hours)</span>
 <span id="cb71-27"><a href="#cb71-27" aria-hidden="true" tabindex="-1"></a>grid_df[<span class="st">'transit_time_to_campus'</span>] <span class="op">=</span> grid_df[<span class="st">'transit_time_to_campus'</span>].<span class="bu">apply</span>(text_to_hours)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="b0360977" class="cell" data-execution_count="57">
+<div id="c8b315db" class="cell" data-execution_count="57">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># convert hours to minutes and round to nearest integer</span></span>
 <span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>grid_df[<span class="st">'driving_time_to_campus'</span>] <span class="op">=</span> (grid_df[<span class="st">'driving_time_to_campus'</span>] <span class="op">*</span> <span class="dv">60</span>).<span class="bu">round</span>().astype(<span class="bu">int</span>)</span>
@@ -3182,6 +3406,7 @@ memory usage: 8.7+ KB</code></pre>
 <span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>grid_df[<span class="st">'transit_time_to_campus'</span>] <span class="op">=</span> (grid_df[<span class="st">'transit_time_to_campus'</span>] <span class="op">*</span> <span class="dv">60</span>).<span class="bu">round</span>().astype(<span class="bu">int</span>)</span>
 <span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb72-8"><a href="#cb72-8" aria-hidden="true" tabindex="-1"></a>grid_df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="52">
 <div>
 
@@ -3256,13 +3481,18 @@ memory usage: 8.7+ KB</code></pre>
 </div>
 </div>
 </div>
-<div id="95ac02b4" class="cell" data-execution_count="58">
+<div id="b2ef40db" class="cell" data-execution_count="58">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>grid_df.to_csv(<span class="st">'../clean_data/Humboldt_Travel_Times_Grid.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
-<section id="plot-histograms-of-transportation-times-across-different-modes-of-transportation-to-identify-any-modality-that-allows-us-to-cluster-addresses-by-transportation-time-to-campus" class="level3">
-<h3 class="anchored" data-anchor-id="plot-histograms-of-transportation-times-across-different-modes-of-transportation-to-identify-any-modality-that-allows-us-to-cluster-addresses-by-transportation-time-to-campus">Plot Histograms of Transportation times across different modes of transportation to identify any modality that allows us to cluster addresses by transportation time to campus</h3>
-<div id="e445c1e8" class="cell" data-execution_count="59">
+<section id="plot-histograms-of-transportation-times-across-different-modes-of-transportation-to-identify-any-modality-that-allows-us-to-cluster-addresses-by-transportation-time-to-campus" class="level3" data-number="0.3.4">
+<h3 data-number="0.3.4" class="anchored" data-anchor-id="plot-histograms-of-transportation-times-across-different-modes-of-transportation-to-identify-any-modality-that-allows-us-to-cluster-addresses-by-transportation-time-to-campus"><span class="header-section-number">0.3.4</span> Plot Histograms of Transportation times across different modes of transportation to identify any modality that allows us to cluster addresses by transportation time to campus</h3>
+<div id="d7f07d51" class="cell" data-execution_count="59">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot histograms of transportation times on different axes to uncover any clustering patterns </span></span>
 <span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">10</span>))</span>
@@ -3284,6 +3514,7 @@ memory usage: 8.7+ KB</code></pre>
 <span id="cb74-19"><a href="#cb74-19" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>, <span class="dv">1</span>].set_ylabel(<span class="st">'Frequency'</span>)</span>
 <span id="cb74-20"><a href="#cb74-20" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb74-21"><a href="#cb74-21" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -3293,9 +3524,11 @@ memory usage: 8.7+ KB</code></pre>
 </div>
 </div>
 </section>
-<section id="create-new-column-for-each-transport-method-that-labels-them-by-k-means-clusters-of-transportation-time-to-campus-then-visualize" class="level3">
-<h3 class="anchored" data-anchor-id="create-new-column-for-each-transport-method-that-labels-them-by-k-means-clusters-of-transportation-time-to-campus-then-visualize">Create new column for each transport method that labels them by K-means clusters of transportation time to campus, then visualize</h3>
-<div id="4177fb0e" class="cell" data-execution_count="60">
+<section id="create-new-column-for-each-transport-method-that-labels-them-by-k-means-clusters-of-transportation-time-to-campus-then-visualize" class="level3" data-number="0.3.5">
+<h3 data-number="0.3.5" class="anchored" data-anchor-id="create-new-column-for-each-transport-method-that-labels-them-by-k-means-clusters-of-transportation-time-to-campus-then-visualize"><span class="header-section-number">0.3.5</span> Create new column for each transport method that labels them by K-means clusters of transportation time to campus, then visualize</h3>
+<div id="ca6b4732" class="cell" data-execution_count="60">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Using clustering algorithms such as KMeans to create new columns for each transport method that labels them by clusters of transportation time to campus</span></span>
 <span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
 <span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>kmeans_driving <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">3</span>, random_state<span class="op">=</span><span class="dv">0</span>).fit(grid_df[[<span class="st">'driving_time_to_campus'</span>]])</span>
@@ -3307,6 +3540,7 @@ memory usage: 8.7+ KB</code></pre>
 <span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a>kmeans_transit <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">3</span>, random_state<span class="op">=</span><span class="dv">0</span>).fit(grid_df[[<span class="st">'transit_time_to_campus'</span>]])</span>
 <span id="cb75-10"><a href="#cb75-10" aria-hidden="true" tabindex="-1"></a>grid_df[<span class="st">'transit_time_cluster'</span>] <span class="op">=</span> kmeans_transit.labels_</span>
 <span id="cb75-11"><a href="#cb75-11" aria-hidden="true" tabindex="-1"></a>grid_df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="55">
 <div>
 
@@ -3405,7 +3639,9 @@ memory usage: 8.7+ KB</code></pre>
 </div>
 </div>
 </div>
-<div id="d6d23d16" class="cell" data-execution_count="61">
+<div id="a5a76306" class="cell" data-execution_count="61">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize each cluster for each transportation time</span></span>
 <span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">10</span>))</span>
 <span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>scatter1 <span class="op">=</span> axs[<span class="dv">0</span>, <span class="dv">0</span>].scatter(grid_df[<span class="st">'driving_time_to_campus'</span>], np.zeros_like(grid_df[<span class="st">'driving_time_to_campus'</span>]), c<span class="op">=</span>grid_df[<span class="st">'driving_time_cluster'</span>], cmap<span class="op">=</span><span class="st">'viridis'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
@@ -3418,6 +3654,7 @@ memory usage: 8.7+ KB</code></pre>
 <span id="cb76-10"><a href="#cb76-10" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>, <span class="dv">1</span>].set_title(<span class="st">'Transit Time Clusters'</span>)</span>
 <span id="cb76-11"><a href="#cb76-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb76-12"><a href="#cb76-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -3426,13 +3663,18 @@ memory usage: 8.7+ KB</code></pre>
 </div>
 </div>
 </div>
-<div id="59209129" class="cell" data-execution_count="62">
+<div id="a6d35c1f" class="cell" data-execution_count="62">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>grid_df.to_csv(<span class="st">'../clean_data/Kmeans_Clusters_Grid_Data.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
-<section id="get-bus-stop-addresses-to-place-as-points-on-map-visualizations-in-separate-streamlit-app" class="level3">
-<h3 class="anchored" data-anchor-id="get-bus-stop-addresses-to-place-as-points-on-map-visualizations-in-separate-streamlit-app">Get Bus Stop Addresses to place as points on map visualizations in separate streamlit app</h3>
-<div id="998ee26c" class="cell" data-execution_count="63">
+<section id="get-bus-stop-addresses-to-place-as-points-on-map-visualizations-in-separate-streamlit-app" class="level3" data-number="0.3.6">
+<h3 data-number="0.3.6" class="anchored" data-anchor-id="get-bus-stop-addresses-to-place-as-points-on-map-visualizations-in-separate-streamlit-app"><span class="header-section-number">0.3.6</span> Get Bus Stop Addresses to place as points on map visualizations in separate streamlit app</h3>
+<div id="1bbc96e4" class="cell" data-execution_count="63">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>overpass_url <span class="op">=</span> <span class="st">"https://overpass-api.de/api/interpreter"</span></span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>bus_stops_df <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>[<span class="st">'latitude'</span>, <span class="st">'longitude'</span>, <span class="st">'name'</span>])</span>
@@ -3462,8 +3704,9 @@ memory usage: 8.7+ KB</code></pre>
 <span id="cb78-27"><a href="#cb78-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb78-28"><a href="#cb78-28" aria-hidden="true" tabindex="-1"></a>bus_stops_df.head()</span>
 <span id="cb78-29"><a href="#cb78-29" aria-hidden="true" tabindex="-1"></a>bus_stops_df.to_csv(<span class="st">'../clean_data/Bus_Stops_Data.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stderr">
-<pre><code>C:\Users\wolfe\AppData\Local\Temp\ipykernel_44752\1272897087.py:22: FutureWarning:
+<pre><code>C:\Users\wolfe\AppData\Local\Temp\ipykernel_12456\1272897087.py:22: FutureWarning:
 
 The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
 </code></pre>
@@ -3471,10 +3714,10 @@ The behavior of DataFrame concatenation with empty or all-NA entries is deprecat
 </div>
 </section>
 </section>
-<section id="done" class="level1">
-<h1>Done</h1>
-<section id="done-with-data-pipeline" class="level2">
-<h2 class="anchored" data-anchor-id="done-with-data-pipeline">Done with Data Pipeline</h2>
+<section id="done" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Done</h1>
+<section id="done-with-data-pipeline" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="done-with-data-pipeline"><span class="header-section-number">1.1</span> Done with Data Pipeline</h2>
 </section>
 </section>
 
