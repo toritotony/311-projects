@@ -5,7 +5,7 @@ format:
     toc: true
     toc-depth: 3
     toc-location: left
-    number-sections: false
+    number-sections: true
     code-fold: true
     code-overflow: wrap
     theme: cosmo
