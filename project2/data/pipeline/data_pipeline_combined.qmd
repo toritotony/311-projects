@@ -1,5 +1,7 @@
 ---
-title: Import Libraries and Load Survey Data
+title: "Commuter Survey & Population Address Cleaning and Geocoding"
+subtitle: "Data Cleaning Pipeline Documentation"
+author: "Thursday Thoroughbreads"
 format:
   html:
     toc: true
@@ -9,7 +11,7 @@ format:
     code-fold: true
     code-overflow: wrap
     theme: cosmo
-jupyter: python3
+jupyter: 311-venv
 ---
 
 
