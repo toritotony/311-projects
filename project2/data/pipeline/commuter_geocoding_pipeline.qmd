@@ -1,7 +1,7 @@
 ---
 title: "Commuter Survey & Population Address Cleaning and Geocoding"
 subtitle: "Data Cleaning Pipeline Documentation"
-author: "Redwood Analytics – Transportation & Commuting"
+author: "Thursday Thoroughbreads"
 format:
   html:
     toc: true
