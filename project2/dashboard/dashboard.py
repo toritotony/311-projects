@@ -4,7 +4,6 @@ import numpy as np
 import folium
 from streamlit_folium import st_folium
 import math
-from datetime import datetime
 import seaborn as sns
 import matplotlib.pyplot as plt
 
@@ -199,24 +198,6 @@ with col1:
 
     map_data = st_folium(m, width=700, height=500, returned_objects=["last_clicked"])
 
-    # If we already have a stored last click, draw a green marker for it
-    if 'last_click' in st.session_state and st.session_state.get('last_click'):
-        lat0, lon0 = st.session_state['last_click']
-        folium.CircleMarker(
-            location=[lat0, lon0],
-            radius=6,
-            color='green',
-            fill=True,
-            fillColor='green',
-            fill_opacity=0.9,
-            popup=f"Last clicked here: {lat0:.5f}, {lon0:.5f}",
-            tooltip='Last clicked location'
-        ).add_to(m)
-
-    # re-render map with marker if we drew it (call st_folium again so user sees it)
-    # Note: st_folium returns interaction data; calling it twice just updates the visual map.
-    map_data = st_folium(m, width=700, height=500, returned_objects=["last_clicked"])
-
 clicked_lat = clicked_lon = None
 distance_m = distance_km = None
 times = None  # will be a dict if we have a click
@@ -229,13 +210,6 @@ if (
     click = map_data["last_clicked"]
     clicked_lat = click["lat"]
     clicked_lon = click["lng"]
-
-    # Persist the last click in session state and rerun once to show the marker immediately
-    new_click = (clicked_lat, clicked_lon)
-    if ('last_click' not in st.session_state) or (st.session_state.get('last_click') != new_click):
-        st.session_state['last_click'] = new_click
-        st.session_state['last_click_time'] = datetime.utcnow().isoformat()
-        st.experimental_rerun()
 
     distance_m = haversine_m(CAMPUS_LAT, CAMPUS_LON, clicked_lat, clicked_lon)
     distance_km = distance_m / 1000
@@ -367,7 +341,7 @@ else:
     ax.set_xlabel(f'{pretty_mode} Time to Campus (minutes)')
     ax.set_ylabel('Count')
     # make graph smaller
-    fig.set_size_inches(5, 3)
+    fig.set_size_inches(4, 2)
 
     st.pyplot(fig)
 
