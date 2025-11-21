@@ -4,6 +4,8 @@ import numpy as np
 import folium
 from streamlit_folium import st_folium
 import math
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 st.set_page_config(
     page_title='Car Dashboard | Home',
@@ -77,12 +79,12 @@ col1, col2, col3 = st.columns([0.4, 0.3, 0.3], gap='small')
 # =========================
 with col1:
     @st.cache_data
-    def load_data():
+    def load_data(path):
         """Load address data. Cached so it only runs once."""
-        df = pd.read_csv('project2/data/clean_data/population_addresses_validated_test_100.csv')
+        df = pd.read_csv(path)
         return df
 
-    df = load_data()
+    df = load_data('project2/data/clean_data/population_addresses_validated_test_100.csv')
 
     if 'data' not in st.session_state:
         st.session_state['data'] = df
@@ -292,4 +294,52 @@ with col3:
         )
     else:
         st.info("Click a location on the map to see a recommendation based on its distance.")
+        
+# Add visual component histogram (mode-aware)
+# Load cluster/time dataset (fix path)
+df2 = load_data('project2/data/clean_data/Kmeans_Clusters_Grid_Data.csv')
+
+# Map the UI travel mode to the corresponding column name in the CSV
+MODE_COLUMN_MAP = {
+    "Walking": "walking_time_to_campus",
+    "Biking": "bicycling_time_to_campus",
+    "Driving": "driving_time_to_campus",
+}
+
+selected_col = MODE_COLUMN_MAP.get(travel_mode, None)
+
+# Defensive fallback: try to find a column that contains the mode name
+if selected_col is None or selected_col not in df2.columns:
+    # attempt case-insensitive match
+    lower_cols = {c.lower(): c for c in df2.columns}
+    for mode_key, col_name in MODE_COLUMN_MAP.items():
+        if col_name.lower() in lower_cols:
+            selected_col = lower_cols[col_name.lower()]
+            break
+
+if selected_col is None or selected_col not in df2.columns:
+    st.warning(f"Could not find a time column for '{travel_mode}'. Showing driving times instead.")
+    if 'driving_time_to_campus' in df2.columns:
+        selected_col = 'driving_time_to_campus'
+    else:
+        # last resort: pick the first numeric-looking time column
+        numeric_cols = [c for c in df2.columns if df2[c].dtype.kind in 'iuf']
+        selected_col = numeric_cols[0] if numeric_cols else None
+
+if selected_col is None:
+    st.error("No suitable numeric column found to plot a histogram.")
+else:
+    # Prepare data
+    plot_series = df2[selected_col].dropna()
+
+    fig, ax = plt.subplots()
+    sns.histplot(data=plot_series, bins=30, kde=True, ax=ax)
+
+    # Pretty labels and title
+    pretty_mode = travel_mode
+    ax.set_title(f'Distribution of {pretty_mode} Times to Campus')
+    ax.set_xlabel(f'{pretty_mode} Time to Campus (minutes)')
+    ax.set_ylabel('Count')
+
+    st.pyplot(fig)
 
