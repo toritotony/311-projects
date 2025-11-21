@@ -79,7 +79,7 @@ with col1:
     @st.cache_data
     def load_data():
         """Load address data. Cached so it only runs once."""
-        df = pd.read_csv('../data/clean_data/population_addresses_validated_test_100.csv')
+        df = pd.read_csv('project2/data/clean_data/population_addresses_validated_test_100.csv')
         return df
 
     df = load_data()
