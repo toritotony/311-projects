@@ -55,7 +55,7 @@ time_bands = st.sidebar.multiselect(
 
 show_clusters = st.sidebar.checkbox(
     "Show student living clusters",
-    value=True
+    value=False
 )
 
 st.sidebar.caption("Time rings are rough, straight-line estimates from campus.\nReal travel will vary by route and traffic.")
@@ -185,7 +185,7 @@ with col1:
                 fill=True,
                 fillColor='blue',
                 fillOpacity=0.6,
-                tooltip=f"{loc['name']} ({loc['count']} students) - Click for directions"
+                tooltip=f"{loc['name']} ({loc['count']} students)"
             ).add_to(m)
 
     st.write("**Blue circles** show where anonymized clusters of students live.")
@@ -234,7 +234,7 @@ with col2:
         )
         st.table(times_df)
     else:
-        st.info("Click on a blue circle on the map to see estimated commute times.")
+        st.info("Click anywhere on the map to see estimated commute times.")
 
 with col3:
     st.subheader("Our recommendation")
