@@ -1,0 +1,188 @@
+latitude,longitude,address,driving_time_to_campus,walking_time_to_campus,bicycling_time_to_campus,transit_time_to_campus
+40.06000000000001,-123.80000000000014,"356X+2X Benbow, CA, USA",1 hour 27 mins,1 day 13 hours,11 hours 18 mins,3 hours 26 mins
+40.06000000000001,-123.78000000000014,"3669+2X Benbow, CA, USA",1 hour 22 mins,1 day 13 hours,11 hours 15 mins,3 hours 10 mins
+40.08000000000001,-123.80000000000014,"35HX+XX Benbow, CA, USA",1 hour 25 mins,1 day 13 hours,11 hours 24 mins,3 hours 32 mins
+40.08000000000001,-123.78000000000014,"36H9+XX Benbow, CA, USA",1 hour 23 mins,1 day 13 hours,11 hours 13 mins,3 hours 13 mins
+40.100000000000016,-123.80000000000014,"860 Sunnybank Ln, Garberville, CA 95542, USA",1 hour 21 mins,1 day 12 hours,11 hours 2 mins,2 hours 11 mins
+40.100000000000016,-123.78000000000014,"36X9+XX Garberville, CA, USA",1 hour 22 mins,1 day 12 hours,10 hours 54 mins,2 hours 56 mins
+40.12000000000002,-123.84000000000013,"45C6+22 Redway, CA, USA",1 hour 20 mins,1 day 13 hours,11 hours 18 mins,3 hours 8 mins
+40.12000000000002,-123.82000000000014,"155 Murrish Rd, Redway, CA 95560, USA",1 hour 19 mins,1 day 13 hours,11 hours 7 mins,2 hours 42 mins
+40.14000000000002,-123.82000000000014,"45QH+XX Redway, CA, USA",1 hour 17 mins,1 day 13 hours,11 hours 23 mins,2 hours 51 mins
+40.14000000000002,-123.80000000000014,"45QX+XX Redway, CA, USA",1 hour 22 mins,1 day 14 hours,11 hours 35 mins,3 hours 16 mins
+40.20000000000003,-123.80000000000014,"55XX+XX Phillipsville, CA, USA",1 hour 15 mins,1 day 10 hours,10 hours 24 mins,2 hours 37 mins
+40.20000000000003,-123.78000000000014,"56X9+XX Phillipsville, CA, USA",1 hour 14 mins,1 day 10 hours,10 hours 26 mins,2 hours 49 mins
+40.220000000000034,-123.82000000000014,"659H+XX Miranda, CA, USA",1 hour 7 mins,1 day 10 hours,9 hours 42 mins,2 hours 37 mins
+40.220000000000034,-123.80000000000014,"659X+XX Miranda, CA, USA",1 hour 16 mins,1 day 10 hours,9 hours 41 mins,2 hours 42 mins
+40.220000000000034,-123.78000000000014,"746 Spring Canyon Ln, Phillipsville, CA 95559, USA",1 hour 16 mins,1 day 10 hours,10 hours 29 mins,2 hours 51 mins
+40.24000000000004,-123.84000000000013,"400 Carol Ln, Miranda, CA 95553, USA",1 hour 11 mins,1 day 11 hours,9 hours 56 mins,4 hours 4 mins
+40.24000000000004,-123.82000000000014,"119 Logan Rd, Miranda, CA 95553, USA",1 hour 13 mins,1 day 11 hours,9 hours 30 mins,2 hours 32 mins
+40.26000000000004,-123.88000000000012,"7459+XX Myers Flat, CA, USA",1 hour 5 mins,1 day 13 hours,9 hours 4 mins,2 hours 26 mins
+40.26000000000004,-123.86000000000013,"745R+X2 Myers Flat, CA, USA",1 hour 8 mins,1 day 13 hours,9 hours 4 mins,2 hours 16 mins
+40.280000000000044,-123.88000000000012,"74J9+2X Myers Flat, CA, USA",1 hour 1 min,1 day 13 hours,8 hours 56 mins,2 hours 36 mins
+40.280000000000044,-123.86000000000013,"74JR+22 Myers Flat, CA, USA",1 hour 4 mins,1 day 12 hours,9 hours 7 mins,2 hours 35 mins
+40.32000000000005,-123.94000000000011,"8396+X2 Weott, CA, USA",59 mins,1 day 15 hours,8 hours 34 mins,2 hours 26 mins
+40.32000000000005,-123.92000000000012,"187 S Spring St, Weott, CA 95571, USA",58 mins,1 day 15 hours,8 hours 36 mins,2 hours 8 mins
+40.32000000000005,-123.90000000000012,"2500 Newton Rd, Weott, CA 95571, USA",1 hour 6 mins,1 day 16 hours,8 hours 49 mins,2 hours 45 mins
+40.360000000000056,-123.92000000000012,"Avenue of the Giants, Redcrest, CA 95569, USA",51 mins,1 day 12 hours,7 hours 58 mins,2 hours 3 mins
+40.40000000000006,-123.96000000000011,"C22R+22 Redcrest, CA, USA",54 mins,1 day 12 hours,8 hours 4 mins,2 hours 21 mins
+40.40000000000006,-123.94000000000011,"26035 CA-254, Redcrest, CA 95569, USA",53 mins,1 day 12 hours,8 hours 0 mins,2 hours 11 mins
+40.480000000000075,-124.12000000000008,"FVHJ+X2 Scotia, CA, USA",46 mins,1 day 3 hours,4 hours 38 mins,2 hours 38 mins
+40.480000000000075,-124.10000000000008,"532 B St, Scotia, CA 95565, USA",42 mins,1 day 3 hours,4 hours 36 mins,1 hour 55 mins
+40.480000000000075,-124.08000000000008,"FWHC+X2 Scotia, CA, USA",46 mins,1 day 3 hours,4 hours 58 mins,2 hours 26 mins
+40.50000000000008,-124.12000000000008,"GV2J+22 Rio Dell, CA, USA",43 mins,1 day 2 hours,4 hours 34 mins,2 hours 2 mins
+40.50000000000008,-124.10000000000008,"230 Smither Ct, Rio Dell, CA 95562, USA",40 mins,1 day 2 hours,4 hours 30 mins,1 hour 47 mins
+40.50000000000008,-124.08000000000008,"GW2C+22 Rio Dell, CA, USA",46 mins,1 day 3 hours,5 hours 3 mins,2 hours 33 mins
+40.540000000000084,-123.20000000000026,"GRQ2+X2 Hayfork, CA, USA",2 hours 36 mins,1 day 12 hours,11 hours 3 mins,5 hours 22 mins
+40.540000000000084,-123.18000000000026,"GRQC+X2 Hayfork, CA, USA",2 hours 36 mins,1 day 12 hours,11 hours 3 mins,5 hours 21 mins
+40.540000000000084,-123.16000000000027,"1630 Morgan Hill Rd, Hayfork, CA 96041, USA",2 hours 34 mins,1 day 12 hours,11 hours 7 mins,5 hours 18 mins
+40.540000000000084,-123.14000000000027,"GVQ5+XX Hayfork, CA, USA",2 hours 36 mins,1 day 12 hours,11 hours 10 mins,6 hours 5 mins
+40.56000000000009,-124.14000000000007,"2600 Drake Hill Rd, Fortuna, CA 95540, USA",38 mins,15 hours 14 mins,4 hours 8 mins,1 hour 48 mins
+40.56000000000009,-124.12000000000008,"4285 Hillras Way, Fortuna, CA 95540, USA",40 mins,14 hours 56 mins,4 hours 3 mins,1 hour 54 mins
+40.56000000000009,-123.20000000000026,"420 Horse Tail Hill Rd, Hayfork, CA 96041, USA",2 hours 38 mins,1 day 11 hours,10 hours 52 mins,5 hours 18 mins
+40.56000000000009,-123.18000000000026,"HR6C+22 Hayfork, CA, USA",2 hours 32 mins,1 day 11 hours,10 hours 57 mins,4 hours 51 mins
+40.56000000000009,-123.16000000000027,"HR6R+22 Hayfork, CA, USA",2 hours 33 mins,1 day 11 hours,11 hours 3 mins,4 hours 58 mins
+40.56000000000009,-123.14000000000027,"151 Rose Ln, Hayfork, CA 96041, USA",2 hours 28 mins,1 day 11 hours,11 hours 7 mins,4 hours 54 mins
+40.56000000000009,-123.12000000000027,"10375 CA-3, Hayfork, CA 96041, USA",2 hours 30 mins,1 day 11 hours,11 hours 10 mins,5 hours 5 mins
+40.56000000000009,-123.10000000000028,"HV6X+2X Hayfork, CA, USA",2 hours 32 mins,1 day 12 hours,11 hours 17 mins,4 hours 47 mins
+40.56000000000009,-123.08000000000028,"HW6C+22 Hayfork, CA, USA",2 hours 35 mins,1 day 12 hours,11 hours 26 mins,4 hours 54 mins
+40.58000000000009,-124.16000000000007,"HRHR+X2 Fortuna, CA, USA",34 mins,15 hours 52 mins,4 hours 24 mins,1 hour 39 mins
+40.58000000000009,-124.14000000000007,"3030 Nellie Wy, Fortuna, CA 95540, USA",35 mins,15 hours 36 mins,4 hours 15 mins,1 hour 17 mins
+40.58000000000009,-124.12000000000008,"3653 Loop Rd, Fortuna, CA 95540, USA",39 mins,15 hours 39 mins,4 hours 15 mins,2 hours 19 mins
+40.58000000000009,-123.10000000000028,"HVHX+XX Hayfork, CA, USA",2 hours 35 mins,1 day 12 hours,11 hours 18 mins,4 hours 53 mins
+40.58000000000009,-123.08000000000028,"13660 CA-3, Hayfork, CA 96041, USA",2 hours 35 mins,1 day 12 hours,11 hours 27 mins,4 hours 57 mins
+40.58000000000009,-123.06000000000029,"14842 CA-3, Hayfork, CA 96041, USA",2 hours 28 mins,1 day 13 hours,11 hours 30 mins,4 hours 54 mins
+40.58000000000009,-123.0200000000003,"HXHH+XX Hayfork, CA, USA",2 hours 28 mins,1 day 13 hours,11 hours 39 mins,5 hours 13 mins
+40.600000000000094,-124.20000000000006,"HRX2+X2 Worswick, CA, USA",33 mins,22 hours 10 mins,5 hours 31 mins,1 hour 55 mins
+40.600000000000094,-124.18000000000006,"HRXC+X2 Fortuna, CA, USA",33 mins,18 hours 50 mins,5 hours 16 mins,1 hour 13 mins
+40.600000000000094,-124.16000000000007,"943 7th St, Fortuna, CA 95540, USA",33 mins,16 hours 16 mins,4 hours 23 mins,1 hour 3 mins
+40.600000000000094,-124.14000000000007,"2468 Hillside Dr, Fortuna, CA 95540, USA",36 mins,16 hours 7 mins,4 hours 22 mins,1 hour 29 mins
+40.600000000000094,-123.08000000000028,"HWXC+X2 Hayfork, CA, USA",2 hours 36 mins,1 day 12 hours,11 hours 27 mins,5 hours 6 mins
+40.600000000000094,-123.0200000000003,"HXXH+XX Hayfork, CA, USA",2 hours 23 mins,1 day 13 hours,11 hours 45 mins,4 hours 42 mins
+40.6200000000001,-124.22000000000006,"JQCH+2X Loleta, CA, USA",30 mins,21 hours 4 mins,5 hours 51 mins,1 hour 20 mins
+40.6200000000001,-124.20000000000006,"JRC2+22 Loleta, CA, USA",29 mins,21 hours 31 mins,5 hours 59 mins,1 hour 15 mins
+40.6200000000001,-124.18000000000006,"1090 Tompkins Hill Rd, Fortuna, CA 95540, USA",33 mins,18 hours 13 mins,4 hours 57 mins,1 hour 37 mins
+40.6400000000001,-124.24000000000005,"JQQ5+XX Loleta, CA, USA",31 mins,20 hours 47 mins,5 hours 48 mins,1 hour 26 mins
+40.6400000000001,-124.22000000000006,"JQQH+XX Loleta, CA, USA",31 mins,20 hours 45 mins,5 hours 49 mins,1 hour 12 mins
+40.70000000000011,-124.20000000000006,"MRX2+X2 Humboldt Hill, CA, USA",25 mins,20 hours 20 mins,5 hours 36 mins,51 mins
+40.70000000000011,-124.18000000000006,"MRXC+X2 Humboldt Hill, CA, USA",32 mins,6 hours 36 mins,1 hour 34 mins,19 hours 1 min
+40.72000000000011,-123.06000000000029,"PW9R+X2 Junction City, CA, USA",1 hour 48 mins,1 day 8 hours,8 hours 31 mins,3 hours 41 mins
+40.72000000000011,-123.04000000000029,"PX95+XX Junction City, CA, USA",1 hour 50 mins,1 day 8 hours,8 hours 36 mins,3 hours 58 mins
+40.740000000000116,-123.28000000000024,"PPR9+2X Big Bar, CA, USA",1 hour 33 mins,1 day 3 hours,7 hours 27 mins,3 hours 45 mins
+40.740000000000116,-123.26000000000025,"PPRR+22 Big Bar, CA, USA",1 hour 31 mins,1 day 2 hours,7 hours 25 mins,3 hours 9 mins
+40.740000000000116,-123.24000000000025,"PQR6+22 Big Bar, CA, USA",1 hour 28 mins,1 day 2 hours,7 hours 21 mins,3 hours 4 mins
+40.740000000000116,-123.22000000000025,"PQRJ+22 Big Flat, CA, USA",1 hour 30 mins,1 day 3 hours,7 hours 26 mins,3 hours 2 mins
+40.740000000000116,-123.20000000000026,"PRR2+22 Big Flat, CA, USA",1 hour 33 mins,1 day 3 hours,7 hours 33 mins,3 hours 12 mins
+40.740000000000116,-123.06000000000029,"PWRR+22 Junction City, CA, USA",1 hour 44 mins,1 day 7 hours,8 hours 19 mins,3 hours 28 mins
+40.740000000000116,-123.04000000000029,"PXR5+2X Junction City, CA, USA",1 hour 47 mins,1 day 8 hours,8 hours 32 mins,3 hours 26 mins
+40.76000000000012,-124.20000000000006,"QR52+X2 Eureka, CA, USA",22 mins,4 hours 34 mins,1 hour 3 mins,1 hour 40 mins
+40.76000000000012,-124.18000000000006,"800 Masterson Pl, Eureka, CA 95503, USA",20 mins,4 hours 35 mins,1 hour 10 mins,1 hour 28 mins
+40.76000000000012,-124.16000000000007,"1160 Leslie Rd, Eureka, CA 95503, USA",18 mins,4 hours 23 mins,1 hour 1 min,2 hours 30 mins
+40.76000000000012,-124.14000000000007,"QV55+XX Cutten, CA, USA",19 mins,4 hours 8 mins,56 mins,1 hour 14 mins
+40.76000000000012,-124.12000000000008,"4700 Lentell Rd, Eureka, CA 95503, USA",17 mins,3 hours 52 mins,1 hour 3 mins,2 hours 45 mins
+40.76000000000012,-123.28000000000024,"QP59+XX Big Bar, CA, USA",1 hour 25 mins,1 day 1 hour,7 hours 5 mins,3 hours 21 mins
+40.76000000000012,-123.26000000000025,"QP5R+X2 Big Bar, CA, USA",1 hour 27 mins,1 day 2 hours,7 hours 12 mins,2 hours 54 mins
+40.76000000000012,-123.14000000000027,"QV55+XX Junction City, CA, USA",1 hour 36 mins,1 day 5 hours,7 hours 48 mins,3 hours 27 mins
+40.76000000000012,-123.12000000000027,"QV5H+XX Junction City, CA, USA",1 hour 38 mins,1 day 5 hours,7 hours 57 mins,3 hours 18 mins
+40.76000000000012,-123.10000000000028,"90 Lime Point Rd, Junction City, CA 96048, USA",1 hour 40 mins,1 day 6 hours,8 hours 1 min,3 hours 37 mins
+40.76000000000012,-123.08000000000028,"240 Rasmusen Ln, Junction City, CA 96048, USA",1 hour 55 mins,1 day 9 hours,8 hours 59 mins,5 hours 40 mins
+40.76000000000012,-123.06000000000029,"490 Upper Rd, Junction City, CA 96048, USA",1 hour 47 mins,1 day 7 hours,8 hours 23 mins,3 hours 33 mins
+40.78000000000012,-124.20000000000006,"QRJ2+22 Eureka, CA, USA",17 mins,4 hours 6 mins,1 hour 0 mins,3 hours 45 mins
+40.78000000000012,-124.18000000000006,"3125 Central Ave, Eureka, CA 95503, USA",17 mins,4 hours 2 mins,58 mins,47 mins
+40.78000000000012,-124.16000000000007,"802 Harris St, Eureka, CA 95503, USA",14 mins,3 hours 42 mins,50 mins,46 mins
+40.78000000000012,-124.14000000000007,"3122 Harrison Ave, Eureka, CA 95503, USA",14 mins,3 hours 36 mins,49 mins,1 hour 32 mins
+40.78000000000012,-124.12000000000008,"QVJJ+22 Myrtletown, CA, USA",12 mins,3 hours 16 mins,56 mins,1 hour 51 mins
+40.78000000000012,-123.34000000000023,"QMJ6+22 Del Loma, CA, USA",1 hour 23 mins,23 hours 53 mins,6 hours 49 mins,2 hours 50 mins
+40.78000000000012,-123.32000000000023,"QMJJ+22 Del Loma, CA, USA",1 hour 21 mins,1 day 0 hours,6 hours 50 mins,3 hours 0 mins
+40.78000000000012,-123.14000000000027,"QVJ5+2X Junction City, CA, USA",1 hour 43 mins,1 day 6 hours,8 hours 8 mins,3 hours 40 mins
+40.78000000000012,-123.12000000000027,"QVJH+2X Junction City, CA, USA",1 hour 42 mins,1 day 6 hours,8 hours 1 min,3 hours 33 mins
+40.78000000000012,-123.10000000000028,"QVJX+2X Junction City, CA, USA",1 hour 47 mins,1 day 6 hours,8 hours 10 mins,4 hours 27 mins
+40.78000000000012,-123.08000000000028,"QWJC+22 Junction City, CA, USA",1 hour 45 mins,1 day 7 hours,8 hours 12 mins,3 hours 29 mins
+40.800000000000125,-124.20000000000006,"RR22+22 Fairhaven, CA, USA",15 mins,3 hours 38 mins,55 mins,3 hours 25 mins
+40.800000000000125,-124.18000000000006,"590 Waterfront Dr, Eureka, CA 95501, USA",15 mins,3 hours 29 mins,48 mins,46 mins
+40.800000000000125,-124.16000000000007,"810 K St, Eureka, CA 95501, USA",12 mins,3 hours 14 mins,46 mins,27 mins
+40.800000000000125,-124.14000000000007,"1225 Bay St, Eureka, CA 95501, USA",11 mins,3 hours 15 mins,45 mins,41 mins
+40.800000000000125,-124.12000000000008,"RV2J+22 Myrtletown, CA, USA",16 mins,3 hours 40 mins,51 mins,2 hours 1 min
+40.800000000000125,-124.0000000000001,"R222+22 Jacoby Creek, Eureka, CA, USA",12 mins,3 hours 14 mins,47 mins,23 mins
+40.82000000000013,-124.16000000000007,"RR9R+X2 Eureka, CA, USA",11 mins,2 hours 59 mins,46 mins,47 mins
+40.82000000000013,-124.14000000000007,"RV95+XX Eureka, CA, USA",11 mins,2 hours 51 mins,39 mins,34 mins
+40.82000000000013,-124.04000000000009,"RX96+X2 Jacoby Creek, Eureka, CA, USA",12 mins,3 hours 14 mins,47 mins,23 mins
+40.82000000000013,-124.0200000000001,"RX9J+X2 Jacoby Creek, Eureka, CA, USA",12 mins,3 hours 14 mins,47 mins,23 mins
+40.82000000000013,-123.9800000000001,"R299+XX Jacoby Creek, Eureka, CA, USA",12 mins,3 hours 14 mins,47 mins,23 mins
+40.82000000000013,-123.5000000000002,"1211 Hennessey Rd, Burnt Ranch, CA 95527, USA",1 hour 10 mins,20 hours 1 min,5 hours 54 mins,2 hours 50 mins
+40.82000000000013,-123.4800000000002,"RG99+XX Burnt Ranch, CA, USA",1 hour 6 mins,19 hours 41 mins,5 hours 46 mins,2 hours 29 mins
+40.82000000000013,-123.4600000000002,"RG9Q+XX Burnt Ranch, CA, USA",1 hour 8 mins,20 hours 2 mins,5 hours 55 mins,2 hours 51 mins
+40.82000000000013,-123.06000000000029,"1321 Orchard Ln, Big Bar, CA 96010, USA",1 hour 34 mins,1 day 3 hours,7 hours 27 mins,3 hours 29 mins
+40.84000000000013,-124.18000000000006,"RRRC+22 Manila, CA, USA",12 mins,2 hours 29 mins,39 mins,32 mins
+40.84000000000013,-124.16000000000007,"RRRR+22 Manila, CA, USA",9 mins,2 hours 12 mins,34 mins,32 mins
+40.84000000000013,-124.12000000000008,"RVRJ+22 Arcata, CA, USA",7 mins,41 mins,10 mins,41 mins
+40.84000000000013,-124.10000000000008,"RWR2+22 Jacoby Creek, Eureka, CA, USA",6 mins,52 mins,13 mins,52 mins
+40.84000000000013,-124.06000000000009,"2611 Jacoby Creek Rd, Bayside, CA 95524, USA",6 mins,58 mins,15 mins,58 mins
+40.84000000000013,-124.04000000000009,"RXR6+22 Jacoby Creek, Eureka, CA, USA",12 mins,3 hours 14 mins,47 mins,23 mins
+40.84000000000013,-124.0200000000001,"RXRJ+22 Jacoby Creek, Eureka, CA, USA",12 mins,3 hours 14 mins,47 mins,23 mins
+40.84000000000013,-124.0000000000001,"R2R2+22 Jacoby Creek, Eureka, CA, USA",12 mins,3 hours 14 mins,47 mins,23 mins
+40.84000000000013,-123.9800000000001,"R2R9+2X Jacoby Creek, Eureka, CA, USA",12 mins,3 hours 14 mins,47 mins,23 mins
+40.84000000000013,-123.5000000000002,"RGR2+22 Burnt Ranch, CA, USA",1 hour 9 mins,19 hours 41 mins,5 hours 54 mins,3 hours 13 mins
+40.84000000000013,-123.4800000000002,"RGR9+2X Burnt Ranch, CA, USA",1 hour 3 mins,19 hours 4 mins,5 hours 37 mins,2 hours 45 mins
+40.860000000000134,-124.18000000000006,"VR6C+22 Manila, CA, USA",10 mins,1 hour 59 mins,32 mins,42 mins
+40.860000000000134,-124.16000000000007,"2123 Peninsula Dr, Arcata, CA 95521, USA",8 mins,1 hour 46 mins,28 mins,30 mins
+40.860000000000134,-124.12000000000008,"VV6J+22 Arcata, CA, USA",7 mins,1 hour 2 mins,16 mins,44 mins
+40.860000000000134,-124.10000000000008,"VW62+22 Arcata, CA, USA",6 mins,37 mins,10 mins,37 mins
+40.860000000000134,-124.08000000000008,"255 Samoa Blvd, Arcata, CA 95521, USA",3 mins,22 mins,8 mins,22 mins
+40.860000000000134,-124.06000000000009,"1871 Panorama Dr, Arcata, CA 95521, USA",6 mins,45 mins,12 mins,46 mins
+40.860000000000134,-124.04000000000009,"2635 Fickle Hill Rd, Arcata, CA 95521, USA",7 mins,58 mins,14 mins,58 mins
+40.860000000000134,-124.0200000000001,"VX6J+22 Jacoby Creek, Eureka, CA, USA",12 mins,3 hours 14 mins,47 mins,23 mins
+40.860000000000134,-124.0000000000001,"V262+22 Jacoby Creek, Eureka, CA, USA",12 mins,3 hours 14 mins,47 mins,23 mins
+40.860000000000134,-123.54000000000019,"VF65+2X Trinity Village, CA, USA",1 hour 20 mins,19 hours 50 mins,6 hours 14 mins,5 hours 18 mins
+40.860000000000134,-123.5200000000002,"VF6J+22 Trinity Village, CA, USA",1 hour 0 mins,18 hours 5 mins,5 hours 26 mins,2 hours 27 mins
+40.88000000000014,-124.12000000000008,"4444 Polaris Ln, Arcata, CA 95521, USA",8 mins,57 mins,14 mins,47 mins
+40.88000000000014,-124.10000000000008,"1730 Janes Rd, Arcata, CA 95521, USA",5 mins,35 mins,9 mins,35 mins
+40.88000000000014,-124.08000000000008,"480 Granite Ave, Arcata, CA 95521, USA",1 min,1 min,1 min,1 min
+40.88000000000014,-124.06000000000009,"VWHR+X2 Arcata, CA, USA",4 mins,40 mins,12 mins,40 mins
+40.88000000000014,-124.0200000000001,"12735 West End Rd, Arcata, CA 95521, USA",14 mins,2 hours 20 mins,33 mins,1 hour 29 mins
+40.88000000000014,-124.0000000000001,"399 Taylor Way, Blue Lake, CA 95525, USA",12 mins,3 hours 20 mins,46 mins,41 mins
+40.88000000000014,-123.9800000000001,"127 Acacia Dr, Blue Lake, CA 95525, USA",11 mins,3 hours 27 mins,47 mins,42 mins
+40.88000000000014,-123.60000000000018,"VCH2+X2 Salyer, CA, USA",56 mins,16 hours 16 mins,6 hours 53 mins,2 hours 58 mins
+40.88000000000014,-123.58000000000018,"VCHC+X2 Salyer, CA, USA",56 mins,16 hours 31 mins,5 hours 7 mins,2 hours 26 mins
+40.88000000000014,-123.54000000000019,"101 W Suzy Q Rd, Salyer, CA 95563, USA",59 mins,17 hours 34 mins,5 hours 18 mins,2 hours 43 mins
+40.88000000000014,-123.5200000000002,"320 Coon Crk Rd, Salyer, CA 95563, USA",1 hour 4 mins,18 hours 37 mins,5 hours 39 mins,2 hours 58 mins
+40.90000000000014,-124.10000000000008,"WW22+22 Pacific, Arcata, CA, USA",6 mins,49 mins,12 mins,49 mins
+40.90000000000014,-124.08000000000008,"4683 Mc Kinnon Ct, Arcata, CA 95521, USA",6 mins,1 hour 10 mins,14 mins,15 mins
+40.90000000000014,-124.06000000000009,"WW2R+22 Arcata, CA, USA",6 mins,55 mins,14 mins,38 mins
+40.90000000000014,-124.0000000000001,"W222+22 Blue Lake, CA, USA",10 mins,4 hours 3 mins,58 mins,1 hour 5 mins
+40.90000000000014,-123.92000000000012,"CA-299, Blue Lake, CA 95525, USA",8 mins,3 hours 28 mins,48 mins,33 mins
+40.90000000000014,-123.60000000000018,"WC22+22 Salyer, CA, USA",1 hour 3 mins,17 hours 7 mins,5 hours 32 mins,3 hours 37 mins
+40.90000000000014,-123.58000000000018,"184 Jurin Ln, Salyer, CA 95563, USA",58 mins,16 hours 58 mins,5 hours 14 mins,2 hours 44 mins
+40.920000000000144,-124.12000000000008,"819 Mad River Rd, Arcata, CA 95521, USA",10 mins,1 hour 41 mins,23 mins,2 hours 8 mins
+40.920000000000144,-124.10000000000008,"1610 Silva Rd, McKinleyville, CA 95519, USA",5 mins,1 hour 50 mins,25 mins,1 hour 31 mins
+40.920000000000144,-124.08000000000008,"2415 Chapel Hill Rd, McKinleyville, CA 95519, USA",7 mins,1 hour 54 mins,26 mins,1 hour 10 mins
+40.920000000000144,-123.64000000000017,"W995+XX Willow Creek, CA, USA",1 hour 13 mins,18 hours 3 mins,6 hours 34 mins,5 hours 4 mins
+40.920000000000144,-123.62000000000018,"40600 CA-299, Willow Creek, CA 95573, USA",49 mins,15 hours 4 mins,4 hours 45 mins,2 hours 7 mins
+40.920000000000144,-123.60000000000018,"WC92+X2 Salyer, CA, USA",59 mins,16 hours 10 mins,5 hours 10 mins,4 hours 19 mins
+40.94000000000015,-124.12000000000008,"1930 Berg Ave, McKinleyville, CA 95519, USA",10 mins,2 hours 17 mins,31 mins,1 hour 19 mins
+40.94000000000015,-124.10000000000008,"1901 Central Ave, McKinleyville, CA 95519, USA",8 mins,2 hours 6 mins,29 mins,1 hour 13 mins
+40.94000000000015,-124.08000000000008,"WWQC+X2 McKinleyville, CA, USA",10 mins,2 hours 25 mins,33 mins,1 hour 37 mins
+40.94000000000015,-123.64000000000017,"W9Q5+XX Willow Creek, CA, USA",47 mins,14 hours 17 mins,4 hours 31 mins,1 hour 19 mins
+40.94000000000015,-123.62000000000018,"867 The Terrace Ln, Willow Creek, CA 95573, USA",50 mins,14 hours 46 mins,4 hours 42 mins,1 hour 27 mins
+40.96000000000015,-124.12000000000008,"3057 Sandpointe Dr, McKinleyville, CA 95519, USA",8 mins,2 hours 43 mins,36 mins,52 mins
+40.96000000000015,-124.10000000000008,"3008 Eagle Ln, McKinleyville, CA 95519, USA",9 mins,2 hours 37 mins,41 mins,36 mins
+40.96000000000015,-124.08000000000008,"XW6C+22 McKinleyville, CA, USA",15 mins,4 hours 0 mins,1 hour 5 mins,1 hour 58 mins
+40.98000000000015,-124.12000000000008,"XVHJ+X2 McKinleyville, CA, USA",8 mins,3 hours 17 mins,44 mins,48 mins
+40.98000000000015,-124.10000000000008,"1615 Balboa Ave, McKinleyville, CA 95519, USA",12 mins,3 hours 5 mins,47 mins,56 mins
+40.98000000000015,-124.08000000000008,"2250 Arthur Rd, McKinleyville, CA 95519, USA",18 mins,3 hours 59 mins,1 hour 3 mins,2 hours 38 mins
+41.000000000000156,-124.12000000000008,"2V2J+22 McKinleyville, CA, USA",10 mins,3 hours 51 mins,54 mins,2 hours 12 mins
+41.000000000000156,-124.10000000000008,"5211 Dows Prairie Rd, McKinleyville, CA 95519, USA",13 mins,3 hours 45 mins,1 hour 0 mins,1 hour 30 mins
+41.02000000000016,-124.12000000000008,"2V9J+X2 McKinleyville, CA, USA",11 mins,4 hours 19 mins,1 hour 0 mins,6 hours 27 mins
+41.02000000000016,-124.10000000000008,"2W92+X2 Westhaven-Moonstone, CA, USA",12 mins,4 hours 21 mins,59 mins,6 hours 24 mins
+41.04000000000016,-124.12000000000008,"1720 Scenic Dr, Trinidad, CA 95570, USA",15 mins,9 hours 11 mins,1 hour 8 mins,1 hour 8 mins
+41.04000000000016,-124.10000000000008,"1001 Cedar Ave, Trinidad, CA 95570, USA",16 mins,9 hours 34 mins,1 hour 7 mins,1 hour 2 mins
+41.060000000000166,-124.16000000000007,"3R6R+22 Trinidad, CA, USA",21 mins,8 hours 48 mins,1 hour 29 mins,49 mins
+41.060000000000166,-124.12000000000008,"3V6J+22 Westhaven-Moonstone, CA, USA",17 mins,8 hours 43 mins,1 hour 18 mins,47 mins
+41.08000000000017,-124.14000000000007,"3VJ5+2X Westhaven-Moonstone, CA, USA",18 mins,7 hours 55 mins,1 hour 28 mins,51 mins
+41.120000000000175,-124.16000000000007,"4RCR+22 Sue-meg State Park, CA, USA",21 mins,9 hours 58 mins,1 hour 41 mins,56 mins
+41.14000000000018,-124.16000000000007,"4RQR+X2 Sue-meg State Park, CA, USA",24 mins,10 hours 41 mins,1 hour 52 mins,50 mins
+41.14000000000018,-124.14000000000007,"4VQ5+XX Big Lagoon, CA, USA",19 mins,10 hours 53 mins,1 hour 49 mins,7 hours 14 mins
+41.240000000000194,-123.66000000000017,"Bluff Creek Rd, California, USA",10 hours 22 mins,11 days 1 hour,3 days 2 hours,20 hours 25 mins
+41.2800000000002,-124.10000000000008,"7WJ2+22 Orick, CA, USA",34 mins,13 hours 18 mins,3 hours 2 mins,1 hour 2 mins
+41.2800000000002,-124.08000000000008,"7WJC+22 Orick, CA, USA",37 mins,13 hours 54 mins,3 hours 23 mins,1 hour 24 mins
+41.2800000000002,-124.06000000000009,"7WJR+22 Orick, CA, USA",37 mins,14 hours 1 min,3 hours 23 mins,1 hour 15 mins
+41.2800000000002,-124.04000000000009,"7XJ6+22 Orick, CA, USA",37 mins,15 hours 17 mins,3 hours 42 mins,2 hours 20 mins

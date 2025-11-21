@@ -7,43 +7,14 @@ format:
     toc: true
     toc-depth: 3
     toc-location: left
-    number-sections: false
+    number-sections: true
     code-fold: true
     code-overflow: wrap
     theme: cosmo
 jupyter: 311-venv
 ---
 
-# Overview
 
-This Quarto document describes the full data-cleaning and geocoding workflow for:
-
-- A **simulated commuter survey** covering five years, and  
-- A **student population address file** with current and permanent addresses.
-
-The goals of this pipeline are to:
-
-- Standardize key variables (types, formats, naming conventions).
-- Handle missing or inconsistent values in survey and address fields.
-- Produce **cleaned CSV outputs** suitable for analysis and dashboarding.
-- Use the **Google Maps Geocoding API** to enrich address records with consistent
-  city/state/ZIP values and latitude/longitude coordinates.
-
-All original Python code blocks from the project are preserved exactly as-is; only
-YAML and markdown documentation have been added.
-
----
-
-# 1. Commuter Survey Cleaning
-
-In this section we:
-
-- Load the messy raw survey data.
-- Inspect its structure.
-- Clean and standardize core fields such as year, trip counts, and mode shares.
-- Prepare a cleaned survey CSV for later geocoding and analysis.
-
-## 1.1 Import libraries and load raw survey data
 
 ```{python}
 import pandas as pd
@@ -55,10 +26,7 @@ df = pd.read_csv("../raw_data/simulated_commuter_survey_5yrs_messy_100.csv")
 df.head(10)
 ```
 
-## 1.2 Inspect basic structure and data types
-
-We print the shape of the DataFrame (rows × columns) and the column-level
-metadata to understand types, missing values, and overall layout.
+### Print shape and info of DataFrame
 
 ```{python}
 print(df.shape)
@@ -66,15 +34,7 @@ print(df.info())
 #print(df.describe())
 ```
 
-## 1.3 Standardize numeric fields and mode shares
-
-Here we:
-
-- Convert `weeks_per_year` to integer.
-- Extract the 4-digit survey year and convert to integer.
-- Round emissions (`mtcde_est`) and estimated total trips.
-- Clean, clip, and re-normalize the mode share columns so that they are
-  non-negative and sum to 1.00 (100%) per row.
+### Convert weeks_per_year to numeric, round mtcde_est to 2 decimal places, strip first 4 year characters to get start year, convert start_year to numeric, round and assert share_xyz columns to 2 decimal places and add to 100%
 
 ```{python}
 df['weeks_per_year'] = df['weeks_per_year'].astype(int)
@@ -100,10 +60,7 @@ df[columns_to_round] = df[columns_to_round].div(df[columns_to_round].sum(axis=1)
 df.head()
 ```
 
-## 1.4 Handle missing city and ZIP fields
-
-We identify records with missing `city` and `zip`. These will later be
-candidates for filling using geocoding based on `nearest_intersection`.
+### Check for Null Cities, Use Geocoding on nearest_intersection to Fill Later
 
 ```{python}
 null_city = df[df['city'].notna() == False]
@@ -111,14 +68,13 @@ print([id for id in null_city.index])
 null_city.head()
 ```
 
+### Check for Null Zipcodes, Use Geocoding on nearest_intersection to Fill Later
+
 ```{python}
 null_zip = df[df['zip'].notna() == False]
 print([id for id in null_zip.index])
 null_zip.head()
 ```
-
-We temporarily assign `"00000"` to missing or invalid ZIP codes, coerce ZIPs to a
-5-character string, then to numeric, and handle a specific truncated ZIP (955).
 
 ```{python}
 null_zip.loc[:, 'zip'] = '00000'
@@ -136,17 +92,15 @@ df.loc[df.zip == 955, 'zip'] = 95500
 df.zip.unique()
 ```
 
-## 1.5 Missing distances and trip frequency
-
-We locate missing `distance_to_campus_miles` and `trips_per_week`. Distances
-will eventually be corrected using geocoding and network calculations; trips per
-week are imputed using the column mean and then coerced to integer.
+### Check for Null Distances to Campus, Use Geocoding on nearest_intersection to Fill Later
 
 ```{python}
 null_dist_campus = df[df['distance_to_campus_miles'].notna() == False]
 print([id for id in null_dist_campus.index])
 null_dist_campus.head()
 ```
+
+### Check for Null Trips per Week, Use Average to Fill Later
 
 ```{python}
 null_trips_perweek = df[df['trips_per_week'].notna() == False]
@@ -159,11 +113,7 @@ df['trips_per_week'] = df['trips_per_week'].fillna(df['trips_per_week'].mean()).
 df.head()
 ```
 
-## 1.6 Clean primary mode labels
-
-We inspect rows with missing `mode_primary`. Because our dashboard uses shares
-for all modes, missing primary modes are not fatal, but we still standardize
-spelling and case and assign `"No Answer"` where needed.
+### Check for Null Mode Primary, won't matter since we provide data for all modes by default on dashboard
 
 ```{python}
 null_mode_primary = df[df['mode_primary'].notna() == False]
@@ -183,15 +133,14 @@ df.loc[df['mode_primary'].isna(), 'mode_primary'] = 'No Answer'
 df.mode_primary.unique()
 ```
 
-## 1.7 Final consistency checks for survey data
-
-We re-print the DataFrame info and take a final look at the head, then standardize
-city names to title case and trimmed strings.
+### Check dataframe head and info again
 
 ```{python}
 print(df.info())
 df.head()
 ```
+
+### Cities should be consistent in naming
 
 ```{python}
 df['city'] = df['city'].str.title().str.strip()
@@ -201,17 +150,7 @@ df['city'] = df['city'].str.title().str.strip()
 df.city.unique()
 ```
 
----
-
-# 2. Population Address Data Cleaning
-
-In this section we:
-
-- Load the messy population address file.
-- Clean current and permanent ZIPs, cities, states, and street fields.
-- Prepare a cleaned address CSV that is ready for geocoding.
-
-## 2.1 Load messy population address data
+## Messy Population Data Cleaning
 
 ```{python}
 df2 = pd.read_csv("../raw_data/population_addresses_2024_25_messy_100.csv")
@@ -222,13 +161,7 @@ df2.head()
 df2.info()
 ```
 
-## 2.2 Clean current ZIP codes
-
-We:
-
-- Replace missing `current_zip` values with `"00000"`,
-- Fix a specific invalid ZIP (`"ABCDE"`),
-- Pad ZIP codes to 5 characters and coerce to integers.
+### Address invalid current_zip entries
 
 ```{python}
 null_zip2 = df2[df2['current_zip'].notna() == False]
@@ -244,9 +177,7 @@ df2.head()
 df2.current_zip.unique()
 ```
 
-## 2.3 Clean permanent ZIP codes
-
-We address missing `permanent_zip` values and coerce the column to integer.
+### Same with permanent_zip
 
 ```{python}
 df2.loc[df2.permanent_zip.isna(), 'permanent_zip'] = 0
@@ -254,13 +185,7 @@ df2['permanent_zip'] = df2['permanent_zip'].astype(int)
 df2.head()
 ```
 
-## 2.4 Standardize current city names
-
-We:
-
-- Title-case and trim `current_city`,
-- Replace nulls with `"No Answer"`,
-- Correct common typos and fake entries.
+### Look at current_city unique values and acknowledge null entries
 
 ```{python}
 df2['current_city'] = df2['current_city'].str.title().str.strip()
@@ -278,11 +203,7 @@ df2.loc[df2.current_city == 'Eurika', 'current_city'] = 'Eureka'
 df2.current_city.unique()
 ```
 
-## 2.5 Clean current state and street fields
-
-We normalize `current_state` to standard CA codes where appropriate, flag unusable
-states as `"No Answer"`, and ensure `current_street` is filled with a placeholder
-when missing.
+### Same with current_state field
 
 ```{python}
 df2.loc[df2.current_state.isna(), 'current_state'] = 'No Answer'
@@ -296,6 +217,8 @@ df2.loc[df2.current_state == 'XX', 'current_state'] = 'No Answer'
 df2.current_state.unique()
 ```
 
+### Same with current_street
+
 ```{python}
 df2.loc[df2.current_street.isna(), 'current_street'] = 'No Answer'
 ```
@@ -304,20 +227,14 @@ df2.loc[df2.current_street.isna(), 'current_street'] = 'No Answer'
 df2.current_street.unique()
 ```
 
-## 2.6 Standardize permanent city and state
-
-Permanent cities are title-cased and trimmed. A lowercase `california` state
-entry is normalized to `CA`.
+### Make permanent_city title case and permanent_state corrected
 
 ```{python}
 df2.permanent_city = df2.permanent_city.str.title().str.strip()
 df2.loc[df2.permanent_state == 'california', 'permanent_state'] = 'CA'
 ```
 
-## 2.7 Save cleaned (pre-geocode) datasets
-
-Before geocoding, we write the cleaned survey and population data to disk so we
-have stable baseline inputs for later steps.
+### Final look at both dataframes before geocode-correcting address entries, zipcodes, states, cities, and distances to campus
 
 ```{python}
 df.to_csv("../clean_data/Clean_Survey_Data.csv", index=False)
@@ -335,20 +252,7 @@ df2.to_csv("../clean_data/Clean_Population_Addresses.csv", index=False)
 df2.head(10)
 ```
 
----
-
-# 3. Geocoding and Reverse Geocoding with Google Maps
-
-In this section, we:
-
-- Reload the cleaned survey and population datasets.
-- Configure the Google Maps Python client (API key from `.env`).
-- Define helper functions for geocoding and reverse geocoding.
-- Apply geocoding to:
-  - Fill in missing or inconsistent city/state/ZIP fields, and
-  - Attach latitude/longitude coordinates for mapping and distance calculations.
-
-## 3.1 Reload cleaned CSVs
+## Google Geocoding, Reverse Geocoding, and Distance Calculations using Python Client for Google Maps
 
 ```{python}
 survey_df = pd.read_csv("../clean_data/Clean_Survey_Data.csv")
@@ -358,11 +262,7 @@ survey_df = pd.read_csv("../clean_data/Clean_Survey_Data.csv")
 pop_df = pd.read_csv("../clean_data/Clean_Population_Addresses.csv")
 ```
 
-## 3.2 Configure Google Maps client and survey geocode helper
-
-We set up the Google Maps Python client using an API key read from a `.env` file,
-define address component helpers, and implement `geocode_fill_row` to overwrite
-survey address fields (city/state/ZIP) when geocoding is successful.
+### Function to geocode addresses from survey data, overwrite with correct values
 
 ```{python}
 import os
@@ -436,12 +336,8 @@ def geocode_fill_row(row, inter_col="nearest_intersection", city_col="city", sta
     loc = g["geometry"]["location"]
     row["lat"], row["lng"] = loc["lat"], loc["lng"]
     return row
+
 ```
-
-## 3.3 Apply geocoding to survey data
-
-We ensure relevant columns are strings, then apply `geocode_fill_row` row-wise
-to update city/state/ZIP and to add latitude/longitude where possible.
 
 ```{python}
 for c in ("city", "zip", "state"):
@@ -462,20 +358,7 @@ survey_df.head()
 survey_df.to_csv("../clean_data/Geocoded_Survey_Data.csv", index=False)
 ```
 
----
-
-# 4. Geocoding Population Addresses with Fallback Logic
-
-Here we apply a more sophisticated geocoding strategy to population addresses:
-
-- Prefer **current addresses** when they geocode successfully and yield a
-  usable ZIP.
-- If current address geocoding fails or the ZIP is invalid, **fall back to the
-  permanent address**.
-- Track the chosen source in a `geocode_source` flag (`"current"` or
-  `"permanent"`).
-
-## 4.1 Helper functions for address validity and best match
+### Function to geocode addresses from population dataframe, overwrite with correct values from current or permanent address fields and flag sources of working addresses
 
 ```{python}
 import re, math
@@ -616,11 +499,6 @@ def correct_row_with_fallback(row, current_map, perm_map=None, country="US", def
     return row
 ```
 
-## 4.2 Apply fallback geocoding to population data
-
-We first ensure key address fields are treated as strings (to avoid integer/NaN
-artifacts), then apply the `correct_row_with_fallback` logic across all rows.
-
 ```{python}
 # make sure these are strings so writes stick (no 0/NaN weirdness)
 for c in ("current_street","current_city","current_state","current_zip",
@@ -647,23 +525,228 @@ pop_df.head()
 pop_df.to_csv("../clean_data/Geocoded_Population_Addresses.csv", index=False)
 ```
 
----
+## External Data Pipeline for California Addresses and Transportation
 
-# 5. Pipeline Status
+### Import Libraries, Set Up API Keys
 
-At this point, the pipeline has:
+```{python}
+import numpy as np 
+import pandas as pd
+import requests
+import time
+import os
+from dotenv import load_dotenv
+import googlemaps
 
-- Cleaned and standardized **survey** and **population** datasets.
-- Saved intermediate cleaned CSVs.
-- Applied **Google Maps geocoding** to:
-  - Fix or enrich address components, and
-  - Attach latitude/longitude coordinates.
-- Written final geocoded outputs to the `../clean_data` directory.
+load_dotenv('.env')
 
-These geocoded CSVs are now ready for:
+gmaps = googlemaps.Client(key=os.getenv('API_KEY'))
+```
 
-- Spatial analysis and mapping,
-- Distance-to-campus calculations, and
-- Integration into project dashboards and reports.
+### Within range of lat/lng pairs, reverse geocode lat/lng pairs to valid addresses, put into a Dataframe, then gather getDirections data from each valid address and put into column in Dataframe across multiple transportation modes
+
+```{python}
+#| eval: false
+grid_df = pd.DataFrame(columns = ['latitude', 'longitude', 'address', 'driving_time_to_campus', 'walking_time_to_campus', 'bicycling_time_to_campus', 'transit_time_to_campus'])
+latitudes = np.arange(40.0, 41.3, 0.01)  # Northern latitude range for CA county
+longitudes = np.arange(-124.5, -123.0, 0.01)  # Western longitude range for CA county
+```
+
+```{python}
+#| eval: false
+for lat in latitudes:
+    for lng in longitudes:
+        # Reverse geocode to get address
+        reverse_geocode_result = gmaps.reverse_geocode((lat, lng))
+        if reverse_geocode_result:
+            address = reverse_geocode_result[0]['formatted_address']
+            
+            # Get directions to campus for different modes of transportation
+            # Address: 1 Harpst St. Arcata CA 95521
+            driving_directions = gmaps.directions(address, "California State Polytechnic University, Humboldt", mode="driving")
+            walking_directions = gmaps.directions(address, "California State Polytechnic University, Humboldt", mode="walking")
+            bicycling_directions = gmaps.directions(address, "California State Polytechnic University, Humboldt", mode="bicycling")
+            transit_directions = gmaps.directions(address, "California State Polytechnic University, Humboldt", mode="transit")
+            if driving_directions and walking_directions and bicycling_directions and transit_directions:
+                driving_time = driving_directions[0]['legs'][0]['duration']['text']
+                walking_time = walking_directions[0]['legs'][0]['duration']['text']
+                bicycling_time = bicycling_directions[0]['legs'][0]['duration']['text']
+                transit_time = transit_directions[0]['legs'][0]['duration']['text']
+                
+                # Append to DataFrame
+                grid_df = pd.concat([grid_df, pd.DataFrame({
+                    'latitude': [lat],
+                    'longitude': [lng],
+                    'address': [address],
+                    'driving_time_to_campus': [driving_time],
+                    'walking_time_to_campus': [walking_time],
+                    'bicycling_time_to_campus': [bicycling_time],
+                    'transit_time_to_campus': [transit_time]
+                })], ignore_index=True)
+```
+
+```{python}
+#| eval: false
+grid_df.shape
+```
+
+```{python}
+#| eval: false
+grid_df.head()
+```
+
+```{python}
+#| eval: false
+grid_df.to_csv('../clean_data/Grid_Data_01.csv', index=False)
+```
+
+### Convert Text of Transportation times into minutes in Dataframe, then save Dataframe as CSV again
+
+```{python}
+grid_df = pd.read_csv('../clean_data/Grid_Data_01.csv')
+```
+
+```{python}
+def text_to_hours(time_str):
+    if 'day' in time_str:
+        parts = time_str.split()
+        days = int(parts[0])
+        if 'hour' in time_str:
+            hours = int(parts[2])
+            if 'min' in time_str:
+                minutes = int(parts[4])
+                return days * 24 + hours + minutes / 60.0
+            return days * 24 + hours
+        return days * 24
+    elif 'hour' in time_str:
+        parts = time_str.split()
+        hours = int(parts[0])
+        if 'min' in time_str:
+            minutes = int(parts[2])
+            return hours + minutes / 60.0
+        return hours
+    else:
+        parts = time_str.split()
+        minutes = int(parts[0])
+        return minutes / 60.0
+    
+grid_df['driving_time_to_campus'] = grid_df['driving_time_to_campus'].apply(text_to_hours)
+grid_df['walking_time_to_campus'] = grid_df['walking_time_to_campus'].apply(text_to_hours)
+grid_df['bicycling_time_to_campus'] = grid_df['bicycling_time_to_campus'].apply(text_to_hours)
+grid_df['transit_time_to_campus'] = grid_df['transit_time_to_campus'].apply(text_to_hours)
+```
+
+```{python}
+# convert hours to minutes and round to nearest integer
+
+grid_df['driving_time_to_campus'] = (grid_df['driving_time_to_campus'] * 60).round().astype(int)
+grid_df['walking_time_to_campus'] = (grid_df['walking_time_to_campus'] * 60).round().astype(int)
+grid_df['bicycling_time_to_campus'] = (grid_df['bicycling_time_to_campus'] * 60).round().astype(int)
+grid_df['transit_time_to_campus'] = (grid_df['transit_time_to_campus'] * 60).round().astype(int)
+
+grid_df.head()
+```
+
+```{python}
+grid_df.to_csv('../clean_data/Humboldt_Travel_Times_Grid.csv', index=False)
+```
+
+### Plot Histograms of Transportation times across different modes of transportation to identify any modality that allows us to cluster addresses by transportation time to campus
+
+```{python}
+# plot histograms of transportation times on different axes to uncover any clustering patterns 
+import matplotlib.pyplot as plt
+fig, axs = plt.subplots(2, 2, figsize=(12, 10))
+axs[0, 0].hist(grid_df['driving_time_to_campus'], bins=30, color='blue', alpha=0.7)
+axs[0, 0].set_title('Driving Time to Campus (minutes)')
+axs[0, 0].set_xlabel('Time (minutes)')
+axs[0, 0].set_ylabel('Frequency')
+axs[0, 1].hist(grid_df['walking_time_to_campus'], bins=30, color='green', alpha=0.7)
+axs[0, 1].set_title('Walking Time to Campus (minutes)')
+axs[0, 1].set_xlabel('Time (minutes)')
+axs[0, 1].set_ylabel('Frequency')
+axs[1, 0].hist(grid_df['bicycling_time_to_campus'], bins=30, color='orange', alpha=0.7)
+axs[1, 0].set_title('Bicycling Time to Campus (minutes)')
+axs[1, 0].set_xlabel('Time (minutes)')
+axs[1, 0].set_ylabel('Frequency')
+axs[1, 1].hist(grid_df['transit_time_to_campus'], bins=30, color='red', alpha=0.7)
+axs[1, 1].set_title('Transit Time to Campus (minutes)')
+axs[1, 1].set_xlabel('Time (minutes)')
+axs[1, 1].set_ylabel('Frequency')
+plt.tight_layout()
+plt.show()
+```
+
+### Create new column for each transport method that labels them by K-means clusters of transportation time to campus, then visualize
+
+```{python}
+# Using clustering algorithms such as KMeans to create new columns for each transport method that labels them by clusters of transportation time to campus
+from sklearn.cluster import KMeans
+kmeans_driving = KMeans(n_clusters=3, random_state=0).fit(grid_df[['driving_time_to_campus']])
+grid_df['driving_time_cluster'] = kmeans_driving.labels_
+kmeans_walking = KMeans(n_clusters=3, random_state=0).fit(grid_df[['walking_time_to_campus']])
+grid_df['walking_time_cluster'] = kmeans_walking.labels_
+kmeans_bicycling = KMeans(n_clusters=3, random_state=0).fit(grid_df[['bicycling_time_to_campus']])
+grid_df['bicycling_time_cluster'] = kmeans_bicycling.labels_
+kmeans_transit = KMeans(n_clusters=3, random_state=0).fit(grid_df[['transit_time_to_campus']])
+grid_df['transit_time_cluster'] = kmeans_transit.labels_
+grid_df.head()
+```
+
+```{python}
+# Visualize each cluster for each transportation time
+fig, axs = plt.subplots(2, 2, figsize=(12, 10))
+scatter1 = axs[0, 0].scatter(grid_df['driving_time_to_campus'], np.zeros_like(grid_df['driving_time_to_campus']), c=grid_df['driving_time_cluster'], cmap='viridis', alpha=0.7)
+axs[0, 0].set_title('Driving Time Clusters')
+scatter2 = axs[0, 1].scatter(grid_df['walking_time_to_campus'], np.zeros_like(grid_df['walking_time_to_campus']), c=grid_df['walking_time_cluster'], cmap='viridis', alpha=0.7)
+axs[0, 1].set_title('Walking Time Clusters')
+scatter3 = axs[1, 0].scatter(grid_df['bicycling_time_to_campus'], np.zeros_like(grid_df['bicycling_time_to_campus']), c=grid_df['bicycling_time_cluster'], cmap='viridis', alpha=0.7)
+axs[1, 0].set_title('Bicycling Time Clusters')
+scatter4 = axs[1, 1].scatter(grid_df['transit_time_to_campus'], np.zeros_like(grid_df['transit_time_to_campus']), c=grid_df['transit_time_cluster'], cmap='viridis', alpha=0.7)
+axs[1, 1].set_title('Transit Time Clusters')
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+grid_df.to_csv('../clean_data/Kmeans_Clusters_Grid_Data.csv', index=False)
+```
+
+### Get Bus Stop Addresses to place as points on map visualizations in separate streamlit app
+
+```{python}
+overpass_url = "https://overpass-api.de/api/interpreter"
+
+bus_stops_df = pd.DataFrame(columns=['latitude', 'longitude', 'name'])
+SOUTH, WEST, NORTH, EAST = 40.0, -124.5, 41.3, -123.0  # Define bounding box for the query
+
+query = f"""
+[out:json][timeout:25];
+(
+    node["highway"="bus_stop"]({SOUTH},{WEST},{NORTH},{EAST});
+);
+out body;
+"""
+
+response = requests.get(overpass_url, params={'data': query})
+
+if response.status_code == 200:
+        data = response.json()
+        for element in data['elements']:
+                lat = element['lat']
+                lon = element['lon']
+                name = element['tags'].get('name', 'Unknown')  # Get the name of the bus stop if available
+                bus_stops_df = pd.concat([bus_stops_df, pd.DataFrame({
+                        'latitude': [lat],
+                        'longitude': [lon],
+                        'name': [name]
+                })], ignore_index=True)
+
+bus_stops_df.head()
+bus_stops_df.to_csv('../clean_data/Bus_Stops_Data.csv', index=False)
+```
+
+# Done
 
 ## Done with Data Pipeline
+

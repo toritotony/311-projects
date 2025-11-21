@@ -1,0 +1,34 @@
+latitude,longitude,address,driving_time_to_campus,walking_time_to_campus,bicycling_time_to_campus,transit_time_to_campus
+40.099999999999994,-123.80000000000004,"860 Sunnybank Ln, Garberville, CA 95542, USA",1 hour 21 mins,1 day 12 hours,11 hours 2 mins,2 hours 11 mins
+40.14999999999999,-123.80000000000004,"552X+2X Redway, CA, USA",1 hour 16 mins,1 day 14 hours,11 hours 29 mins,2 hours 59 mins
+40.19999999999999,-123.80000000000004,"55XX+XX Phillipsville, CA, USA",1 hour 15 mins,1 day 10 hours,10 hours 24 mins,2 hours 37 mins
+40.39999999999998,-123.95000000000003,"26430 CA-254, Redcrest, CA 95569, USA",52 mins,1 day 12 hours,7 hours 57 mins,2 hours 5 mins
+40.49999999999997,-124.10000000000002,"230 Smither Ct, Rio Dell, CA 95562, USA",40 mins,1 day 2 hours,4 hours 30 mins,1 hour 27 mins
+40.54999999999997,-123.20000000000007,"374 Tule Creek Rd, Hayfork, CA 96041, USA",2 hours 32 mins,1 day 11 hours,10 hours 58 mins,4 hours 58 mins
+40.54999999999997,-123.15000000000008,"HR2X+2X Hayfork, CA, USA",2 hours 29 mins,1 day 11 hours,11 hours 4 mins,4 hours 47 mins
+40.54999999999997,-123.10000000000008,"HV2X+2X Hayfork, CA, USA",2 hours 33 mins,1 day 12 hours,11 hours 20 mins,5 hours 0 mins
+40.599999999999966,-124.20000000000002,"HRX2+X2 Worswick, CA, USA",33 mins,22 hours 10 mins,5 hours 31 mins,1 hour 55 mins
+40.599999999999966,-124.15000000000002,"76 Park St, Fortuna, CA 95540, USA",34 mins,16 hours 4 mins,4 hours 21 mins,1 hour 6 mins
+40.69999999999996,-124.20000000000002,"MRX2+X2 Humboldt Hill, CA, USA",25 mins,20 hours 20 mins,5 hours 36 mins,51 mins
+40.74999999999996,-124.15000000000002,"1918 Greenbriar Ln, Eureka, CA 95503, USA",20 mins,4 hours 29 mins,1 hour 0 mins,1 hour 27 mins
+40.74999999999996,-123.25000000000007,"QQ22+22 Big Bar, CA, USA",1 hour 29 mins,1 day 2 hours,7 hours 17 mins,2 hours 54 mins
+40.74999999999996,-123.20000000000007,"QR22+22 Big Flat, CA, USA",1 hour 33 mins,1 day 3 hours,7 hours 37 mins,3 hours 8 mins
+40.74999999999996,-123.10000000000008,"QV2X+2X Junction City, CA, USA",1 hour 55 mins,1 day 9 hours,8 hours 45 mins,6 hours 25 mins
+40.74999999999996,-123.05000000000008,"QW2X+2X Junction City, CA, USA",1 hour 47 mins,1 day 7 hours,8 hours 27 mins,3 hours 40 mins
+40.799999999999955,-124.20000000000002,"RR22+22 Fairhaven, CA, USA",15 mins,3 hours 38 mins,55 mins,3 hours 25 mins
+40.799999999999955,-124.15000000000002,"Burre Center, Eureka, CA 95501, USA",10 mins,3 hours 0 mins,42 mins,26 mins
+40.799999999999955,-124.00000000000003,"R222+22 Jacoby Creek, Eureka, CA, USA",12 mins,3 hours 14 mins,47 mins,23 mins
+40.84999999999995,-124.15000000000002,"RVX2+X2 Manila, CA, USA",11 mins,2 hours 4 mins,32 mins,22 mins
+40.84999999999995,-124.10000000000002,"RWX2+X2 Arcata, CA, USA",7 mins,43 mins,11 mins,43 mins
+40.84999999999995,-124.05000000000003,"3500 Hadley Pl, Arcata, CA 95521, USA",7 mins,1 hour 1 min,15 mins,39 mins
+40.89999999999995,-124.10000000000002,"WW22+22 Pacific, Arcata, CA, USA",6 mins,49 mins,12 mins,29 mins
+40.89999999999995,-124.05000000000003,"WX22+22 Pacific, Arcata, CA, USA",9 mins,1 hour 30 mins,21 mins,1 hour 10 mins
+40.89999999999995,-124.00000000000003,"W222+22 Blue Lake, CA, USA",10 mins,4 hours 3 mins,58 mins,1 hour 5 mins
+40.89999999999995,-123.60000000000005,"WC22+22 Salyer, CA, USA",1 hour 3 mins,17 hours 7 mins,5 hours 32 mins,3 hours 37 mins
+40.949999999999946,-124.10000000000002,"2423 Central Ave, McKinleyville, CA 95519, USA",9 mins,2 hours 20 mins,32 mins,27 mins
+40.949999999999946,-123.85000000000004,"22303 CA-299, Blue Lake, CA 95525, USA",7 mins,58 mins,14 mins,28 mins
+40.949999999999946,-123.65000000000005,"250 Creekside Ln, Willow Creek, CA 95573, USA",51 mins,15 hours 8 mins,4 hours 51 mins,1 hour 49 mins
+40.99999999999994,-124.10000000000002,"5211 Dows Prairie Rd, McKinleyville, CA 95519, USA",13 mins,3 hours 45 mins,1 hour 0 mins,1 hour 19 mins
+41.04999999999994,-124.15000000000002,"3V22+22 Trinidad, CA, USA",24 mins,8 hours 55 mins,1 hour 29 mins,56 mins
+41.04999999999994,-124.10000000000002,"130 Brindle Ct, Trinidad, CA 95570, USA",19 mins,9 hours 46 mins,1 hour 17 mins,1 hour 23 mins
+41.149999999999935,-124.15000000000002,"5V22+22 Big Lagoon, CA, USA",24 mins,10 hours 42 mins,2 hours 5 mins,7 hours 3 mins
