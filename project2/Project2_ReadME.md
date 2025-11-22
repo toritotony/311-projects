@@ -43,7 +43,7 @@ The features of this dataset are:
 * **Mode Primary**: Primary mode of transportation respondent uses.
 * **Is ev user**: Does the respondent drive an ev.
 * **Is ebike user**: Does the respondent use an e-bike.
-* **Mctde_est**: Estimated frequency to campus by mode of transport(?).
+* **Mctde_est**: How many days does the respondent go to campus using their primary method of transport over a week. 
 * **Total trips est**: Total estimated trips respondent makes.
 
 ---
@@ -56,12 +56,12 @@ The initial cleaning phase ensures data consistency across both datasets:
 
 * **Commuter Survey Cleaning**:
     * Standardizes numeric fields (e.g., converting years to integers, rounding emission estimates).
-    * Normalizes mode share columns to ensure they sum to 1.0 (100%).
+    * Normalizes mode share columns to ensure they sum to 1.0.
     * Imputes missing numerical data (e.g., using column means for `trips_per_week`).
     * Standardizes categorical labels (e.g., correcting "teleporting" to "Telecommute").
 * **Population Address Cleaning**:
-    * Standardizes formatting for City, State, and ZIP codes (e.g., correcting "Arcatra" to "Arcata" and mapping "California" to "CA").
-    * Handles missing address fields by assigning placeholder values ("00000" for ZIPs, "No Answer" for cities) to prepare for geocoding.
+    * Standardizes formatting for City, State, and ZIP codes (for example correcting "Arcatra" to "Arcata" and mapping "California" to "CA").
+    * Handles missing address fields by assigning placeholder values ("00000" for ZIPs, "N/A" for cities) to prepare for geocoding.
 
 ### 2. Geocoding & Address Enrichment
 To enable spatial analysis, we utilized the Google Maps Geocoding API to enrich the cleaned datasets:
