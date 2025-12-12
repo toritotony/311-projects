@@ -1,14 +1,15 @@
 
 ---
 title: "Tree Biomass Prediction"
-format: pptx
-  html:
-    code-fold: true
-    toc: true
+format: 
+    pptx: default
+    html:
+        code-fold: true
+        toc: true
 execute:
-  echo: true
-  warning: false
-  message: false
+    echo: true
+    warning: false
+    message: false
 ---
 
 ```{{r}}
@@ -265,3 +266,151 @@ example_pred
 - Valid input ranges should match those in the training data (e.g., DBH, HT_TOT, SPCD levels).
 - Predictions for species codes not seen in training will be forced into a zero-vector species encoding and are **not reliable**.
 - Extrapolation for extremely large DBH values should be treated with caution due to polynomial terms.
+
+# Anthony Wolfe KNN Model
+
+Here we discuss the implementation of Anthony Wolfe's KNN model, which was trained using the species column as an initial filter before computing a weighted distance between the point and k neighbors.
+
+# Predicting a Single Point
+
+```{python}
+def knn_predict_one(query_row, train_df, k, w):
+    species = query_row["SPCD"]
+    subset = train_df[train_df["SPCD"] == species]
+
+    if subset.empty:
+        subset = train_df
+
+    q = np.array([query_row["DO_BH"], query_row["HT_TOT"]], dtype=float)
+    xs = subset[["DO_BH", "HT_TOT"]].to_numpy(dtype=float)
+
+    distances = np.array(
+        [weighted_distance_2d(q, xs[i], w) for i in range(len(xs))]
+    )
+
+    k_eff = int(min(k, len(distances)))
+
+    nn_idx = np.argpartition(distances, k_eff - 1)[:k_eff]
+
+    y_neighbors = subset.iloc[nn_idx]["TT_DW_CRM"].to_numpy(dtype=float)
+    return float(y_neighbors.mean())
+```
+
+# Weighted Distance Function
+As shown in the function snippet below, dx1 and dx2 represent the difference between the points in both dimensions, while w1 is a parameter for our model to be optimized, since w2 is just the "complement" of w1. This was used once the training points were filtered to only the matching species, so distances computed using the function below only applied to k neighbors of its own species, otherwise any point is valid.
+```{python}
+def weighted_distance_2d(p, q, w):
+    p = np.asarray(p, dtype=float)
+    q = np.asarray(q, dtype=float)
+
+    dx1 = p[0] - q[0]
+    dx2 = p[1] - q[1]
+
+    w1 = w
+    w2 = 1.0 - w
+
+    return np.sqrt((w1 * dx1) ** 2 + (w2 * dx2) ** 2)
+```
+
+# Predicting Entire Dataset
+```{python}
+def knn_predict_dataset(df, train_df, k, w):
+    preds = []
+    for _, row in df.iterrows():
+        y_hat = knn_predict_one(row, train_df, k, w)
+        preds.append(y_hat)
+    return np.array(preds, dtype=float)
+```
+
+# Tuning Parameters
+```{python}
+def tune_knn(train_df, val_df, k_values, w_values):
+    results = []
+    y_val_true = val_df["TT_DW_CRM"].to_numpy(dtype=float)
+
+    for k in k_values:
+        for w in w_values:
+            val_preds = knn_predict_dataset(val_df, train_df, k, w)
+            val_mse = rmse(y_val_true, val_preds)
+            results.append({"k": int(k), "w": float(w), "val_mse": val_mse})
+            print(f"[tuning] k={k:2d}, w={w:.2f}, val RMSE={val_mse:.4f}")
+
+    results_df = pd.DataFrame(results)
+    best_row = results_df.loc[results_df["val_mse"].idxmin()]
+    best_k = int(best_row["k"])
+    best_w = float(best_row["w"])
+    return best_k, best_w, results_df
+```
+
+# Error Metric (RMSE)
+```{python}
+def rmse(y_true, y_pred):
+    y_true = np.asarray(y_true, dtype=float)
+    y_pred = np.asarray(y_pred, dtype=float)
+    return float(np.mean((y_true - y_pred) ** 2)**(1/2))
+```
+
+# Putting It All Together
+```{python}
+def main():
+    train_df = pd.read_csv(TRAIN_CSV)
+    val_df   = pd.read_csv(VAL_CSV)
+    test_df  = pd.read_csv(TEST_CSV)
+
+    required_cols = {"SPCD", "DO_BH", "HT_TOT", "TT_DW_CRM"}
+    for name, df in [("train", train_df), ("val", val_df), ("test", test_df)]:
+        missing = required_cols.difference(df.columns)
+        if missing:
+            raise ValueError(
+                f"{name} dataset is missing columns: {sorted(missing)}"
+            )
+
+    print(f"Loaded train: {len(train_df)} rows")
+    print(f"Loaded val  : {len(val_df)} rows")
+    print(f"Loaded test : {len(test_df)} rows")
+
+    k_values = list(range(1, 20, 2))
+    w_values = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
+
+    print("\n=== Tuning KNN on validation set ===")
+    best_k, best_w, results_df = tune_knn(train_df, val_df, k_values, w_values)
+
+    print("\n=== Best hyperparameters from validation ===")
+    print(f"best k = {best_k}")
+    print(f"best w = {best_w:.4f}")
+
+    train_val_df = pd.concat([train_df, val_df], ignore_index=True)
+
+    print("\n=== Evaluating on test set ===")
+    y_test_true = test_df["TT_DW_CRM"].to_numpy(dtype=float)
+    y_test_pred = knn_predict_dataset(test_df, train_val_df, best_k, best_w)
+    test_mse = rmse(y_test_true, y_test_pred)
+
+    print(f"Test RMSE with k={best_k}, w={best_w:.4f}: {test_mse:.4f}")
+```
+
+# Results
+
+Loaded train: 45693 rows
+Loaded val  : 45693 rows
+Loaded test : 45693 rows
+
+...
+
+[tuning] k= 5, w=0.60, val MSE=5831.4643
+[tuning] k= 5, w=0.70, val MSE=5753.9214
+[tuning] k= 5, w=0.80, val MSE=5792.6495
+[tuning] k= 5, w=0.90, val MSE=5790.2028
+[tuning] k= 5, w=1.00, val MSE=5806.9425
+[tuning] k= 7, w=0.10, val MSE=10288.6802
+[tuning] k= 7, w=0.20, val MSE=8747.6378
+[tuning] k= 7, w=0.30, val MSE=8124.6907
+
+...
+
+=== Best hyperparameters from validation ===
+best k = 1
+best w = 0.7000
+
+=== Evaluating on test set ===
+Test MSE with k=1, w=0.7000: 1725.0147
