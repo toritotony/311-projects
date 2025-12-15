@@ -37,7 +37,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 
-DATA_DIR = Path('.')  # adjust if needed
+DATA_DIR = Path("C:\\Users\\aiden\\OneDrive\\Desktop\\Main folder\\School\\Data Science\\411")  # adjust if needed
 ```
 
 ## Load Data
@@ -414,3 +414,362 @@ best w = 0.7000
 
 === Evaluating on test set ===
 Test MSE with k=1, w=0.7000: 1725.0147
+
+# Aiden Thakur model results
+
+1. Standard with interaction                           706.27     247.56   0.9986 
+
+2. Log transform response                           342871.03    3473.56 -337.7092
+
+3. Cube root transform response                       7534.54     289.21   0.8364
+
+4. Log-Log (simple allometric)                       11210.67     429.72   0.6379
+
+5. Log-Log with interaction                          27691.32     803.40  -1.2093
+
+6. Log-Log with polynomial                           14082.93     549.61   0.4286
+
+7. Log-Log full (poly + interaction)                 12244.29     515.54   0.5681
+
+ Best Model by RMSE: Model 1 (Standard with interaction)
+
+
+# Final Model on Test 
+Biomass= β0 ​+ β1​⋅DBH+ β2​⋅Height+ β3​⋅DBH2+ β4​⋅(DBH×Height)+ β5​⋅(DBH2×Height)
+
+Test Set Performance:
+  RMSE (main): 689.83 kg
+
+  MAE:         259.86 kg
+
+  R²:          0.9985
+
+Final Model Coefficients:
+  Intercept:     -414.305477
+
+  HT_TOT        : -5.552647 /
+  DO_BH_sq      : -1.423557 /
+  DO_BH_x_HT    : 0.252686 / 
+  DO_BH2_x_HT   : 0.049973 /
+
+
+```{python}
+#| echo: false
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+from scipy import stats
+
+# 1. Define Feature Functions
+def features(data):
+    return pd.DataFrame({
+        'DO_BH': data['DO_BH'].values,
+        'HT_TOT': data['HT_TOT'].values,
+        'DO_BH_sq': data['DO_BH'].values ** 2,
+        'DO_BH_x_HT': data['DO_BH'].values * data['HT_TOT'].values,
+        'DO_BH2_x_HT': (data['DO_BH'].values ** 2) * data['HT_TOT'].values
+    })
+
+def featureS(data):
+    return pd.DataFrame({
+        'DO_BH': data['DO_BH'].values,
+        'HT_TOT': data['HT_TOT'].values,
+        'DO_BH_x_HT': data['DO_BH'].values * data['HT_TOT'].values
+    })
+
+def featuresL(data):
+    return pd.DataFrame({
+        'log_DO_BH': np.log(data['DO_BH'].values),
+        'log_HT_TOT': np.log(data['HT_TOT'].values)
+    })
+
+def featureLI(data):
+    log_dbh = np.log(data['DO_BH'].values)
+    log_ht = np.log(data['HT_TOT'].values)
+    return pd.DataFrame({
+        'log_DO_BH': log_dbh,
+        'log_HT_TOT': log_ht,
+        'log_DO_BH_x_log_HT': log_dbh * log_ht
+    })
+
+def featuesLP(data):
+    log_dbh = np.log(data['DO_BH'].values)
+    log_ht = np.log(data['HT_TOT'].values)
+    return pd.DataFrame({
+        'log_DO_BH': log_dbh,
+        'log_HT_TOT': log_ht,
+        'log_DO_BH_sq': log_dbh ** 2,
+        'log_HT_TOT_sq': log_ht ** 2
+    })
+
+def featuresLIP(data):
+    log_dbh = np.log(data['DO_BH'].values)
+    log_ht = np.log(data['HT_TOT'].values)
+    return pd.DataFrame({
+        'log_DO_BH': log_dbh,
+        'log_HT_TOT': log_ht,
+        'log_DO_BH_sq': log_dbh ** 2,
+        'log_DO_BH_x_log_HT': log_dbh * log_ht
+    })
+
+def evaluate(y_true, y_pred):
+    return np.sqrt(mean_squared_error(y_true, y_pred))
+
+# 2. Load Data
+# Assuming DATA_DIR is defined in previous cells, otherwise use raw paths
+try:
+    df_train = pd.read_csv(DATA_DIR / 'train_biomass.csv')
+    df_valid = pd.read_csv(DATA_DIR / 'validate_biomass.csv')
+    df_test = pd.read_csv(DATA_DIR / 'test_biomass.csv')
+except NameError:
+    df_train = pd.read_csv('train_biomass.csv')
+    df_valid = pd.read_csv('validate_biomass.csv')
+    df_test = pd.read_csv('test_biomass.csv')
+
+y_train = df_train['TT_DW_CRM'].values
+y_valid = df_valid['TT_DW_CRM'].values
+y_test = df_test['TT_DW_CRM'].values
+y_train_log = np.log(y_train)
+
+# 3. Model Selection (Internal Logic Only - No Output)
+# Model 1
+X_train_1 = features(df_train)
+X_valid_1 = features(df_valid)
+rmse_1 = evaluate(y_valid, LinearRegression().fit(X_train_1, y_train).predict(X_valid_1))
+
+# Model 2
+X_train_2 = featureS(df_train)
+X_valid_2 = featureS(df_valid)
+m2 = LinearRegression().fit(X_train_2, y_train_log)
+rmse_2 = evaluate(y_valid, np.exp(m2.predict(X_valid_2)))
+
+# Model 3
+X_train_3 = featureS(df_train)
+X_valid_3 = featureS(df_valid)
+m3 = LinearRegression().fit(X_train_3, np.cbrt(y_train))
+rmse_3 = evaluate(y_valid, m3.predict(X_valid_3)**3)
+
+# Model 4a
+X_train_4a = featuresL(df_train)
+X_valid_4a = featuresL(df_valid)
+m4a = LinearRegression().fit(X_train_4a, y_train_log)
+rmse_4a = evaluate(y_valid, np.exp(m4a.predict(X_valid_4a)))
+
+# Model 4b
+X_train_4b = featureLI(df_train)
+X_valid_4b = featureLI(df_valid)
+m4b = LinearRegression().fit(X_train_4b, y_train_log)
+rmse_4b = evaluate(y_valid, np.exp(m4b.predict(X_valid_4b)))
+
+# Model 4c
+X_train_4c = featuesLP(df_train)
+X_valid_4c = featuesLP(df_valid)
+m4c = LinearRegression().fit(X_train_4c, y_train_log)
+rmse_4c = evaluate(y_valid, np.exp(m4c.predict(X_valid_4c)))
+
+# Model 4d
+X_train_4d = featuresLIP(df_train)
+X_valid_4d = featuresLIP(df_valid)
+m4d = LinearRegression().fit(X_train_4d, y_train_log)
+rmse_4d = evaluate(y_valid, np.exp(m4d.predict(X_valid_4d)))
+
+# Determine Best Model
+results = [
+    (1, rmse_1), (2, rmse_2), (3, rmse_3),
+    (4, rmse_4a), (5, rmse_4b), (6, rmse_4c), (7, rmse_4d)
+]
+best_model_num = min(results, key=lambda x: x[1])[0]
+
+# 4. Final Model Training & Interval Calculation
+df_train_final = pd.concat([df_train, df_valid])
+y_train_final = df_train_final['TT_DW_CRM'].values
+
+# Logic to set up final features based on best model
+if best_model_num == 1:
+    X_final = features(df_train_final)
+    X_test_final = features(df_test)
+    X_train_split = features(df_train) # For Conformal
+    X_valid_split = features(df_valid) # For Conformal
+    final_model = LinearRegression()
+    final_model.fit(X_final, y_train_final)
+    pred_test = final_model.predict(X_test_final)
+elif best_model_num == 2:
+    X_final = featureS(df_train_final)
+    X_test_final = featureS(df_test)
+    X_train_split = featureS(df_train)
+    X_valid_split = featureS(df_valid)
+    final_model = LinearRegression()
+    final_model.fit(X_final, np.log(y_train_final))
+    pred_test = np.exp(final_model.predict(X_test_final))
+elif best_model_num == 3:
+    X_final = featureS(df_train_final)
+    X_test_final = featureS(df_test)
+    X_train_split = featureS(df_train)
+    X_valid_split = featureS(df_valid)
+    final_model = LinearRegression()
+    final_model.fit(X_final, np.cbrt(y_train_final))
+    pred_test = final_model.predict(X_test_final) ** 3
+else: # Models 4-7 (Log variants)
+    # Mapping model num to feature func
+    func_map = {4: featuresL, 5: featureLI, 6: featuesLP, 7: featuresLIP}
+    f_func = func_map.get(best_model_num, featuresLIP)
+    
+    X_final = f_func(df_train_final)
+    X_test_final = f_func(df_test)
+    X_train_split = f_func(df_train)
+    X_valid_split = f_func(df_valid)
+    
+    final_model = LinearRegression()
+    final_model.fit(X_final, np.log(y_train_final))
+    pred_test = np.exp(final_model.predict(X_test_final))
+
+# --- T-based Method (Parametric) ---
+# Residuals on Final Training Data
+if best_model_num in [2, 4, 5, 6, 7]: # Log models
+    y_hat_train = final_model.predict(X_final)
+    residuals_final = np.log(y_train_final) - y_hat_train
+    # Need to adjust this for log-scale intervals if strict t-based required
+    # But usually t-based is done on linear scale residuals.
+    # Assuming standard linear model for intervals here as per typical request
+    # If using log model, intervals are asymmetric after exp().
+    pass 
+else:
+    # Linear model (Model 1 or 3)
+    pred_train_final = final_model.predict(X_final)
+    residuals_final = y_train_final - pred_train_final
+
+n = len(y_train_final)
+p = X_final.shape[1] + 1
+dof = n - p
+s_t = np.sqrt(np.sum(residuals_final**2) / dof)
+
+# Leverage
+X_final_mat = X_final.values
+X_final_bias = np.column_stack([np.ones(n), X_final_mat])
+XtX_inv = np.linalg.inv(X_final_bias.T @ X_final_bias)
+
+X_test_mat = X_test_final.values
+X_test_bias = np.column_stack([np.ones(len(X_test_final)), X_test_mat])
+leverage_test = np.sum((X_test_bias @ XtX_inv) * X_test_bias, axis=1)
+
+# Interval Calculation
+alpha = 0.05
+t_val = stats.t.ppf(1 - alpha/2, df=dof)
+pi_width_t = t_val * s_t * np.sqrt(1 + leverage_test)
+
+if best_model_num in [2, 4, 5, 6, 7]: # Log models
+    # Interval in Log Scale then exp
+    pred_test_log = final_model.predict(X_test_final)
+    lower_t = np.exp(pred_test_log - pi_width_t)
+    upper_t = np.exp(pred_test_log + pi_width_t)
+else:
+    lower_t = pred_test - pi_width_t
+    upper_t = pred_test + pi_width_t
+
+width_t = np.mean(upper_t - lower_t)
+cov_t_full = np.mean((y_test >= lower_t) & (y_test <= upper_t))
+
+# --- Conformal Method (Split) ---
+y_train_split = df_train['TT_DW_CRM'].values
+y_valid_split = df_valid['TT_DW_CRM'].values
+
+model_c = LinearRegression()
+
+if best_model_num in [2, 4, 5, 6, 7]: # Log
+    model_c.fit(X_train_split, np.log(y_train_split))
+    pred_cal_log = model_c.predict(X_valid_split)
+    # Conformal on Log Residuals? Or Absolute?
+    # Standard: |y - y_hat|. For log model: |y - exp(y_hat)|
+    pred_cal = np.exp(pred_cal_log)
+    cal_residuals = np.abs(y_valid_split - pred_cal)
+    q_conf = np.quantile(cal_residuals, 1 - alpha)
+    
+    pred_test_c = np.exp(model_c.predict(X_test_final))
+else:
+    model_c.fit(X_train_split, y_train_split)
+    pred_cal = model_c.predict(X_valid_split)
+    cal_residuals = np.abs(y_valid_split - pred_cal)
+    q_conf = np.quantile(cal_residuals, 1 - alpha)
+    pred_test_c = model_c.predict(X_test_final)
+
+lower_c = pred_test_c - q_conf
+upper_c = pred_test_c + q_conf
+
+width_c = np.mean(upper_c - lower_c)
+cov_c_full = np.mean((y_test >= lower_c) & (y_test <= upper_c))
+cov_c_cal = np.mean((y_valid_split >= (pred_cal - q_conf)) & (y_valid_split <= (pred_cal + q_conf)))
+
+# Output Table
+results_df = pd.DataFrame({
+    'Method': ['Linear Regression (t-based)', 'Conformal (Split)'],
+    'Average Width': [width_t, width_c],
+    'Coverage (Full)': [f"{cov_t_full:.2%}", f"{cov_c_full:.2%}"],
+    'Coverage (Cal)': ["N/A", f"{cov_c_cal:.2%}"]
+})
+
+print("Table: Compare Interval Widths and Coverage")
+results_df
+```
+
+```{python}
+#| echo: false
+# This cell uses variables defined in the previous cell
+# (y_test, lower_t, upper_t, pred_test, lower_c, upper_c, pred_test_c)
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+plt.figure(figsize=(12, 6))
+
+# Sort by True Value for a clean "S-curve"
+sort_idx = np.argsort(y_test)
+
+# **ZOOM**: Select only the first 50 points (smallest biomass values)
+# This scales the Y-axis down so intervals are clearly visible
+subset_indices = range(50) 
+subset_sorted_idx = sort_idx[subset_indices]
+x_axis = range(len(subset_indices))
+
+# --- Subplot 1: Linear Regression (t-based) ---
+plt.subplot(1, 2, 1)
+
+# Extract Subset Data
+y_sub = y_test[subset_sorted_idx]
+l_sub = lower_t[subset_sorted_idx]
+u_sub = upper_t[subset_sorted_idx]
+pred_sub = pred_test[subset_sorted_idx]
+
+# Plot
+plt.vlines(x_axis, ymin=l_sub, ymax=u_sub, color='skyblue', alpha=0.8, linewidth=2, label='95% PI')
+plt.scatter(x_axis, y_sub, color='black', s=15, zorder=3, label='True Biomass')
+plt.scatter(x_axis, pred_sub, color='red', marker='_', s=30, zorder=2, label='Predicted')
+
+plt.title(f"Linear Regression (First 50 Trees)\nCov: {cov_t_full:.1%}, Avg Width: {width_t:.0f}")
+plt.xlabel("Sample Index")
+plt.ylabel("Biomass (kg)")
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# --- Subplot 2: Conformal (Split) ---
+plt.subplot(1, 2, 2)
+
+# Extract Subset Data
+l_sub_c = lower_c[subset_sorted_idx]
+u_sub_c = upper_c[subset_sorted_idx]
+pred_sub_c = pred_test_c[subset_sorted_idx]
+
+# Plot
+plt.vlines(x_axis, ymin=l_sub_c, ymax=u_sub_c, color='lightgreen', alpha=0.8, linewidth=2, label='95% PI')
+plt.scatter(x_axis, y_sub, color='black', s=15, zorder=3, label='True Biomass')
+plt.scatter(x_axis, pred_sub_c, color='red', marker='_', s=30, zorder=2, label='Predicted')
+
+plt.title(f"Conformal (First 50 Trees)\nCov: {cov_c_full:.1%}, Avg Width: {width_c:.0f}")
+plt.xlabel("Sample Index")
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+```
